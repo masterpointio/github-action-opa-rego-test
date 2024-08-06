@@ -20,6 +20,10 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: test
+      shell: bash
+      run: ls ${{ github.action_path }}
+
     - name: Setup OPA
       uses: open-policy-agent/setup-opa@v2
       with:
