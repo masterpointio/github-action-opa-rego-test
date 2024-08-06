@@ -1,0 +1,71 @@
+name: 'OPA Test and Coverage Report GitHub Actions'
+description: 'Run OPA tests and generate coverage report for PRs'
+author: ''
+
+branding:
+  # todo, masterpoint logo / other customization
+  icon: 'check-circle'
+  color: 'green'
+
+inputs:
+  message:
+    description: 'Comment message'
+    required: true
+    default: 'test'
+  test_path:
+    description: 'Path to the directory containing Rego files to test'
+    required: false
+    default: './nested-folder'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup OPA
+      uses: open-policy-agent/setup-opa@v2
+      with:
+        version: latest
+
+    - name: Run OPA Tests
+      id: opa-test
+      shell: bash
+      run: |
+        output=$(opa test ${{ inputs.test_path }}/*.rego -v || true)
+        echo "$output"
+        echo "test_result<<EOF" >> $GITHUB_OUTPUT
+        echo "$output" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Find Rego files without tests
+      id: find-no-test
+      shell: bash
+      run: |
+        no_test_files=$(find ${{ inputs.test_path }} -type f -name "*.rego" ! -name "*_test.rego" | while read file; do
+          test_file="${file%.*}_test.rego"
+          if [ ! -f "$test_file" ]; then
+            echo "$file"
+          fi
+        done)
+        echo "no_test_files<<EOF" >> $GITHUB_OUTPUT
+        echo "$no_test_files" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - uses: ./opa-rego-test-action/.github
+      id: parse-results
+      with:
+        test_result: ${{ steps.opa-test.outputs.test_result }}
+        no_test_files: ${{ steps.find-no-test.outputs.no_test_files }}
+        check_no_test_files: 'true'
+        everything: ${{join(steps.opa-test.outputs.*, '\n')}}
+
+    - name: Run second function
+      run: echo hello
+      shell: bash
+
+    - name: Comment PR
+      uses: thollander/actions-comment-pull-request@v2
+      if: github.event_name == 'pull_request'
+      with:
+        message: |
+          ${{ steps.parse-results.outputs.parsed_results }}
+        comment_tag: opa-test-results-1
+        mode: upsert

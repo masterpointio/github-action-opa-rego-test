@@ -1,0 +1,27 @@
+name: 'OPA Test and Coverage Report GitHub Actions'
+description: 'Run OPA tests and generate coverage report for PRs'
+author: ''
+
+
+inputs:
+  # GITHUB_TOKEN:
+  #   description: 'GitHub Token'
+  #   required: true
+  test_result:
+    description: 'Comment message'
+    required: true
+  check_no_test_files:
+    description: 'Check if there are no test files'
+    required: false
+    default: 'true'
+  no_test_files:
+    description: 'Files without test files'
+    required: true
+  everything:
+    description: "everything"
+    required: false
+
+runs:
+  using: 'node20'
+  main: '../dist/index.js'
+  # main: ../src/index.ts

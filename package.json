@@ -1,0 +1,27 @@
+{
+  "name": "opa-rego-test-action",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npx ncc build src/index.ts -o dist --source-map",
+    "test": "npx jest"
+  },
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^22.1.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.4",
+    "typescript": "^5.5.4"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@vercel/ncc": "^0.38.1"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+  }
+}
