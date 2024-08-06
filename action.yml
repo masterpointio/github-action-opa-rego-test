@@ -52,6 +52,10 @@ runs:
     - name: Check out repository code
       uses: actions/checkout@v4
 
+    - name: print ls
+      shell: bash
+      run: ls -al
+
     - uses: ./github
       id: parse-results
       with:
