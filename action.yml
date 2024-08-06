@@ -49,7 +49,10 @@ runs:
         echo "$no_test_files" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
 
-    - uses: ./opa-rego-test-action/.github
+    - name: Check out repository code
+      uses: actions/checkout@v4
+
+    - uses: ./github
       id: parse-results
       with:
         test_result: ${{ steps.opa-test.outputs.test_result }}
