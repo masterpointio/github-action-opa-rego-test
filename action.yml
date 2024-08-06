@@ -59,7 +59,7 @@ runs:
       shell: bash
       run: ls -al
 
-    - uses: ./github
+    - uses: ./.github
       id: parse-results
       with:
         test_result: ${{ steps.opa-test.outputs.test_result }}
