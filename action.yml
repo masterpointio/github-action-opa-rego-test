@@ -52,7 +52,8 @@ runs:
     - name: Check out repository code
       uses: actions/checkout@v4
       with:
-        repository: masterpointio/github-action-opa-tests-coverage@feat/action
+        repository: masterpointio/github-action-opa-tests-coverage
+        ref: feat/action
 
     - name: print ls
       shell: bash
