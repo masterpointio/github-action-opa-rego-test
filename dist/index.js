@@ -25025,6 +25025,7 @@ function main() {
         try {
             const testResult = process.env.TEST_RESULT;
             const noTestFiles = process.env.NO_TEST_FILES;
+            console.log("ALL ENVIRONMENT VARIABLES", process.env);
             if (!testResult) {
                 throw new Error('TEST_RESULT environment variable is not set');
             }
