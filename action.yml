@@ -73,7 +73,7 @@ runs:
 
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@v2
-      if: github.event_name == 'pull_request'
+      if: success() || failure()
       with:
         message: |
           ${{ steps.parse-results.outputs.parsed_results }}
