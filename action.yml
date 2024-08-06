@@ -29,7 +29,7 @@ runs:
       id: opa-test
       shell: bash
       run: |
-        output=$(opa test ${{ inputs.test_path }}/*.rego -v || true)
+        output=$(opa test -v $(find ${{ inputs.test_path }} -type f -name "*.rego") || true)
         echo "$output"
         echo "test_result<<EOF" >> $GITHUB_OUTPUT
         echo "$output" >> $GITHUB_OUTPUT
