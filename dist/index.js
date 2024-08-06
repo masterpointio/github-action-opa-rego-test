@@ -25023,8 +25023,11 @@ function formatResults(results) {
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const testResult = core.getInput('test_result', { required: true });
-            const noTestFiles = core.getInput('no_test_files');
+            const testResult = process.env.TEST_RESULT;
+            const noTestFiles = process.env.NO_TEST_FILES;
+            if (!testResult) {
+                throw new Error('TEST_RESULT environment variable is not set');
+            }
             let parsedResults = parseTestOutput(testResult);
             if (noTestFiles) {
                 const noTestFileResults = noTestFiles.split('\n').map(file => ({

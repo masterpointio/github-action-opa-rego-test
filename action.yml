@@ -62,7 +62,7 @@ runs:
     - name: "Run script"
       run: node ${{ github.action_path }}/dist/index.js
       shell: bash
-      with:
+      env:
         test_result: ${{ steps.opa-test.outputs.test_result }}
         no_test_files: ${{ steps.find-no-test.outputs.no_test_files }}
         check_no_test_files: 'true'
