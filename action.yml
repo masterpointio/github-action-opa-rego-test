@@ -49,17 +49,7 @@ runs:
         echo "$no_test_files" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
 
-    # - name: Check out repository code
-    #   uses: actions/checkout@v4
-    #   with:
-    #     repository: masterpointio/github-action-opa-tests-coverage
-    #     ref: feat/action
-
-    - name: print ls
-      shell: bash
-      run: ls -al
-
-    - name: "Run script"
+    - name: "Parse Results from Tests"
       id: parse-results
       run: node ${{ github.action_path }}/dist/index.js
       shell: bash
@@ -69,12 +59,7 @@ runs:
         check_no_test_files: 'true'
         everything: ${{join(steps.opa-test.outputs.*, '\n')}}
 
-
-    - name: Run second function
-      run: echo hello
-      shell: bash
-
-    - name: Comment PR
+    - name: Comment on PR
       uses: thollander/actions-comment-pull-request@v2
       if: success() || failure()
       with:
