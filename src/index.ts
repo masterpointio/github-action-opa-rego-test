@@ -1,11 +1,17 @@
 import * as core from '@actions/core';
 
-interface TestResult {
+export interface TestResult {
   file: string;
   status: 'PASS' | 'FAIL' | 'NO TESTS';
   passed: number;
   total: number;
   details: string[];
+}
+
+export interface CoverageResult {
+  file: string;
+  coverage: number;
+  notCoveredLines: string;
 }
 
 export function parseTestOutput(output: string): TestResult[] {
@@ -47,30 +53,142 @@ export function parseTestOutput(output: string): TestResult[] {
   return results;
 }
 
-export function formatResults(results: TestResult[]): string {
-  let output = '## OPA Test Results\n\n';
-  output += '| File | Status | Passed | Total | Details |\n';
-  output += '|------|--------|--------|-------|----------|\n';
+
+export function parseCoverageOutput(output: string): CoverageResult[] {
+  const lines = output.split('\n');
+  const results: CoverageResult[] = [];
+  let currentResult: CoverageResult | null = null;
+  let inNotCovered = false;
+  let notCoveredRanges: { start: number; end: number }[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const cleanLine = lines[i].trim();
+
+    if (cleanLine.includes('.rego":')) {
+      if (currentResult && !currentResult.file.endsWith('_test.rego')) {
+        currentResult.notCoveredLines = notCoveredRanges
+          .map(range => range.start === range.end ? `${range.start}` : `${range.start}-${range.end}`)
+          .join(', ');
+        results.push(currentResult);
+      }
+      currentResult = {
+        file: cleanLine.split('"')[1],
+        coverage: 0,
+        notCoveredLines: '',
+      };
+      inNotCovered = false;
+      notCoveredRanges = [];
+    } else if (currentResult && cleanLine.includes('"coverage":')) {
+      const match = cleanLine.match(/"coverage": ([\d.]+)/);
+      if (match) {
+        currentResult.coverage = parseFloat(match[1]);
+      }
+    } else if (cleanLine.includes('"not_covered":')) {
+      inNotCovered = true;
+    } else if (inNotCovered && cleanLine === '{') {
+      // Start of a new not_covered range
+      let startRow = -1;
+      let endRow = -1;
+      while (i < lines.length) {
+        i++;
+        const subLine = lines[i].trim().replace(/^\d+##\[debug\]\s*/, '');
+        if (subLine.includes('"row":')) {
+          const rowMatch = subLine.match(/"row": (\d+)/);
+          if (rowMatch) {
+            const row = parseInt(rowMatch[1]);
+            if (startRow === -1) startRow = row;
+            else endRow = row;
+          }
+        } else if (subLine === '}') {
+          break;
+        }
+      }
+      if (startRow !== -1 && endRow !== -1) {
+        notCoveredRanges.push({ start: startRow, end: endRow });
+      }
+    } else if (cleanLine.includes('Coverage test failed for')) {
+      const file = cleanLine.split('Coverage test failed for ')[1];
+      results.push({
+        file: file,
+        coverage: 0,
+        notCoveredLines: 'N/A',
+      });
+    }
+  }
+
+  if (currentResult && !currentResult.file.endsWith('_test.rego')) {
+    currentResult.notCoveredLines = notCoveredRanges
+      .map(range => range.start === range.end ? `${range.start}` : `${range.start}-${range.end}`)
+      .join(', ');
+    results.push(currentResult);
+  }
+
+  // Remove duplicate entries, keeping the first occurrence
+  const uniqueResults = results.filter((result, index, self) =>
+    index === self.findIndex((t) => t.file === result.file)
+  );
+
+  return uniqueResults;
+}
+
+export function formatResults(results: TestResult[], coverageResults: CoverageResult[], showCoverage: boolean): string {
+  let output = `## ${process.env.pr_comment_title || 'OPA Test and Coverage Results'}\n\n`;
+
+  if (showCoverage) {
+    output += '| File | Status | Passed | Total | Coverage | Details |\n';
+    output += '|------|--------|--------|-------|----------|----------|\n';
+  } else {
+    output += '| File | Status | Passed | Total | Details |\n';
+    output += '|------|--------|--------|-------|----------|\n';
+  }
 
   for (const result of results) {
     let statusEmoji, statusText;
     switch (result.status) {
       case 'PASS':
         statusEmoji = '✅';
-        statusText = `${statusEmoji} PASS ${statusEmoji}`;
+        statusText = `${statusEmoji} PASS`;
         break;
       case 'FAIL':
         statusEmoji = '❌';
-        statusText = `${statusEmoji} FAIL ${statusEmoji}`;
+        statusText = `${statusEmoji} FAIL`;
         break;
       case 'NO TESTS':
         statusEmoji = '⚠️';
-        statusText = `${statusEmoji} NO TESTS ${statusEmoji}`;
+        statusText = `${statusEmoji} NO TESTS`;
         break;
     }
 
-    const details = result.status === 'NO TESTS' ? 'No test file found' : result.details.join('<br>');
-    const row = `| ${result.file} | ${statusText} | ${result.passed} | ${result.total} | <details><summary>Show Details</summary>${details}</details> |\n`;
+    const fileName = result.file.replace(':', '');
+    let baseFileName = fileName.split('/').pop() || fileName;
+    baseFileName = baseFileName.replace('_test.rego', '.rego');
+
+    let coverageInfo;
+    if (showCoverage) {
+      coverageInfo = coverageResults.find(cr => cr.file.includes(baseFileName));
+    }
+
+    const details = result.status === 'NO TESTS'
+      ? 'No test file found'
+      : result.details.join('<br>');
+
+    const detailsColumn = `<details><summary>Show Details</summary>${details}</details>`;
+
+    let row = `| ${fileName} | ${statusText} | ${result.passed} | ${result.total} `;
+
+    if (showCoverage) {
+      let coverageText = 'N/A';
+      let uncoveredLinesDetails = '';
+      if (coverageInfo) {
+        coverageText = `${coverageInfo.coverage.toFixed(2)}%`;
+        if (coverageInfo.notCoveredLines && coverageInfo.notCoveredLines !== 'N/A') {
+          uncoveredLinesDetails = `<details><summary>Uncovered Lines</summary>${coverageInfo.notCoveredLines}</details>`;
+        }
+      }
+      row += `| ${coverageText} ${uncoveredLinesDetails} `;
+    }
+
+    row += `| ${detailsColumn} |\n`;
     output += row;
   }
 
@@ -79,12 +197,24 @@ export function formatResults(results: TestResult[]): string {
 
 export async function main() {
   try {
-    const testResult = core.getInput('test_result', { required: true });
-    const noTestFiles = core.getInput('no_test_files');
+    const testResult = process.env.test_result;
+    const coverageResult = process.env.coverage_result;
+    const reportNoTestFiles = process.env.report_untested_files === 'true';
+    const noTestFiles = process.env.no_test_files;
+    const runCoverageReport = process.env.run_coverage_report === 'true';
+
+    if (!testResult) {
+      throw new Error('test_result environment variable is not set.');
+    }
 
     let parsedResults = parseTestOutput(testResult);
+    let coverageResults: CoverageResult[] = [];
 
-    if (noTestFiles) {
+    if (coverageResult && runCoverageReport) {
+      coverageResults = parseCoverageOutput(coverageResult);
+    }
+
+    if (noTestFiles && reportNoTestFiles) {
       const noTestFileResults: TestResult[] = noTestFiles.split('\n').map(file => ({
         file: file.trim(),
         status: 'NO TESTS',
@@ -95,7 +225,7 @@ export async function main() {
       parsedResults = [...parsedResults, ...noTestFileResults];
     }
 
-    const formattedOutput = formatResults(parsedResults);
+    const formattedOutput = formatResults(parsedResults, coverageResults, runCoverageReport);
 
     core.setOutput('parsed_results', formattedOutput);
 
