@@ -50,14 +50,28 @@ runs:
       id: opa-coverage
       shell: bash
       run: |
+        # Set the main directory from input
+        main_dir="${{ inputs.test_directory_path }}"
+
+        echo "Main directory: $main_dir"
+
         coverage_output=""
-        for file in $(find ${{ inputs.test_directory_path }} -type f -name "*.rego" ! -name "*_test.rego"); do
-          test_file="${file%.*}_test.rego"
-          if [ -f "$test_file" ]; then
-            coverage_output+=$(opa test --coverage "$file" "$test_file" || echo "Coverage test failed for $file")
+        for file in $(find "$main_dir" -maxdepth 1 -type f -name "*.rego" ! -name "*_test.rego"); do
+          base_name=$(basename "$file" .rego)
+
+          # Search for the test file in the main directory and its subdirectories
+          test_file=$(find "$main_dir" -type f -name "${base_name}_test.rego")
+
+          if [ -n "$test_file" ]; then
+            echo "Testing $file with $test_file"
+            result=$(opa test --coverage "$file" "$test_file" || echo "Coverage test failed for $file")
+            coverage_output+="$result\n\n"
+          else
+            echo "No test file found for $file in $main_dir or its subdirectories"
           fi
         done
-        echo "$coverage_output"
+
+        echo -e "$coverage_output"
         echo "coverage_result<<EOF" >> $GITHUB_OUTPUT
         echo "$coverage_output" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
