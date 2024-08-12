@@ -27,7 +27,7 @@ export function parseTestOutput(output: string): TestResult[] {
         results.push(currentResult);
       }
       currentResult = {
-        file: line.replace('_test.rego:', '.rego:'),
+        file: line,
         status: 'PASS',
         passed: 0,
         total: 0,
@@ -71,7 +71,7 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
         results.push(currentResult);
       }
       currentResult = {
-        file: cleanLine.split('"')[1].replace('_test.rego', '.rego'),
+        file: cleanLine.split('"')[1],
         coverage: 0,
         notCoveredLines: '',
       };
@@ -106,7 +106,7 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
         notCoveredRanges.push({ start: startRow, end: endRow });
       }
     } else if (cleanLine.includes('Coverage test failed for')) {
-      const file = cleanLine.split('Coverage test failed for ')[1].replace('_test.rego', '.rego');
+      const file = cleanLine.split('Coverage test failed for ')[1];
       results.push({
         file: file,
         coverage: 0,
@@ -138,7 +138,7 @@ export function formatResults(results: TestResult[], coverageResults: CoverageRe
     output += '|------|--------|--------|-------|----------|----------|\n';
   } else {
     output += '| File | Status | Passed | Total | Details |\n';
-    output += '|------|--------|-------|----------|\n';
+    output += '|------|--------|--------|-------|----------|\n';
   }
 
   for (const result of results) {
@@ -158,16 +158,20 @@ export function formatResults(results: TestResult[], coverageResults: CoverageRe
         break;
     }
 
-    const fileName = result.file.replace(':', '');
-    // const baseFileName = fileName.split('/').pop() || fileName;
+    const testFileName = result.file;
 
     let coverageInfo;
     if (showCoverage) {
-      coverageInfo = coverageResults.find(cr => cr.file.includes(fileName));
+      coverageInfo = coverageResults.find(cr => {
+        const lastSlashIndex = cr.file.lastIndexOf('/');
+        const dotRegoIndex = cr.file.lastIndexOf('.rego');
+        if (lastSlashIndex === -1 || dotRegoIndex === -1) return false;
+        const baseCoverageFileName = cr.file.substring(lastSlashIndex + 1, dotRegoIndex);
+        return testFileName.includes(baseCoverageFileName);
+      });
       console.log("DEBUG coverageInfo: ", coverageInfo);
       console.log("DEBUG result: ", result);
-      console.log("DEBUG fileName: ", fileName);
-      // console.log("DEBUG baseFileName: ", baseFileName);
+      console.log("DEBUG testFileName: ", testFileName);
       console.log("DEBUG coverageResults: ", coverageResults);
     }
 
@@ -177,7 +181,7 @@ export function formatResults(results: TestResult[], coverageResults: CoverageRe
 
     const detailsColumn = `<details><summary>Show Details</summary>${details}</details>`;
 
-    let row = `| ${fileName} | ${statusText} | ${result.passed} | ${result.total} `;
+    let row = `| ${testFileName} | ${statusText} | ${result.passed} | ${result.total} `;
 
     if (showCoverage) {
       let coverageText = 'N/A';
@@ -219,7 +223,7 @@ export async function main() {
 
     if (noTestFiles && reportNoTestFiles) {
       const noTestFileResults: TestResult[] = noTestFiles.split('\n').map(file => ({
-        file: file.trim().replace('_test.rego', '.rego'),
+        file: file.trim(),
         status: 'NO TESTS',
         passed: 0,
         total: 0,
