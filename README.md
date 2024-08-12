@@ -102,3 +102,9 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 
 ## 💬 Example Pull Request Comments
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-1.png)
+
+
+
+## internal to do:
+- make logging better
+- add debug logs
