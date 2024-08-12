@@ -25072,7 +25072,7 @@ function parseCoverageOutput(output) {
     return uniqueResults;
 }
 function formatResults(results, coverageResults, showCoverage) {
-    let output = `## ${process.env.pr_comment_title || 'OPA Test and Coverage Results'}\n\n`;
+    let output = `# ${process.env.pr_comment_title || '🧪 OPA Rego Policy Test Results'}\n\n`;
     if (showCoverage) {
         output += '| File | Status | Passed | Total | Coverage | Details |\n';
         output += '|------|--------|--------|-------|----------|----------|\n';

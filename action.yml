@@ -20,15 +20,15 @@ inputs:
   pr_comment_title:
     description: 'Title of the PR comment of the test results.'
     required: false
-    default: 'OPA Rego Policy Test Results'
-  report_untested_files:
-    description: 'Check & report in the PR comments of the Rego files that do not have any corresponding test files. For best conventions, append the postfix `_test` in your test file. E.g. `notification.rego` <> `notification_test.rego`'
-    required: false
-    default: false
+    default: '🧪 OPA Rego Policy Test Results'
   run_coverage_report:
     description: 'Flag to run OPA coverage tests and write to the PR. The `write_pr_comment` must be enabled for the coverage report to be written. Default of true.'
     required: false
     default: true
+  report_untested_files:
+    description: 'Check & report in the PR comments of the Rego files that do not have any corresponding test files. For best conventions, append the postfix `_test` in your test file. E.g. `notification.rego` <> `notification_test.rego`'
+    required: false
+    default: false
 
 runs:
   using: 'composite'
