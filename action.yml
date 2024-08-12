@@ -83,6 +83,7 @@ runs:
       id: find-no-test
       shell: bash
       # Find those without corresponding _test.rego files
+      # TODO SEARCH FOR THOSE ALL WITHIN THAT DIRECOTRY< CAN BE NESTED
       run: |
         no_test_files=$(find ${{ inputs.test_directory_path }} -type f -name "*.rego" ! -name "*_test.rego" | while read file; do
           test_file="${file%.*}_test.rego"

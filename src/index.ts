@@ -170,10 +170,18 @@ export function formatResults(results: TestResult[], coverageResults: CoverageRe
       //   return testFileName.includes(baseCoverageFileName);
       // });
       coverageInfo = coverageResults.find(cr => {
-        // match the test file name with the coverage report of the actual rego file
-        const fileNameWithExtension = cr.file.split('/').pop() || '';
-        if (!fileNameWithExtension.endsWith('.rego') || fileNameWithExtension.includes('test')) return false;
-        return testFileName.includes(fileNameWithExtension);
+        const lastSlashIndex = cr.file.lastIndexOf('/');
+        const dotRegoIndex = cr.file.lastIndexOf('.rego');
+
+        // Check if the file paths are valid
+        if (lastSlashIndex === -1 || dotRegoIndex === -1) return false;
+
+        // Extract the base file name without extension from the coverage report
+        const fileNameWithoutExtension = cr.file.slice(lastSlashIndex + 1, dotRegoIndex);
+
+        // Check if testFileName includes the base file name without extension
+        // and make sure cr.file does not include the full testFileName
+        return testFileName.includes(fileNameWithoutExtension) && !cr.file.includes(testFileName);
       });
 
       console.log("DEBUG coverageInfo: ", coverageInfo);
