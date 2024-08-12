@@ -85,15 +85,25 @@ runs:
       # Find those without corresponding _test.rego files
       # TODO SEARCH FOR THOSE ALL WITHIN THAT DIRECOTRY< CAN BE NESTED
       run: |
-        no_test_files=$(find ${{ inputs.test_directory_path }} -type f -name "*.rego" ! -name "*_test.rego" | while read file; do
-          test_file="${file%.*}_test.rego"
-          if [ ! -f "$test_file" ]; then
+        main_dir="${{ inputs.test_directory_path }}"
+        echo "Searching for untested Rego files in: $main_dir"
+
+        no_test_files=$(find "$main_dir" -type f -name "*.rego" ! -name "*_test.rego" | while read file; do
+          base_name=$(basename "$file" .rego)
+
+          # Search for a corresponding test file anywhere in the project
+          test_file=$(find "$main_dir" -type f -name "${base_name}_test.rego")
+
+          if [ -z "$test_file" ]; then
             echo "$file"
           fi
         done)
+
         echo "no_test_files<<EOF" >> $GITHUB_OUTPUT
         echo "$no_test_files" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
+
+        echo "Search complete."
 
     # Parse and format the test results which will be consumed by the following step to comment on the PR.
     - name: "Parse & Format Results from Tests"
