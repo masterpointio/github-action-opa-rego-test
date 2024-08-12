@@ -27,7 +27,7 @@ export function parseTestOutput(output: string): TestResult[] {
         results.push(currentResult);
       }
       currentResult = {
-        file: line,
+        file: line.replace(/:/g, ''), // Remove all colons from the string
         status: 'PASS',
         passed: 0,
         total: 0,
@@ -162,13 +162,20 @@ export function formatResults(results: TestResult[], coverageResults: CoverageRe
 
     let coverageInfo;
     if (showCoverage) {
+      // coverageInfo = coverageResults.find(cr => {
+      //   const lastSlashIndex = cr.file.lastIndexOf('/');
+      //   const dotRegoIndex = cr.file.lastIndexOf('.rego');
+      //   if (lastSlashIndex === -1 || dotRegoIndex === -1) return false;
+      //   const baseCoverageFileName = cr.file.substring(lastSlashIndex + 1, dotRegoIndex);
+      //   return testFileName.includes(baseCoverageFileName);
+      // });
       coverageInfo = coverageResults.find(cr => {
-        const lastSlashIndex = cr.file.lastIndexOf('/');
-        const dotRegoIndex = cr.file.lastIndexOf('.rego');
-        if (lastSlashIndex === -1 || dotRegoIndex === -1) return false;
-        const baseCoverageFileName = cr.file.substring(lastSlashIndex + 1, dotRegoIndex);
-        return testFileName.includes(baseCoverageFileName);
+        // match the test file name with the coverage report of the actual rego file
+        const fileNameWithExtension = cr.file.split('/').pop() || '';
+        if (!fileNameWithExtension.endsWith('.rego')) return false;
+        return testFileName.includes(fileNameWithExtension);
       });
+
       console.log("DEBUG coverageInfo: ", coverageInfo);
       console.log("DEBUG result: ", result);
       console.log("DEBUG testFileName: ", testFileName);
