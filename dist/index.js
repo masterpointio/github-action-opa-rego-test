@@ -25110,7 +25110,7 @@ function formatResults(results, coverageResults, showCoverage) {
             coverageInfo = coverageResults.find(cr => {
                 // match the test file name with the coverage report of the actual rego file
                 const fileNameWithExtension = cr.file.split('/').pop() || '';
-                if (!fileNameWithExtension.endsWith('.rego'))
+                if (!fileNameWithExtension.endsWith('.rego') || fileNameWithExtension.includes('test'))
                     return false;
                 return testFileName.includes(fileNameWithExtension);
             });

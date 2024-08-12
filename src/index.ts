@@ -172,7 +172,7 @@ export function formatResults(results: TestResult[], coverageResults: CoverageRe
       coverageInfo = coverageResults.find(cr => {
         // match the test file name with the coverage report of the actual rego file
         const fileNameWithExtension = cr.file.split('/').pop() || '';
-        if (!fileNameWithExtension.endsWith('.rego')) return false;
+        if (!fileNameWithExtension.endsWith('.rego') || fileNameWithExtension.includes('test')) return false;
         return testFileName.includes(fileNameWithExtension);
       });
 
