@@ -6,6 +6,7 @@ GitHub Action to test your OPA (Open Policy Agent) Rego policies, generates a co
 
 Some use cases include testing your OPA Rego files for [Spacelift policies](https://docs.spacelift.io/concepts/policy), Kubernetes Admission Controller policies, Docker authorization policies, or any other use case that uses [Open Policy Agent's policy language Rego](https://www.openpolicyagent.org/docs/latest/).
 
+<img src="./assets/opa-logo.png" alt="OPA Logo" width="600">
 
 see more example PR comments below and hyperlink
 

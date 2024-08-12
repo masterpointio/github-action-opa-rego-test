@@ -58,7 +58,7 @@ runs:
         echo "Main directory: $main_dir"
 
         coverage_output=""
-        for file in $(find "$main_dir" -maxdepth 1 -type f -name "*.rego" ! -name "*_test.rego"); do
+        for file in $(find "$main_dir" -type f -name "*.rego" ! -name "*_test.rego"); do
           base_name=$(basename "$file" .rego)
 
           # Search for the test file in the main directory and its subdirectories
@@ -82,8 +82,6 @@ runs:
       if: inputs.report_untested_files == 'true'
       id: find-no-test
       shell: bash
-      # Find those without corresponding _test.rego files
-      # TODO SEARCH FOR THOSE ALL WITHIN THAT DIRECOTRY< CAN BE NESTED
       run: |
         main_dir="${{ inputs.test_directory_path }}"
         echo "Searching for untested Rego files in: $main_dir"
