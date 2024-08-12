@@ -2,6 +2,8 @@ name: 'OPA Test and Coverage Report GitHub Actions'
 description: 'Run OPA tests and generate coverage report for PRs. Test your OPA Rego policies!'
 author: ''
 
+#
+
 branding:
   icon: 'check-circle'
   color: 'green'

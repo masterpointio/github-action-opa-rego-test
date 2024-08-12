@@ -27,7 +27,7 @@ export function parseTestOutput(output: string): TestResult[] {
         results.push(currentResult);
       }
       currentResult = {
-        file: line,
+        file: line.replace('_test.rego:', '.rego:'),
         status: 'PASS',
         passed: 0,
         total: 0,
@@ -53,7 +53,6 @@ export function parseTestOutput(output: string): TestResult[] {
   return results;
 }
 
-
 export function parseCoverageOutput(output: string): CoverageResult[] {
   const lines = output.split('\n');
   const results: CoverageResult[] = [];
@@ -65,14 +64,14 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
     const cleanLine = lines[i].trim();
 
     if (cleanLine.includes('.rego":')) {
-      if (currentResult && !currentResult.file.endsWith('_test.rego')) {
+      if (currentResult) {
         currentResult.notCoveredLines = notCoveredRanges
           .map(range => range.start === range.end ? `${range.start}` : `${range.start}-${range.end}`)
           .join(', ');
         results.push(currentResult);
       }
       currentResult = {
-        file: cleanLine.split('"')[1],
+        file: cleanLine.split('"')[1].replace('_test.rego', '.rego'),
         coverage: 0,
         notCoveredLines: '',
       };
@@ -91,7 +90,7 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
       let endRow = -1;
       while (i < lines.length) {
         i++;
-        const subLine = lines[i].trim().replace(/^\d+##\[debug\]\s*/, '');
+        const subLine = lines[i].trim();
         if (subLine.includes('"row":')) {
           const rowMatch = subLine.match(/"row": (\d+)/);
           if (rowMatch) {
@@ -107,7 +106,7 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
         notCoveredRanges.push({ start: startRow, end: endRow });
       }
     } else if (cleanLine.includes('Coverage test failed for')) {
-      const file = cleanLine.split('Coverage test failed for ')[1];
+      const file = cleanLine.split('Coverage test failed for ')[1].replace('_test.rego', '.rego');
       results.push({
         file: file,
         coverage: 0,
@@ -116,7 +115,7 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
     }
   }
 
-  if (currentResult && !currentResult.file.endsWith('_test.rego')) {
+  if (currentResult) {
     currentResult.notCoveredLines = notCoveredRanges
       .map(range => range.start === range.end ? `${range.start}` : `${range.start}-${range.end}`)
       .join(', ');
@@ -139,7 +138,7 @@ export function formatResults(results: TestResult[], coverageResults: CoverageRe
     output += '|------|--------|--------|-------|----------|----------|\n';
   } else {
     output += '| File | Status | Passed | Total | Details |\n';
-    output += '|------|--------|--------|-------|----------|\n';
+    output += '|------|--------|-------|----------|\n';
   }
 
   for (const result of results) {
@@ -160,12 +159,16 @@ export function formatResults(results: TestResult[], coverageResults: CoverageRe
     }
 
     const fileName = result.file.replace(':', '');
-    let baseFileName = fileName.split('/').pop() || fileName;
-    baseFileName = baseFileName.replace('_test.rego', '.rego');
+    // const baseFileName = fileName.split('/').pop() || fileName;
 
     let coverageInfo;
     if (showCoverage) {
-      coverageInfo = coverageResults.find(cr => cr.file.includes(baseFileName));
+      coverageInfo = coverageResults.find(cr => cr.file.includes(fileName));
+      console.log("DEBUG coverageInfo: ", coverageInfo);
+      console.log("DEBUG result: ", result);
+      console.log("DEBUG fileName: ", fileName);
+      // console.log("DEBUG baseFileName: ", baseFileName);
+      console.log("DEBUG coverageResults: ", coverageResults);
     }
 
     const details = result.status === 'NO TESTS'
@@ -216,7 +219,7 @@ export async function main() {
 
     if (noTestFiles && reportNoTestFiles) {
       const noTestFileResults: TestResult[] = noTestFiles.split('\n').map(file => ({
-        file: file.trim(),
+        file: file.trim().replace('_test.rego', '.rego'),
         status: 'NO TESTS',
         passed: 0,
         total: 0,
