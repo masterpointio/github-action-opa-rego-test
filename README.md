@@ -77,7 +77,7 @@ jobs:
 | `run_coverage_report` | Flag to run OPA coverage tests and include in PR comment | No | `true` |
 | `report_untested_files` | Check & report Rego files without corresponding test files | No | `false` |
 
-## How It Works
+## ⚙️ How It Works
 This GitHub Action automates the process of testing OPA (Open Policy Agent) Rego policies and generating coverage reports. Here's a breakdown of its operation:
 
 1. Setup: The action begins by setting up OPA using the open-policy-agent/setup-opa@v2 action, ensuring the necessary tools are available.
