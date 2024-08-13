@@ -2,7 +2,7 @@
 
 # GitHub Action for OPA Rego Policy Tests [![Latest Release](https://img.shields.io/github/release/masterpointio/github-action-opa-rego-test.svg)](https://github.com/masterpointio/github-action-opa-rego-test/releases/latest)
 
-GitHub Action to automate testing for your OPA (Open Policy Agent) Rego policies, generates a coverage report, and posts the results as a comment on your pull requests.
+GitHub Action to automate testing for your OPA (Open Policy Agent) Rego policies, generates a report with coverage information, and posts the test results as a comment on your pull requests.
 
 Use this to test your OPA Rego files for [Spacelift policies](https://docs.spacelift.io/concepts/policy), Kubernetes Admission Controller policies, Docker authorization policies, or any other use case that uses [Open Policy Agent's policy language Rego](https://www.openpolicyagent.org/docs/latest/).
 
@@ -15,6 +15,7 @@ See examples of the pull request comments below at the [Example Pull Request Com
 📚 Table of Contents
 - [🚀 Usage](#-usage)
     - [Inputs](#inputs)
+- [⚙️ How It Works](#️-how-it-works)
 - [🧪 Running Tests](#-running-tests)
 - [🏗️ Setup & Run Locally](#️-setup--run-locally)
 - [📦 Releases / Packaging for Distribution](#-releases--packaging-for-distribution)
@@ -25,7 +26,6 @@ See examples of the pull request comments below at the [Example Pull Request Com
 It's super easy to get started and use this GitHub Action to test your OPA Rego policies. In your repository/directory with the `.rego` files and the `_test.rego` files, simply checkout the repository and add the step with `uses: masterpointio/github-action-opa-rego-test@main`. It's as simple as adding the step with no required inputs!
 ```yaml
       - name: Run OPA Rego Tests
-        # TODO, use v1 when released
         uses: masterpointio/github-action-opa-rego-test@main
 ```
 
@@ -43,6 +43,8 @@ on:
       - synchronize
       - ready_for_review
       - reopened
+    paths:
+      - '**.rego'
 
 permissions:
   id-token: write
@@ -57,8 +59,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run OPA Rego Tests
-        # TODO, use v1 when released
-        uses: masterpointio/github-action-opa-rego-test@feat/action
+        uses: masterpointio/github-action-opa-rego-test@main
         with:
           test_directory_path: "./config/spacelift-policies" # Path of the directory where the OPA Rego policies are stored. Optional, defaults to `.` which is the root directory.
           report_untested_files: true # Flag to check & report Rego files without corresponding test files. Optional, defaults to false.
@@ -66,7 +67,11 @@ jobs:
 
 </details>
 
+BE SURE TO ALWAYS APPEND THE POSTFIX `_test.rego` TO YOUR TEST FILES! This is how the GitHub Action know what test to run on files. For example, if you have a file named `my-policy.rego`, you would need a file named `my-policy_test.rego`. It does not matter where the `_test.rego` file is located, just that it is in the same directory as the `.rego` file, meaning that it can be in a subdirectory.
 
+In the example below, all `_test.rego` files' location are valid and will be executed.
+
+<img src="./assets/test-file-structure-example.png" alt="Masterpoint GitHub Action OPA Test File Structure" width="450">
 
 ### Inputs
 | Input | Description | Required | Default |
