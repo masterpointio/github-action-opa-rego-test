@@ -42,13 +42,23 @@ runs:
       id: opa-test
       shell: bash
       run: |
-        tests=$(find ${{ inputs.test_directory_path }} -type f -regex '.*_test\.rego$')
+        BASE_DIRECTORY_PATH="${{ inputs.test_directory_path }}"
+        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*_test.rego")
         output=""
         for test in $tests; do
-            result=$(opa test -v $test ${test/_test.rego/.rego})
-            output+="$result"$'\n\n'
+            echo "Running test: $test"
+            base_name=$(basename "$test" _test.rego)
+            test_dir=$(dirname "$test")
+            impl_file=$(find "$test_dir" "$test_dir/.." -maxdepth 1 -type f -name "${base_name}.rego" | head -n1)
+            if [ -n "$impl_file" ]; then
+                echo "Found implementation file: $impl_file"
+                result=$(opa test -v "$test" "$impl_file")
+                output+="$result"$'\n\n'
+            else
+                echo "Error: Implementation file not found for test: $test"
+                output+="Error: Implementation file not found for test: $test"$'\n\n'
+            fi
         done
-
         echo "$output"
         echo "test_result<<EOF" >> $GITHUB_OUTPUT
         echo "$output" >> $GITHUB_OUTPUT
