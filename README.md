@@ -81,15 +81,14 @@ jobs:
 This GitHub Action automates the process of testing OPA (Open Policy Agent) Rego policies and generating coverage reports. Here's a breakdown of its operation:
 
 1. Setup: The action begins by setting up OPA using the open-policy-agent/setup-opa@v2 action, ensuring the necessary tools are available.
-2. Run OPA Tests: It executes opa test on all .rego files in the specified directory (default is the root directory). The test results are captured and stored as an output.
+2. Run OPA Tests: It executes `opa test` on all .rego files in the specified directory (default is the root directory). The test results are captured and stored as an output.
 3. Run OPA Coverage Tests: Enabled by default but optional, the action performs coverage tests on each .rego file that has a corresponding _test.rego file. This step identifies which parts of your policies are covered by tests.
 4. Find Untested Files: Optionally if enabled, it can identify Rego files that don't have corresponding test files, helping you maintain comprehensive test coverage.
 5. Parse and Format Results: A custom TypeScript script (index.ts) processes the raw test and coverage outputs. It parses the results into a structured format and generates a user-friendly summary.
 6. Generate PR Comment: The formatted results are used to create or update a comment on the pull request.
 7. Fail the Action if Tests Fail: If any tests fail, the action is marked as failed, which can be used to block PR merges or trigger other workflows.
 
-<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/543f1b04-2b38-4f17-a32d-1abb4ffe3c2c" id="E362a3EzCqPz"></iframe></div>
-
+![Masterpoint OPA Rego Test Action Diagram](https://lucid.app/publicSegments/view/60bf898e-2640-475f-b130-2a70d317a65d/image.png)
 
 ## 🧪 Running Tests
 1. `npm install`
@@ -126,7 +125,7 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 
 
 ### To-Do's:
-- make logging better
+- make composite action logging better
 - add debug logs
 - more tests
 - lint and ci tests
