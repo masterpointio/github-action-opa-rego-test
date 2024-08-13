@@ -2,18 +2,24 @@
 
 # GitHub Action for OPA Rego Policy Tests [![Latest Release](https://img.shields.io/github/release/masterpointio/github-action-opa-rego-test.svg)](https://github.com/masterpointio/github-action-opa-rego-test/releases/latest)
 
-GitHub Action to test your OPA (Open Policy Agent) Rego policies, generates a coverage report, and posts the results as a comment on your pull requests.
+GitHub Action to automate testing for your OPA (Open Policy Agent) Rego policies, generates a coverage report, and posts the results as a comment on your pull requests.
 
-Some use cases include testing your OPA Rego files for [Spacelift policies](https://docs.spacelift.io/concepts/policy), Kubernetes Admission Controller policies, Docker authorization policies, or any other use case that uses [Open Policy Agent's policy language Rego](https://www.openpolicyagent.org/docs/latest/).
+Use this to test your OPA Rego files for [Spacelift policies](https://docs.spacelift.io/concepts/policy), Kubernetes Admission Controller policies, Docker authorization policies, or any other use case that uses [Open Policy Agent's policy language Rego](https://www.openpolicyagent.org/docs/latest/).
 
 <img src="./assets/opa-logo.png" alt="OPA Logo" width="600">
 
-see more example PR comments below and hyperlink
-
-generate table of contents here
-
-
 <img src="./assets/banner-pr-comment-example.png" alt="OPA Rego Test GitHub Comment Example" width="600">
+
+See examples of the pull request comments below at the [Example Pull Request Comments section](#-example-pull-request-comments).
+
+📚 Table of Contents
+- [🚀 Usage](#-usage)
+    - [Inputs](#inputs)
+- [🧪 Running Tests](#-running-tests)
+- [🏗️ Setup & Run Locally](#️-setup--run-locally)
+- [📦 Releases / Packaging for Distribution](#-releases--packaging-for-distribution)
+- [🤝 Contributing](#-contributing)
+- [💬 Example Pull Request Comments](#-example-pull-request-comments)
 
 ## 🚀 Usage
 It's super easy to get started and use this GitHub Action to test your OPA Rego policies. In your repository/directory with the `.rego` files and the `_test.rego` files, simply checkout the repository and add the step with `uses: masterpointio/github-action-opa-rego-test@main`. It's as simple as adding the step with no required inputs!
@@ -71,7 +77,18 @@ jobs:
 | `run_coverage_report` | Flag to run OPA coverage tests and include in PR comment | No | `true` |
 | `report_untested_files` | Check & report Rego files without corresponding test files | No | `false` |
 
+## How It Works
+This GitHub Action automates the process of testing OPA (Open Policy Agent) Rego policies and generating coverage reports. Here's a breakdown of its operation:
 
+1. Setup: The action begins by setting up OPA using the open-policy-agent/setup-opa@v2 action, ensuring the necessary tools are available.
+2. Run OPA Tests: It executes opa test on all .rego files in the specified directory (default is the root directory). The test results are captured and stored as an output.
+3. Run OPA Coverage Tests: Enabled by default but optional, the action performs coverage tests on each .rego file that has a corresponding _test.rego file. This step identifies which parts of your policies are covered by tests.
+4. Find Untested Files: Optionally if enabled, it can identify Rego files that don't have corresponding test files, helping you maintain comprehensive test coverage.
+5. Parse and Format Results: A custom TypeScript script (index.ts) processes the raw test and coverage outputs. It parses the results into a structured format and generates a user-friendly summary.
+6. Generate PR Comment: The formatted results are used to create or update a comment on the pull request.
+7. Fail the Action if Tests Fail: If any tests fail, the action is marked as failed, which can be used to block PR merges or trigger other workflows.
+
+<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embedded/543f1b04-2b38-4f17-a32d-1abb4ffe3c2c" id="E362a3EzCqPz"></iframe></div>
 
 
 ## 🧪 Running Tests
@@ -103,9 +120,13 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 
 ## 💬 Example Pull Request Comments
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-1.png)
+    - Using `report_untested_files` to indicate policies without corresponding tests.
+- ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-2.png)
+- ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-3.png)
 
 
-
-## internal to do:
+### To-Do's:
 - make logging better
 - add debug logs
+- more tests
+- lint and ci tests
