@@ -137,3 +137,4 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 - deal with issues like
   - `1 error occurred: ./access/label-based-team-access.rego:35: rego_type_error: conflicting rules data.spacelift.deny found`
   - need better visibliity to when this happens and fails
+  - one way is to PR comment error occured in the execution of the tests. please tak eal ook at the logs..
