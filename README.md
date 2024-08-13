@@ -1,6 +1,6 @@
 [![Masterpoint Logo](https://masterpoint-public.s3.us-west-2.amazonaws.com/v2/standard-long-fullcolor.png)](https://masterpoint.io)
 
-# GitHub Action for OPA Rego Policy Tests [![Latest Release](https://img.shields.io/github/release/masterpointio/github-action-opa-rego-test.svg)](https://github.com/masterpointio/github-action-opa-rego-test/releases/latest)
+# GitHub Action for OPA Rego Policy Tests <!--[![Latest Release](https://img.shields.io/github/release/masterpointio/github-action-opa-rego-test.svg)](https://github.com/masterpointio/github-action-opa-rego-test/releases/latest)-->
 
 GitHub Action to automate testing for your OPA (Open Policy Agent) Rego policies, generates a report with coverage information, and posts the test results as a comment on your pull requests.
 
@@ -43,8 +43,9 @@ on:
       - synchronize
       - ready_for_review
       - reopened
-    paths:
-      - '**.rego'
+    # Optionally only trigger tests on affecting .rego files.
+    # paths:
+    #   - '**.rego'
 
 permissions:
   id-token: write
@@ -109,7 +110,7 @@ You can use [nektos/act](https://github.com/nektos/act) to simulate and run a Gi
 This is assuming you have `npm` and `node` installed already. Note: You will have to manually provide the required inputs since this is directly executing the TypeScript code.
 
 ## 📦 Releases / Packaging for Distribution
-We use [@vercel/ncc](https://github.com/vercel/ncc) to easily compile this TypeScript Node.js module into a single file together with all its dependencies, gcc-style, to package it up for use and distribute.
+This Action executes the source from the `/dist` directory. It is generated using [@vercel/ncc](https://github.com/vercel/ncc) to easily compile the TypeScript module into a single file together with all its dependencies, gcc-style, to package it up for use and distribute.
 
 To use, simply run the command (see the source in `package.json`):
 ```bash
@@ -120,7 +121,7 @@ To create a new release... TODO, release please with `npm run build` and commit 
 
 
 ## 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request or open any Issues you may have.
+Contributions are welcome! Please feel free to submit a Pull Request or open any issues you may have.
 
 ## 💬 Example Pull Request Comments
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-1.png)
@@ -132,9 +133,12 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 ### To-Do's:
 - make composite action logging better
 - add debug logs
-- more tests
+- more tests + fix tests
 - lint and ci tests
 - deal with issues like
   - `1 error occurred: ./access/label-based-team-access.rego:35: rego_type_error: conflicting rules data.spacelift.deny found`
   - need better visibliity to when this happens and fails
+  - right now, it just exits code 2. not helpful and someone new to sys wouldn't know where to look at.
   - one way is to PR comment error occured in the execution of the tests. please tak eal ook at the logs..
+- publish to marketplace
+- release please.
