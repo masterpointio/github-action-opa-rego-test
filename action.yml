@@ -105,31 +105,69 @@ runs:
       shell: bash
       # OPA's CLI for testing and coverage isn't as smart as other languages. Have to manually test each file one by one, and we cannot pass in multiple files at once - you can, but if one fail, the rest won't run. That's not good because we want to test all files and report the result on those, even if one fails. It also cannot find all the files and corresponding test files, hence we have to manually find them dynamically with bash.
       run: |
-        # Set the main directory from input
-        main_dir="${{ inputs.test_directory_path }}"
+        # Enable bash debugging
+        set -x
 
-        echo "Main directory: $main_dir"
+        BASE_DIRECTORY_PATH="${{ inputs.test_directory_path }}"
 
-        coverage_output=""
-        for file in $(find "$main_dir" -type f -name "*.rego" ! -name "*_test.rego"); do
-          base_name=$(basename "$file" .rego)
+        echo "Starting script execution"
+        echo "BASE_DIRECTORY_PATH: $BASE_DIRECTORY_PATH"
 
-          # Search for the test file in the main directory and its subdirectories
-          test_file=$(find "$main_dir" -type f -name "${base_name}_test.rego")
+        # Find all test files recursively
+        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*_test.rego")
+        echo "Found test files:"
+        echo "$tests"
 
-          if [ -n "$test_file" ]; then
-            echo "Testing $file with $test_file"
-            result=$(opa test --coverage "$file" "$test_file" || echo "Coverage test failed for $file")
-            coverage_output+="$result\n\n"
-          else
-            echo "No test file found for $file in $main_dir or its subdirectories"
-          fi
+        # Variable to store all test outputs
+        output=""
+        overall_exit_code=0
+
+        # Run tests
+        for test in $tests; do
+            echo "Processing test: $test"
+
+            base_name=$(basename "$test" _test.rego)
+            echo "Base name: $base_name"
+
+            test_dir=$(dirname "$test")
+            echo "Test directory: $test_dir"
+
+            impl_file=$(find "$test_dir" "$test_dir/.." -maxdepth 1 -type f -name "${base_name}.rego" | head -n1)
+            echo "Implementation file found: $impl_file"
+
+            if [ -n "$impl_file" ]; then
+                echo "Running OPA test command: opa test -v $test $impl_file"
+                result=$(opa test -v "$test" "$impl_file" 2>&1)
+                exit_code=$?
+                echo "OPA test exit code: $exit_code"
+                echo "OPA test result:"
+                echo "$result"
+                output+="Test: $test\nImplementation: $impl_file\nResult:\n$result\nExit Code: $exit_code\n\n"
+
+                # Update overall exit code if this test failed
+                if [ $exit_code -ne 0 ]; then
+                    overall_exit_code=$exit_code
+                fi
+            else
+                echo "Error: Implementation file not found for test: $test"
+                output+="Error: Implementation file not found for test: $test\n\n"
+            fi
         done
 
-        echo -e "$coverage_output"
-        echo "coverage_result<<EOF" >> $GITHUB_OUTPUT
-        echo "$coverage_output" >> $GITHUB_OUTPUT
+        echo "All test results:"
+        echo "$output"
+
+        echo "test_result<<EOF" >> $GITHUB_OUTPUT
+        echo "$output" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
+
+        echo "overall_exit_code=$overall_exit_code" >> $GITHUB_OUTPUT
+
+        # Disable bash debugging
+        set +x
+
+        echo "Script execution completed"
+        exit 0  # Always exit with 0 to prevent GitHub Actions from failing
 
     - name: Find Rego files without tests
       if: inputs.report_untested_files == 'true'
