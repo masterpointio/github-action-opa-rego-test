@@ -132,7 +132,7 @@ runs:
         pr_comment_title: ${{ inputs.pr_comment_title }}
         run_coverage_report: ${{ inputs.run_coverage_report }}
 
-    # Create (or update in-place) a PR comment of the test result output.
+    # Create (or update in-place) a PR comment of the test result output
     - name: Comment on PR
       uses: thollander/actions-comment-pull-request@v2
       # If `write_pr_comment` enabled, regardless of if test is success or fail, write the results of the failure.
