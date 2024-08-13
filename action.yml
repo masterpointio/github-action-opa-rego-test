@@ -69,30 +69,26 @@ runs:
       shell: bash
       # OPA's CLI for testing and coverage isn't as smart as other languages. Have to manually test each file one by one, and we cannot pass in multiple files at once - you can, but if one fail, the rest won't run. That's not good because we want to test all files and report the result on those, even if one fails. It also cannot find all the files and corresponding test files, hence we have to manually find them dynamically with bash.
       run: |
-        # Set the main directory from input
-        main_dir="${{ inputs.test_directory_path }}"
-
-        echo "Main directory: $main_dir"
-
-        coverage_output=""
-        for file in $(find "$main_dir" -type f -name "*.rego" ! -name "*_test.rego"); do
-          base_name=$(basename "$file" .rego)
-
-          # Search for the test file in the main directory and its subdirectories
-          test_file=$(find "$main_dir" -type f -name "${base_name}_test.rego")
-
-          if [ -n "$test_file" ]; then
-            echo "Testing $file with $test_file"
-            result=$(opa test --coverage "$file" "$test_file" || echo "Coverage test failed for $file")
-            coverage_output+="$result\n\n"
-          else
-            echo "No test file found for $file in $main_dir or its subdirectories"
-          fi
+        BASE_DIRECTORY_PATH="${{ inputs.test_directory_path }}"
+        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*_test.rego")
+        output=""
+        for test in $tests; do
+            echo "Running coverage test: $test"
+            base_name=$(basename "$test" _test.rego)
+            test_dir=$(dirname "$test")
+            impl_file=$(find "$test_dir" "$test_dir/.." -maxdepth 1 -type f -name "${base_name}.rego" | head -n1)
+            if [ -n "$impl_file" ]; then
+                echo "Found implementation file: $impl_file"
+                result=$(opa test --coverage "$test" "$impl_file" || true)
+                output+="$result"$'\n\n'
+            else
+                echo "Error: Implementation file not found for coverage test: $test"
+                output+="Error: Implementation file not found for coverage test: $test"$'\n\n'
+            fi
         done
-
-        echo -e "$coverage_output"
+        echo "$output"
         echo "coverage_result<<EOF" >> $GITHUB_OUTPUT
-        echo "$coverage_output" >> $GITHUB_OUTPUT
+        echo "$output" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Find Rego files without tests
