@@ -42,7 +42,13 @@ runs:
       id: opa-test
       shell: bash
       run: |
-        output=$(opa test -v $(find ${{ inputs.test_directory_path }} -type f -name "*.rego") || true)
+        tests=$(find ${{ inputs.test_directory_path }} -type f -regex '.*_test\.rego$')
+        output=""
+        for test in $tests; do
+            result=$(opa test -v $test ${test/_test.rego/.rego})
+            output+="$result"$'\n\n'
+        done
+
         echo "$output"
         echo "test_result<<EOF" >> $GITHUB_OUTPUT
         echo "$output" >> $GITHUB_OUTPUT
