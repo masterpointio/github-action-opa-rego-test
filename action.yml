@@ -1,0 +1,145 @@
+name: 'OPA Test and Coverage Report GitHub Actions'
+description: 'Run OPA tests and generate coverage report for PRs. Test your OPA Rego policies!'
+author: ''
+
+#
+
+branding:
+  icon: 'check-circle'
+  color: 'green'
+
+inputs:
+  test_directory_path:
+    description: 'Path to the directory containing OPA Rego files to test. Default to root directory.'
+    required: false
+    default: '.'
+  write_pr_comment:
+    description: 'Flag to write an user friendly PR comment of the test results. Default of true.'
+    required: false
+    default: true
+  pr_comment_title:
+    description: 'Title of the PR comment of the test results.'
+    required: false
+    default: '🧪 OPA Rego Policy Test Results'
+  run_coverage_report:
+    description: 'Flag to run OPA coverage tests and write to the PR. The `write_pr_comment` must be enabled for the coverage report to be written. Default of true.'
+    required: false
+    default: true
+  report_untested_files:
+    description: 'Check & report in the PR comments of the Rego files that do not have any corresponding test files. For best conventions, append the postfix `_test` in your test file. E.g. `notification.rego` <> `notification_test.rego`'
+    required: false
+    default: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup OPA
+      uses: open-policy-agent/setup-opa@v2
+      with:
+        version: 0.67.1
+
+    - name: Run OPA Tests
+      id: opa-test
+      shell: bash
+      run: |
+        BASE_DIRECTORY_PATH="${{ inputs.test_directory_path }}"
+        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*_test.rego")
+        output=""
+        for test in $tests; do
+            echo "Running test: $test"
+            base_name=$(basename "$test" _test.rego)
+            test_dir=$(dirname "$test")
+            impl_file=$(find "$test_dir" "$test_dir/.." -maxdepth 1 -type f -name "${base_name}.rego" | head -n1)
+            if [ -n "$impl_file" ]; then
+                echo "Found implementation file: $impl_file"
+                result=$(opa test -v "$test" "$impl_file" || true)
+                output+="$result"$'\n\n'
+            else
+                echo "Error: Implementation file not found for test: $test"
+                output+="Error: Implementation file not found for test: $test"$'\n\n'
+            fi
+        done
+        echo "$output"
+        echo "test_result<<EOF" >> $GITHUB_OUTPUT
+        echo "$output" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Run OPA Coverage Tests
+      id: opa-coverage
+      shell: bash
+      # OPA's CLI for testing and coverage isn't as smart as other languages. Have to manually test each file one by one, and we cannot pass in multiple files at once - you can, but if one fail, the rest won't run. That's not good because we want to test all files and report the result on those, even if one fails. It also cannot find all the files and corresponding test files, hence we have to manually find them dynamically with bash.
+      run: |
+        BASE_DIRECTORY_PATH="${{ inputs.test_directory_path }}"
+        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*_test.rego")
+        output=""
+        for test in $tests; do
+            echo "Running coverage test: $test"
+            base_name=$(basename "$test" _test.rego)
+            test_dir=$(dirname "$test")
+            impl_file=$(find "$test_dir" "$test_dir/.." -maxdepth 1 -type f -name "${base_name}.rego" | head -n1)
+            if [ -n "$impl_file" ]; then
+                echo "Found implementation file: $impl_file"
+                result=$(opa test --coverage "$test" "$impl_file" || true)
+                output+="$result"$'\n\n'
+            else
+                echo "Error: Implementation file not found for coverage test: $test"
+                output+="Error: Implementation file not found for coverage test: $test"$'\n\n'
+            fi
+        done
+        echo "$output"
+        echo "coverage_result<<EOF" >> $GITHUB_OUTPUT
+        echo "$output" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Find Rego files without tests
+      if: inputs.report_untested_files == 'true'
+      id: find-no-test
+      shell: bash
+      run: |
+        main_dir="${{ inputs.test_directory_path }}"
+        echo "Searching for untested Rego files in: $main_dir"
+
+        no_test_files=$(find "$main_dir" -type f -name "*.rego" ! -name "*_test.rego" | while read file; do
+          base_name=$(basename "$file" .rego)
+
+          # Search for a corresponding test file anywhere in the project
+          test_file=$(find "$main_dir" -type f -name "${base_name}_test.rego")
+
+          if [ -z "$test_file" ]; then
+            echo "$file"
+          fi
+        done)
+
+        echo "no_test_files<<EOF" >> $GITHUB_OUTPUT
+        echo "$no_test_files" >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+        echo "Search complete."
+
+    # Parse and format the test results which will be consumed by the following step to comment on the PR.
+    - name: "Parse & Format Results from Tests"
+      id: parse-results
+      run: node ${{ github.action_path }}/dist/index.js
+      shell: bash
+      # We need to use `env` to pass the inputs into the script. Since this isn't running `with: node` (find the specifics)
+      # we cannot pass it in with 'inputs' in this workflow step with this composite action. THis is a workaround since
+      # GitHub Actions doesn't have a clean way of having a composite action use a custom action within the same repository.
+      env:
+        test_result: ${{ steps.opa-test.outputs.test_result }}
+        coverage_result: ${{ steps.opa-coverage.outputs.coverage_result }}
+        report_untested_files: ${{ inputs.report_untested_files }}
+        no_test_files: ${{ steps.find-no-test.outputs.no_test_files }}
+        pr_comment_title: ${{ inputs.pr_comment_title }}
+        run_coverage_report: ${{ inputs.run_coverage_report }}
+
+    # Create (or update in-place) a PR comment of the test result output
+    - name: Comment on PR
+      uses: thollander/actions-comment-pull-request@v2
+      # If `write_pr_comment` enabled, regardless of if test is success or fail, write the results of the failure.
+      # Even if input is bool, it has to be treated as string bc of GH's behavior (https://github.com/actions/runner/issues/1483)
+      if: inputs.write_pr_comment == 'true' && (success() || failure())
+      with:
+        message: |
+          ${{ steps.parse-results.outputs.parsed_results }}
+        comment_tag: opa-test-results
+        mode: upsert
