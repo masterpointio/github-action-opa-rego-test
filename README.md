@@ -62,7 +62,7 @@ jobs:
 
 </details>
 
-Be sure to always append the postfix to your test files. The default input for the `test_file_postfix` is `_test.rego`, per [OPA's best practices](https://www.openpolicyagent.org/docs/latest/policy-testing/#test-format). If you have a different postfix for your test files, you can specify it in the inputs. This is how GitHub Action know what test to run on files.
+Be sure to always append the postfix to your test files. The default input for the `test_file_postfix` is `_test`, per [OPA's best practices](https://www.openpolicyagent.org/docs/latest/policy-testing/#test-format). If you have a different postfix for your test files, you can specify it in the inputs. This is how GitHub Action know what test to run on files.
 
  For example, if you have a file named `my-policy.rego`, you would need a file named `my-policy_test.rego`. It does not matter where the `_test.rego` file is located, just that it is in the root path, meaning that it can be in a subdirectory.
 
@@ -74,7 +74,7 @@ In the example below, all `_test.rego` files' location are valid and will be exe
 | Input | Description | Required | Default |
 |-------|-------------|----------|---------|
 | `path` | Path to the directory containing OPA Rego files to test | No | `.` (root directory) |
-| `test_file_postfix` | Postfix of the test files to run (e.g. notification.rego <> notification_test.rego) | No | `_test.rego` |
+| `test_file_postfix` | Postfix of the test files to run (e.g. notification.rego <> notification_test.rego) | No | `_test` |
 | `write_pr_comment` | Flag to write a user-friendly PR comment with test results | No | `true` |
 | `pr_comment_title` | Title of the PR comment for test results | No | `🧪 OPA Rego Policy Test Results` |
 | `run_coverage_report` | Flag to run OPA coverage tests and include in PR comment | No | `true` |
