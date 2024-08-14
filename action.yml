@@ -9,7 +9,7 @@ branding:
   color: 'green'
 
 inputs:
-  test_directory_path:
+  path:
     description: 'Path to the directory containing OPA Rego files to test. Default to root directory.'
     required: false
     default: '.'
@@ -42,7 +42,7 @@ runs:
       id: opa-test
       shell: bash
       run: |
-        BASE_DIRECTORY_PATH="${{ inputs.test_directory_path }}"
+        BASE_DIRECTORY_PATH="${{ inputs.path }}"
         tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*_test.rego")
         output=""
         for test in $tests; do
@@ -69,7 +69,7 @@ runs:
       shell: bash
       # OPA's CLI for testing and coverage isn't as smart as other languages. Have to manually test each file one by one, and we cannot pass in multiple files at once - you can, but if one fail, the rest won't run. That's not good because we want to test all files and report the result on those, even if one fails. It also cannot find all the files and corresponding test files, hence we have to manually find them dynamically with bash.
       run: |
-        BASE_DIRECTORY_PATH="${{ inputs.test_directory_path }}"
+        BASE_DIRECTORY_PATH="${{ inputs.path }}"
         tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*_test.rego")
         output=""
         for test in $tests; do
@@ -96,7 +96,7 @@ runs:
       id: find-no-test
       shell: bash
       run: |
-        main_dir="${{ inputs.test_directory_path }}"
+        main_dir="${{ inputs.path }}"
         echo "Searching for untested Rego files in: $main_dir"
 
         no_test_files=$(find "$main_dir" -type f -name "*.rego" ! -name "*_test.rego" | while read file; do
