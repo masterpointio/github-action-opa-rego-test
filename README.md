@@ -62,7 +62,7 @@ jobs:
 
 </details>
 
-Be sure to always append the postfix to your test files. The default input for the `test_file_postfix` is `_test.rego`. If you have a different postfix for your test files, you can specify it in the inputs. This is how GitHub Action know what test to run on files.
+Be sure to always append the postfix to your test files. The default input for the `test_file_postfix` is `_test.rego`, per [OPA's best practices](https://www.openpolicyagent.org/docs/latest/policy-testing/#test-format). If you have a different postfix for your test files, you can specify it in the inputs. This is how GitHub Action know what test to run on files.
 
  For example, if you have a file named `my-policy.rego`, you would need a file named `my-policy_test.rego`. It does not matter where the `_test.rego` file is located, just that it is in the root path, meaning that it can be in a subdirectory.
 
