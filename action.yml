@@ -13,6 +13,10 @@ inputs:
     description: 'Path to the directory containing OPA Rego files to test. Default to root directory.'
     required: false
     default: '.'
+  test_file_postfix:
+    description: 'The postfix to use for test files. E.g. notification.rego <> notification_test.rego. Default is "_test".'
+    required: false
+    default: '_test'
   write_pr_comment:
     description: 'Flag to write an user friendly PR comment of the test results. Default of true.'
     required: false
@@ -26,7 +30,7 @@ inputs:
     required: false
     default: true
   report_untested_files:
-    description: 'Check & report in the PR comments of the Rego files that do not have any corresponding test files. For best conventions, append the postfix `_test` in your test file. E.g. `notification.rego` <> `notification_test.rego`'
+    description: 'Check & report in the PR comments of the Rego files that do not have any corresponding test files. For best conventions, append the postfix `_test` (or what you set as the `test_file_postfix` input) for your test file. E.g. `notification.rego` <> `notification_test.rego`'
     required: false
     default: false
 
@@ -43,11 +47,11 @@ runs:
       shell: bash
       run: |
         BASE_DIRECTORY_PATH="${{ inputs.path }}"
-        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*_test.rego")
+        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*${{ inputs.test_file_postfix }}.rego")
         output=""
         for test in $tests; do
             echo "Running test: $test"
-            base_name=$(basename "$test" _test.rego)
+            base_name=$(basename "$test" "${{ inputs.test_file_postfix }}.rego")
             test_dir=$(dirname "$test")
             impl_file=$(find "$test_dir" "$test_dir/.." -maxdepth 1 -type f -name "${base_name}.rego" | head -n1)
             if [ -n "$impl_file" ]; then
@@ -67,14 +71,13 @@ runs:
     - name: Run OPA Coverage Tests
       id: opa-coverage
       shell: bash
-      # OPA's CLI for testing and coverage isn't as smart as other languages. Have to manually test each file one by one, and we cannot pass in multiple files at once - you can, but if one fail, the rest won't run. That's not good because we want to test all files and report the result on those, even if one fails. It also cannot find all the files and corresponding test files, hence we have to manually find them dynamically with bash.
       run: |
         BASE_DIRECTORY_PATH="${{ inputs.path }}"
-        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*_test.rego")
+        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*${{ inputs.test_file_postfix }}.rego")
         output=""
         for test in $tests; do
             echo "Running coverage test: $test"
-            base_name=$(basename "$test" _test.rego)
+            base_name=$(basename "$test" "${{ inputs.test_file_postfix }}.rego")
             test_dir=$(dirname "$test")
             impl_file=$(find "$test_dir" "$test_dir/.." -maxdepth 1 -type f -name "${base_name}.rego" | head -n1)
             if [ -n "$impl_file" ]; then
@@ -99,11 +102,11 @@ runs:
         main_dir="${{ inputs.path }}"
         echo "Searching for untested Rego files in: $main_dir"
 
-        no_test_files=$(find "$main_dir" -type f -name "*.rego" ! -name "*_test.rego" | while read file; do
+        no_test_files=$(find "$main_dir" -type f -name "*.rego" ! -name "*${{ inputs.test_file_postfix }}.rego" | while read file; do
           base_name=$(basename "$file" .rego)
 
           # Search for a corresponding test file anywhere in the project
-          test_file=$(find "$main_dir" -type f -name "${base_name}_test.rego")
+          test_file=$(find "$main_dir" -type f -name "${base_name}${{ inputs.test_file_postfix }}.rego")
 
           if [ -z "$test_file" ]; then
             echo "$file"
@@ -122,8 +125,8 @@ runs:
       run: node ${{ github.action_path }}/dist/index.js
       shell: bash
       # We need to use `env` to pass the inputs into the script. Since this isn't running `with: node` (find the specifics)
-      # we cannot pass it in with 'inputs' in this workflow step with this composite action. THis is a workaround since
-      # GitHub Actions doesn't have a clean way of having a composite action use a custom action within the same repository.
+      # we cannot pass it in with 'inputs' in this workflow step with this composite action.
+      # GitHub Actions doesn't have a direct way of having a composite action use a custom action within the same repository.
       env:
         test_result: ${{ steps.opa-test.outputs.test_result }}
         coverage_result: ${{ steps.opa-coverage.outputs.coverage_result }}
