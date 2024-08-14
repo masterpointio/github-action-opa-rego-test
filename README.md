@@ -37,12 +37,6 @@ name: Spacelift Policy OPA Rego Tests
 
 on:
   pull_request:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - ready_for_review
-      - reopened
     # Optionally only trigger tests on affecting .rego files.
     # paths:
     #   - '**.rego'
@@ -53,7 +47,7 @@ permissions:
   pull-requests: write # required to comment on PRs
 
 jobs:
-  run-opa-tests:
+  opa-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -62,13 +56,15 @@ jobs:
       - name: Run OPA Rego Tests
         uses: masterpointio/github-action-opa-rego-test@main
         with:
-          test_directory_path: "./config/spacelift-policies" # Path of the directory where the OPA Rego policies are stored. Optional, defaults to `.` which is the root directory.
+          path: "./config/spacelift-policies" # Path of the directory where the OPA Rego policies are stored. Optional, defaults to `.` which is the root directory.
           report_untested_files: true # Flag to check & report Rego files without corresponding test files. Optional, defaults to false.
 ```
 
 </details>
 
-BE SURE TO ALWAYS APPEND THE POSTFIX `_test.rego` TO YOUR TEST FILES! This is how the GitHub Action know what test to run on files. For example, if you have a file named `my-policy.rego`, you would need a file named `my-policy_test.rego`. It does not matter where the `_test.rego` file is located, just that it is in the same directory as the `.rego` file, meaning that it can be in a subdirectory.
+Be sure to always append the postfix to your test files. The default input for the `test_file_postfix` is `_test`, per [OPA's best practices](https://www.openpolicyagent.org/docs/latest/policy-testing/#test-format). If you have a different postfix for your test files, you can specify it in the inputs. This is how GitHub Action know what test to run on files.
+
+ For example, if you have a file named `my-policy.rego`, you would need a file named `my-policy_test.rego`. It does not matter where the `_test.rego` file is located, just that it is in the root path, meaning that it can be in a subdirectory.
 
 In the example below, all `_test.rego` files' location are valid and will be executed.
 
@@ -77,7 +73,8 @@ In the example below, all `_test.rego` files' location are valid and will be exe
 ### Inputs
 | Input | Description | Required | Default |
 |-------|-------------|----------|---------|
-| `test_directory_path` | Path to the directory containing OPA Rego files to test | No | `.` (root directory) |
+| `path` | Path to the directory containing OPA Rego files to test | No | `.` (root directory) |
+| `test_file_postfix` | Postfix of the test files to run (e.g. notification.rego <> notification_test.rego) | No | `_test` |
 | `write_pr_comment` | Flag to write a user-friendly PR comment with test results | No | `true` |
 | `pr_comment_title` | Title of the PR comment for test results | No | `🧪 OPA Rego Policy Test Results` |
 | `run_coverage_report` | Flag to run OPA coverage tests and include in PR comment | No | `true` |
@@ -142,3 +139,5 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
   - one way is to PR comment error occured in the execution of the tests. please tak eal ook at the logs..
 - publish to marketplace
 - release please.
+- clean up bash script. optimization.
+- add outputs
