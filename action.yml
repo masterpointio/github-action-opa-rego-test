@@ -25,6 +25,9 @@ inputs:
     description: 'Title of the PR comment of the test results.'
     required: false
     default: '🧪 OPA Rego Policy Test Results'
+  pr_comment_mode:
+    description: Mode that will be used to update comment. Options of upsert (update in place) or recreate.
+    default: 'upsert'
   run_coverage_report:
     description: 'Flag to run OPA coverage tests and write to the PR. The `write_pr_comment` must be enabled for the coverage report to be written. Default of true.'
     required: false
@@ -137,7 +140,7 @@ runs:
 
     # Create (or update in-place) a PR comment of the test result output
     - name: Comment on PR
-      uses: thollander/actions-comment-pull-request@v2
+      uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
       # If `write_pr_comment` enabled, regardless of if test is success or fail, write the results of the failure.
       # Even if input is bool, it has to be treated as string bc of GH's behavior (https://github.com/actions/runner/issues/1483)
       if: inputs.write_pr_comment == 'true' && (success() || failure())
@@ -145,4 +148,4 @@ runs:
         message: |
           ${{ steps.parse-results.outputs.parsed_results }}
         comment_tag: opa-test-results
-        mode: upsert
+        mode: ${{ inputs.pr_comment_mode }}

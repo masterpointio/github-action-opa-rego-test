@@ -2,9 +2,9 @@
 
 # GitHub Action for OPA Rego Policy Tests <!--[![Latest Release](https://img.shields.io/github/release/masterpointio/github-action-opa-rego-test.svg)](https://github.com/masterpointio/github-action-opa-rego-test/releases/latest)-->
 
-GitHub Action to automate testing for your OPA (Open Policy Agent) Rego policies, generates a report with coverage information, and posts the test results as a comment on your pull requests.
+GitHub Action to automate testing for your OPA (Open Policy Agent) Rego policies, generates a report with coverage information, and posts the test results as a comment on your pull requests, making it easy for your team to review and approve policies.
 
-Use this to test your OPA Rego files for [Spacelift policies](https://docs.spacelift.io/concepts/policy), Kubernetes Admission Controller policies, Docker authorization policies, or any other use case that uses [Open Policy Agent's policy language Rego](https://www.openpolicyagent.org/docs/latest/).
+Use this to test your OPA Rego files for [Spacelift policies](https://docs.spacelift.io/concepts/policy), Kubernetes Admission Controller policies, Docker authorization policies, or any other use case that uses [Open Policy Agent's policy language Rego](https://www.openpolicyagent.org/docs/latest/). This Action also updates PR comments with the test results in place to prevent duplication.
 
 <img src="./assets/opa-logo.png" alt="OPA Logo" width="300">
 
@@ -23,7 +23,7 @@ See examples of the pull request comments below at the [Example Pull Request Com
 - [💬 Example Pull Request Comments](#-example-pull-request-comments)
 
 ## 🚀 Usage
-It's super easy to get started and use this GitHub Action to test your OPA Rego policies. In your repository/directory with the `.rego` files and the `_test.rego` files, simply checkout the repository and add the step with `uses: masterpointio/github-action-opa-rego-test@main`. It's as simple as adding the step with no required inputs!
+It's super easy to get started and use this GitHub Action to test your OPA Rego policies. In your repository/directory with the `.rego` files and the `_test.rego` files, simply checkout the repository and add the step with `uses: masterpointio/github-action-opa-rego-test@main`. It's as simple as adding the step with no required inputs! It will then generate a PR comment (that updates in place) with the test results!
 ```yaml
       - name: Run OPA Rego Tests
         uses: masterpointio/github-action-opa-rego-test@main
@@ -77,6 +77,7 @@ In the example below, all `_test.rego` files' location are valid and will be exe
 | `test_file_postfix` | Postfix of the test files to run (e.g. notification.rego <> notification_test.rego) | No | `_test` |
 | `write_pr_comment` | Flag to write a user-friendly PR comment with test results | No | `true` |
 | `pr_comment_title` | Title of the PR comment for test results | No | `🧪 OPA Rego Policy Test Results` |
+| `pr_comment_mode` | Mode that will be used to update comment. Options of upsert (update in place) or recreate. | No | `upsert` |
 | `run_coverage_report` | Flag to run OPA coverage tests and include in PR comment | No | `true` |
 | `report_untested_files` | Check & report Rego files without corresponding test files | No | `false` |
 
