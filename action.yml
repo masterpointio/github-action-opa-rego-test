@@ -36,6 +36,10 @@ inputs:
     description: 'Check & report in the PR comments of the Rego files that do not have any corresponding test files. For best conventions, append the postfix `_test` (or what you set as the `test_file_postfix` input) for your test file. E.g. `notification.rego` <> `notification_test.rego`'
     required: false
     default: false
+  opa_version:
+    description: 'Version of OPA CLI to use. Default is 0.67.1.'
+    required: false
+    default: '0.67.1'
 
 runs:
   using: 'composite'
@@ -43,7 +47,7 @@ runs:
     - name: Setup OPA
       uses: open-policy-agent/setup-opa@v2
       with:
-        version: 0.67.1
+        version: ${{ inputs.opa_version }}
 
     - name: Run OPA Tests
       id: opa-test

@@ -80,6 +80,7 @@ In the example below, all `_test.rego` files' location are valid and will be exe
 | `pr_comment_mode` | Mode that will be used to update comment. Options of upsert (update in place) or recreate. | No | `upsert` |
 | `run_coverage_report` | Flag to run OPA coverage tests and include in PR comment | No | `true` |
 | `report_untested_files` | Check & report Rego files without corresponding test files | No | `false` |
+| `opa_version` | Version of the OPA CLI to use. | No | `0.67.1` |
 
 ## ⚙️ How It Works
 This GitHub Action automates the process of testing OPA (Open Policy Agent) Rego policies and generating coverage reports. Here's a breakdown of its operation:
