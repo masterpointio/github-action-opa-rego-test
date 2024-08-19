@@ -1,0 +1,34 @@
+name: Trunk Upgrade
+
+on:
+  schedule:
+    # On the first day of every month @ 8am
+    - cron: 0 8 1 * *
+  workflow_dispatch: {}
+
+permissions: read-all
+
+jobs:
+  trunk-upgrade:
+    runs-on: ubuntu-latest
+    permissions:
+      # For trunk to create PRs
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 #v4.1.7
+
+      - name: Create Token for MasterpointBot App
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a #v2.1.0
+        id: generate-token
+        with:
+          app_id: ${{ secrets.MP_BOT_APP_ID }}
+          private_key: ${{ secrets.MP_BOT_APP_PRIVATE_KEY }}
+
+      - name: Upgrade
+        uses: trunk-io/trunk-action/upgrade@86b68ffae610a05105e90b1f52ad8c549ef482c2 #v1.1.16
+        with:
+          github-token: ${{ steps.generate-token.outputs.token }}
+          reviewers: "@masterpointio/masterpoint-internal"
+          prefix: "chore: "
