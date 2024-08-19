@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: trunk-io/trunk-action@v1
-  title-check:
+  conventional-commit-title-check:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
