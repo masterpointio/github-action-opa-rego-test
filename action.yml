@@ -40,6 +40,13 @@ inputs:
     description: 'Version of OPA CLI to use. Default is 0.67.1.'
     required: false
     default: '0.67.1'
+outputs:
+  parsed_results:
+    description: 'The parsed results after processing the tests and/or coverage report.'
+    value: ${{ steps.parse-results.outputs.parsed_results }}
+  tests_failed:
+    description: 'A `true` or `false` flag indicating if any of the tests failed or not.'
+    value: ${{ steps.parse-results.outputs.tests_failed }}
 
 runs:
   using: 'composite'
@@ -131,9 +138,6 @@ runs:
       id: parse-results
       run: node ${{ github.action_path }}/dist/index.js
       shell: bash
-      # We need to use `env` to pass the inputs into the script. Since this isn't running `with: node` (find the specifics)
-      # we cannot pass it in with 'inputs' in this workflow step with this composite action.
-      # GitHub Actions doesn't have a direct way of having a composite action use a custom action within the same repository.
       env:
         test_result: ${{ steps.opa-test.outputs.test_result }}
         coverage_result: ${{ steps.opa-coverage.outputs.coverage_result }}

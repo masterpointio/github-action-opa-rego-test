@@ -82,6 +82,19 @@ In the example below, all `_test.rego` files' location are valid and will be exe
 | `report_untested_files` | Check & report Rego files without corresponding test files | No | `false` |
 | `opa_version` | Version of the OPA CLI to use. | No | `0.67.1` |
 
+### Outputs
+<!-- write outputs like the above, for these outputs:
+  parsed_results:
+    description: 'The parsed results after processing the tests and/or coverage report.'
+    value: ${{ steps.parse-results.outputs.parsed_results }}
+  tests_failed:
+    description: 'A `true` or `false` flag indicating if any of the tests failed or not.'
+    value: ${{ steps.parse-results.outputs.tests_failed }}  -->
+| Output | Description
+|--------|------------
+| `parsed_results` | The parsed results after processing the tests and/or coverage report.
+| `tests_failed` | A `true` or `false` flag indicating if any of the tests failed or not.
+
 ## ⚙️ How It Works
 This GitHub Action automates the process of testing OPA (Open Policy Agent) Rego policies and generating coverage reports. Here's a breakdown of its operation:
 
@@ -140,6 +153,4 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
   - right now, it just exits code 2. not helpful and someone new to sys wouldn't know where to look at.
   - one way is to PR comment error occured in the execution of the tests. please tak eal ook at the logs..
 - publish to marketplace
-- release please.
 - clean up bash script. optimization.
-- add outputs
