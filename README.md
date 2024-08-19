@@ -157,8 +157,7 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 
 - make composite action logging better
 - add debug logs
-- more tests + fix tests
-- lint and ci tests
+- more tests + fix tests + run test on ci
 - deal with issues like
   - `1 error occurred: ./access/label-based-team-access.rego:35: rego_type_error: conflicting rules data.spacelift.deny found`
   - need better visibliity to when this happens and fails
