@@ -101,6 +101,19 @@ In the example below, all `_test.rego` files' location are valid and will be exe
 | `parsed_results` | The parsed results after processing the tests and/or coverage report.  |
 | `tests_failed`   | A `true` or `false` flag indicating if any of the tests failed or not. |
 
+### Outputs
+<!-- write outputs like the above, for these outputs:
+  parsed_results:
+    description: 'The parsed results after processing the tests and/or coverage report.'
+    value: ${{ steps.parse-results.outputs.parsed_results }}
+  tests_failed:
+    description: 'A `true` or `false` flag indicating if any of the tests failed or not.'
+    value: ${{ steps.parse-results.outputs.tests_failed }}  -->
+| Output | Description
+|--------|------------
+| `parsed_results` | The parsed results after processing the tests and/or coverage report.
+| `tests_failed` | A `true` or `false` flag indicating if any of the tests failed or not.
+
 ## ⚙️ How It Works
 
 This GitHub Action automates the process of testing OPA (Open Policy Agent) Rego policies and generating coverage reports. Here's a breakdown of its operation:
