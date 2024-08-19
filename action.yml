@@ -1,55 +1,55 @@
-name: 'OPA Test and Coverage Report GitHub Actions'
-description: 'Run OPA tests and generate coverage report for PRs. Test your OPA Rego policies!'
-author: ''
+name: "OPA Test and Coverage Report GitHub Actions"
+description: "Run OPA tests and generate coverage report for PRs. Test your OPA Rego policies!"
+author: ""
 
 #
 
 branding:
-  icon: 'check-circle'
-  color: 'green'
+  icon: "check-circle"
+  color: "green"
 
 inputs:
   path:
-    description: 'Path to the directory containing OPA Rego files to test. Default to root directory.'
+    description: "Path to the directory containing OPA Rego files to test. Default to root directory."
     required: false
-    default: '.'
+    default: "."
   test_file_postfix:
     description: 'The postfix to use for test files. E.g. notification.rego <> notification_test.rego. Default is "_test".'
     required: false
-    default: '_test'
+    default: "_test"
   write_pr_comment:
-    description: 'Flag to write an user friendly PR comment of the test results. Default of true.'
+    description: "Flag to write an user friendly PR comment of the test results. Default of true."
     required: false
     default: true
   pr_comment_title:
-    description: 'Title of the PR comment of the test results.'
+    description: "Title of the PR comment of the test results."
     required: false
-    default: '🧪 OPA Rego Policy Test Results'
+    default: "🧪 OPA Rego Policy Test Results"
   pr_comment_mode:
     description: Mode that will be used to update comment. Options of upsert (update in place) or recreate.
-    default: 'upsert'
+    default: "upsert"
   run_coverage_report:
-    description: 'Flag to run OPA coverage tests and write to the PR. The `write_pr_comment` must be enabled for the coverage report to be written. Default of true.'
+    description: "Flag to run OPA coverage tests and write to the PR. The `write_pr_comment` must be enabled for the coverage report to be written. Default of true."
     required: false
     default: true
   report_untested_files:
-    description: 'Check & report in the PR comments of the Rego files that do not have any corresponding test files. For best conventions, append the postfix `_test` (or what you set as the `test_file_postfix` input) for your test file. E.g. `notification.rego` <> `notification_test.rego`'
+    description: "Check & report in the PR comments of the Rego files that do not have any corresponding test files. For best conventions, append the postfix `_test` (or what you set as the `test_file_postfix` input) for your test file. E.g. `notification.rego` <> `notification_test.rego`"
     required: false
     default: false
   opa_version:
-    description: 'Version of OPA CLI to use. Default is 0.67.1.'
+    description: "Version of OPA CLI to use. Default is 0.67.1."
     required: false
-    default: '0.67.1'
+    default: "0.67.1"
 outputs:
   parsed_results:
-    description: 'The parsed results after processing the tests and/or coverage report.'
+    description: The parsed results after processing the tests and/or coverage report.
     value: ${{ steps.parse-results.outputs.parsed_results }}
   tests_failed:
-    description: 'A `true` or `false` flag indicating if any of the tests failed or not.'
+    description: A `true` or `false` flag indicating if any of the tests failed or not.
     value: ${{ steps.parse-results.outputs.tests_failed }}
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Setup OPA
       uses: open-policy-agent/setup-opa@v2
