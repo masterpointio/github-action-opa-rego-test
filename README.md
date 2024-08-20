@@ -126,7 +126,7 @@ You can use [nektos/act](https://github.com/nektos/act) to simulate and run a Gi
 
 This Action executes the source from the `/dist` directory. It is generated using [@vercel/ncc](https://github.com/vercel/ncc) to easily compile the TypeScript module into a single file together with all its dependencies, gcc-style, to package it up for use and distribute.
 
-To use, simply run the command (see the source in `package.json`):
+To package for distribution, simply run the command which will do the above and generate into the `/dist` directory (see the source in `package.json`):
 
 ```bash
 npm run build
@@ -156,4 +156,4 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
   - right now, it just exits code 2. not helpful and someone new to sys wouldn't know where to look at.
   - one way is to PR comment error occured in the execution of the tests. please tak eal ook at the logs..
 - publish to marketplace
-- clean up bash script. optimization.
+- codeowners

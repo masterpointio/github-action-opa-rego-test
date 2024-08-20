@@ -56,56 +56,39 @@ runs:
       with:
         version: ${{ inputs.opa_version }}
 
-    - name: Run OPA Tests
-      id: opa-test
+    - name: Run OPA Tests and Coverage
+      id: opa-test-coverage
       shell: bash
       run: |
         BASE_DIRECTORY_PATH="${{ inputs.path }}"
         tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*${{ inputs.test_file_postfix }}.rego")
-        output=""
+        test_output=""
+        coverage_output=""
         for test in $tests; do
-            echo "Running test: $test"
+            echo "Running test and coverage: $test"
             base_name=$(basename "$test" "${{ inputs.test_file_postfix }}.rego")
             test_dir=$(dirname "$test")
             impl_file=$(find "$test_dir" "$test_dir/.." -maxdepth 1 -type f -name "${base_name}.rego" | head -n1)
             if [ -n "$impl_file" ]; then
                 echo "Found implementation file: $impl_file"
-                result=$(opa test -v "$test" "$impl_file" || true)
-                output+="$result"$'\n\n'
+                test_result=$(opa test -v "$test" "$impl_file" || true)
+                coverage_result=$(opa test --coverage "$test" "$impl_file" || true)
+                test_output+="$test_result"$'\n\n'
+                coverage_output+="$coverage_result"$'\n\n'
             else
                 echo "Error: Implementation file not found for test: $test"
-                output+="Error: Implementation file not found for test: $test"$'\n\n'
+                error_message="Error: Implementation file not found for test: $test"$'\n\n'
+                test_output+="$error_message"
+                coverage_output+="$error_message"
             fi
         done
-        echo "$output"
+        echo "$test_output"
+        echo "$coverage_output"
         echo "test_result<<EOF" >> $GITHUB_OUTPUT
-        echo "$output" >> $GITHUB_OUTPUT
+        echo "$test_output" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
-
-    - name: Run OPA Coverage Tests
-      id: opa-coverage
-      shell: bash
-      run: |
-        BASE_DIRECTORY_PATH="${{ inputs.path }}"
-        tests=$(find "$BASE_DIRECTORY_PATH" -type f -name "*${{ inputs.test_file_postfix }}.rego")
-        output=""
-        for test in $tests; do
-            echo "Running coverage test: $test"
-            base_name=$(basename "$test" "${{ inputs.test_file_postfix }}.rego")
-            test_dir=$(dirname "$test")
-            impl_file=$(find "$test_dir" "$test_dir/.." -maxdepth 1 -type f -name "${base_name}.rego" | head -n1)
-            if [ -n "$impl_file" ]; then
-                echo "Found implementation file: $impl_file"
-                result=$(opa test --coverage "$test" "$impl_file" || true)
-                output+="$result"$'\n\n'
-            else
-                echo "Error: Implementation file not found for coverage test: $test"
-                output+="Error: Implementation file not found for coverage test: $test"$'\n\n'
-            fi
-        done
-        echo "$output"
         echo "coverage_result<<EOF" >> $GITHUB_OUTPUT
-        echo "$output" >> $GITHUB_OUTPUT
+        echo "$coverage_output" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
 
     - name: Find Rego files without tests
@@ -139,8 +122,8 @@ runs:
       run: node ${{ github.action_path }}/dist/index.js
       shell: bash
       env:
-        test_result: ${{ steps.opa-test.outputs.test_result }}
-        coverage_result: ${{ steps.opa-coverage.outputs.coverage_result }}
+        test_result: ${{ steps.opa-test-coverage.outputs.test_result }}
+        coverage_result: ${{ steps.opa-test-coverage.outputs.coverage_result }}
         report_untested_files: ${{ inputs.report_untested_files }}
         no_test_files: ${{ steps.find-no-test.outputs.no_test_files }}
         pr_comment_title: ${{ inputs.pr_comment_title }}
