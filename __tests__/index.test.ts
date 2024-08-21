@@ -75,7 +75,7 @@ describe("OPA Rego Test Parser and Formatter", () => {
     it("should correctly format results with coverage", () => {
       const testResults: TestResult[] = [
         {
-          file: "test_file.rego",
+          file: "./examples/impl_file_test.rego",
           status: "PASS",
           passed: 5,
           total: 5,
@@ -84,7 +84,7 @@ describe("OPA Rego Test Parser and Formatter", () => {
       ];
       const coverageResults: CoverageResult[] = [
         {
-          file: "test_file.rego",
+          file: "./examples/impl_file.rego",
           coverage: 90,
           notCoveredLines: "10-12",
         },
@@ -94,9 +94,8 @@ describe("OPA Rego Test Parser and Formatter", () => {
       expect(result).toContain(
         "| File | Status | Passed | Total | Coverage | Details |",
       );
-      expect(result).toContain("| test_file.rego | ✅ PASS | 5 | 5 | 90.00% |");
       expect(result).toContain(
-        "<details><summary>Uncovered Lines</summary>10-12</details>",
+        "| ./examples/impl_file_test.rego | ✅ PASS | 5 | 5 | 90.00% <details><summary>Uncovered Lines</summary>10-12</details>",
       );
       expect(result).toContain(
         "<details><summary>Show Details</summary>✅ test1<br>✅ test2<br>✅ test3<br>✅ test4<br>✅ test5</details>",
