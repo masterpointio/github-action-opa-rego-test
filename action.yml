@@ -114,7 +114,7 @@ runs:
         echo "$no_test_files" >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
 
-        echo "Search complete."
+        echo "Search complete, found the following Rego files without tests: $no_test_files"
 
     # Parse and format the test results which will be consumed by the following step to comment on the PR.
     - name: "Parse & Format Results from Tests"
