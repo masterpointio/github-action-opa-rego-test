@@ -109,6 +109,8 @@ This GitHub Action automates the process of testing OPA (Open Policy Agent) Rego
 
 ## 🧪 Running Tests
 
+On each pull request, there is a GitHub Actions workflow that runs the tests automatically, along with it testing itself by running the Action on itself against the `/examples` directory and commenting the OPA results on the same PR. To test locally, see below:
+
 1. `npm install`
 2. `npm run test`
 

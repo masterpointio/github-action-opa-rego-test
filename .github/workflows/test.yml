@@ -21,3 +21,20 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test
+
+  test-action-on-itself:
+    name: Test the GitHub Action on itself
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action
+        id: test-action
+        uses: ./
+        with:
+          path: ./examples
+          report_untested_files: true
+          pr_comment_title: "Below is the Action testing on itself with this PR's source code against the `/examples` directory. Confirm it is as expected."
