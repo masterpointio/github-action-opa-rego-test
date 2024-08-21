@@ -1,0 +1,6 @@
+./examples/tests/failed_test.rego:
+data.spacelift.test_1: PASS (100µs)
+data.spacelift.test_2: FAIL (150µs)
+data.spacelift.test_3: PASS (120µs)
+--------------------------------------------------------------------------------
+PASS: 2/3
