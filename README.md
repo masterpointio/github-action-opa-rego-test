@@ -155,3 +155,4 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
   - right now, it just exits code 2. not helpful and someone new to sys wouldn't know where to look at.
   - one way is to PR comment error occured in the execution of the tests. please tak eal ook at the logs..
 - publish to marketplace
+- add a little something at the bottom, generated with action by Masterpoint? user can turn off.
