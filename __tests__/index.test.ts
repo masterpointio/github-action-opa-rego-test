@@ -31,7 +31,6 @@ describe("OPA Rego Test Parser and Formatter", () => {
         details: expect.arrayContaining([
           "✅ data.spacelift.test_affected_no_files",
           "✅ data.spacelift.test_affected_tf_files",
-          // ... other test names
         ]),
       });
     });
