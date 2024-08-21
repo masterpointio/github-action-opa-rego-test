@@ -6,128 +6,119 @@ import {
   CoverageResult,
 } from "../src/index";
 
-describe("parseTestOutput", () => {
-  it("should correctly parse test output", () => {
-    const testOutput = `
-./policy/enforce-password-length.rego:
-data.policy.enforce_password_length.test_valid_password: PASS (328.208µs)
-data.policy.enforce_password_length.test_invalid_password: PASS (163.75µs)
-./policy/enforce-password-complexity.rego:
-data.policy.enforce_password_complexity.test_valid_password: PASS (379.25µs)
-data.policy.enforce_password_complexity.test_invalid_password: FAIL (163.75µs)
-    `;
+import * as path from "path";
+import * as fs from "fs";
 
-    const result = parseTestOutput(testOutput);
+const testOutput = fs.readFileSync(
+  path.join(__dirname, "sample_test_output.txt"),
+  "utf8",
+);
+const coverageOutput = fs.readFileSync(
+  path.join(__dirname, "sample_coverage_output.txt"),
+  "utf8",
+);
 
-    expect(result).toEqual([
-      {
-        file: "./policy/enforce-password-length.rego:",
+describe("OPA Rego Test Parser and Formatter", () => {
+  describe("parseTestOutput", () => {
+    it("should correctly parse test output", () => {
+      const result = parseTestOutput(testOutput);
+      expect(result).toHaveLength(8);
+      expect(result[0]).toEqual({
+        file: "./examples/tests/ignore-changes-outside-root_test.rego",
         status: "PASS",
-        passed: 2,
-        total: 2,
-        details: [
-          "✅ data.policy.enforce_password_length.test_valid_password",
-          "✅ data.policy.enforce_password_length.test_invalid_password",
-        ],
-      },
-      {
-        file: "./policy/enforce-password-complexity.rego:",
-        status: "FAIL",
-        passed: 1,
-        total: 2,
-        details: [
-          "✅ data.policy.enforce_password_complexity.test_valid_password",
-          "❌ data.policy.enforce_password_complexity.test_invalid_password",
-        ],
-      },
-    ] as TestResult[]);
-  });
-});
+        passed: 12,
+        total: 12,
+        details: expect.arrayContaining([
+          "✅ data.spacelift.test_affected_no_files",
+          "✅ data.spacelift.test_affected_tf_files",
+          // ... other test names
+        ]),
+      });
+    });
 
-describe("parseCoverageOutput", () => {
-  it("should correctly parse coverage output", () => {
-    const coverageOutput = `
-{
-"files": {
-"enforce-password-length.rego": {
-"coverage": 85.71428571428571,
-"not_covered": [
-{
-"start": {
-"row": 25
-},
-"end": {
-"row": 25
-}
-},
-{
-"start": {
-"row": 31
-},
-"end": {
-"row": 31
-}
-}
-]
-}
-}
-}
-    `;
+    it("should handle empty input", () => {
+      const result = parseTestOutput("");
+      expect(result).toEqual([]);
+    });
 
-    const result = parseCoverageOutput(coverageOutput);
-
-    expect(result).toEqual([
-      {
-        file: "enforce-password-length.rego",
-        coverage: 85.71428571428571,
-        notCoveredLines: "25, 31",
-      },
-    ] as CoverageResult[]);
-  });
-});
-
-describe("formatResults", () => {
-  it("should format results correctly with coverage", () => {
-    const testResults: TestResult[] = [
-      {
-        file: "./policy/enforce-password-length.rego:",
-        status: "PASS",
-        passed: 2,
-        total: 2,
-        details: ["✅ test1", "✅ test2"],
-      },
-    ];
-
-    const coverageResults: CoverageResult[] = [
-      {
-        file: "enforce-password-length.rego",
-        coverage: 85.71,
-        notCoveredLines: "25, 31",
-      },
-    ];
-
-    const formattedOutput = formatResults(testResults, coverageResults, true);
-
-    expect(formattedOutput).toContain(
-      "| ./policy/enforce-password-length.rego | ✅ PASS | 2 | 2 | 85.71% <details><summary>Uncovered Lines</summary>25, 31</details> |",
-    );
+    it("should handle input with no test results", () => {
+      const result = parseTestOutput(
+        "Some random text\nwithout any test results",
+      );
+      expect(result).toEqual([]);
+    });
   });
 
-  it("should format results correctly without coverage", () => {
-    const testResults: TestResult[] = [
-      {
-        file: "./policy/enforce-password-length.rego:",
-        status: "PASS",
-        passed: 2,
-        total: 2,
-        details: ["✅ test1", "✅ test2"],
-      },
-    ];
+  describe("parseCoverageOutput", () => {
+    it("should correctly parse coverage output", () => {
+      const result = parseCoverageOutput(coverageOutput);
+      expect(result).toHaveLength(16);
+      expect(result[0]).toEqual({
+        file: "./examples/tests/../ignore-changes-outside-root.rego",
+        coverage: 92.85714285714286,
+        notCoveredLines: "40",
+      });
+    });
 
-    const formattedOutput = formatResults(testResults, [], false);
+    it("should handle empty input", () => {
+      const result = parseCoverageOutput("");
+      expect(result).toEqual([]);
+    });
 
-    expect(formattedOutput).toContain(
-      "| ./policy/enforce-password-length.rego | ✅ PASS | 2 | 2 |",
-    );
+    it("should handle input with no coverage data", () => {
+      const result = parseCoverageOutput('{"files":{}}');
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe("formatResults", () => {
+    it("should correctly format results with coverage", () => {
+      const testResults: TestResult[] = [
+        {
+          file: "test_file.rego",
+          status: "PASS",
+          passed: 5,
+          total: 5,
+          details: ["✅ test1", "✅ test2", "✅ test3", "✅ test4", "✅ test5"],
+        },
+      ];
+      const coverageResults: CoverageResult[] = [
+        {
+          file: "test_file.rego",
+          coverage: 90,
+          notCoveredLines: "10-12",
+        },
+      ];
+      const result = formatResults(testResults, coverageResults, true);
+      expect(result).toContain("# 🧪 OPA Rego Policy Test Results");
+      expect(result).toContain(
+        "| File | Status | Passed | Total | Coverage | Details |",
+      );
+      expect(result).toContain("| test_file.rego | ✅ PASS | 5 | 5 | 90.00% |");
+      expect(result).toContain(
+        "<details><summary>Uncovered Lines</summary>10-12</details>",
+      );
+      expect(result).toContain(
+        "<details><summary>Show Details</summary>✅ test1<br>✅ test2<br>✅ test3<br>✅ test4<br>✅ test5</details>",
+      );
+    });
+
+    it("should correctly format results without coverage", () => {
+      const testResults: TestResult[] = [
+        {
+          file: "test_file.rego",
+          status: "FAIL",
+          passed: 4,
+          total: 5,
+          details: ["✅ test1", "✅ test2", "✅ test3", "✅ test4", "❌ test5"],
+        },
+      ];
+      const result = formatResults(testResults, [], false);
+      expect(result).toContain("# 🧪 OPA Rego Policy Test Results");
+      expect(result).toContain("| File | Status | Passed | Total | Details |");
+      expect(result).toContain(
+        "| test_file.rego | ❌ FAIL | 4 | 5 | <details><summary>Show Details</summary>✅ test1<br>✅ test2<br>✅ test3<br>✅ test4<br>❌ test5</details> |",
+      );
+    });
   });
 });
