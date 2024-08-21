@@ -32,6 +32,7 @@ describe("parseTestOutput", () => {
   it("should correctly parse test output", () => {
     const result = parseTestOutput(testOutput);
     expect(result).toHaveLength(8);
+
     expect(result[0]).toEqual({
       file: "./examples/tests/ignore-changes-outside-root_test.rego",
       status: "PASS",
@@ -117,11 +118,65 @@ describe("parseTestOutput", () => {
 describe("parseCoverageOutput", () => {
   it("should correctly parse coverage output", () => {
     const result = parseCoverageOutput(coverageOutput);
-    expect(result).toHaveLength(16);
+
+    // Test for ignore-changes-outside-root.rego
     expect(result[0]).toEqual({
       file: "./examples/tests/../ignore-changes-outside-root.rego",
       coverage: 92.85714285714286,
       notCoveredLines: "40",
+    });
+
+    // Test for ignore-changes-outside-root_test.rego
+    // THIS IS NOT THE OUTPUT USED!
+    expect(result[1]).toEqual({
+      file: "./examples/tests/ignore-changes-outside-root_test.rego",
+      coverage: 97.43589743589743,
+      notCoveredLines: "",
+    });
+
+    // Test for track-using-labels.rego
+    expect(result[2]).toEqual({
+      file: "./examples/tests/../track-using-labels.rego",
+      coverage: 45.45454545454545,
+      notCoveredLines: "3, 5, 12-13, 23-26, 35, 37-38, 41",
+    });
+
+    // Test for track-using-labels_test.rego
+    // THIS IS NOT THE OUTPUT USED!
+    expect(result[3]).toEqual({
+      file: "./examples/tests/track-using-labels_test.rego",
+      coverage: 76.47058823529412,
+      notCoveredLines: "",
+    });
+
+    // Test for enforce-password-length.rego
+    expect(result[4]).toEqual({
+      file: "./examples/tests/../enforce-password-length.rego",
+      coverage: 90.9090909090909,
+      notCoveredLines: "29",
+    });
+
+    // Test for enforce-password-length_test.rego
+    // THIS IS NOT THE OUTPUT USED!
+    expect(result[5]).toEqual({
+      file: "./examples/tests/enforce-password-length_test.rego",
+      coverage: 94.11764705882354,
+      notCoveredLines: "",
+    });
+
+    // Test for notification-stack-failure-origins.rego
+    expect(result[6]).toEqual({
+      file: "./examples/tests/../notification-stack-failure-origins.rego",
+      coverage: 96.66666666666667,
+      notCoveredLines: "80",
+    });
+
+    // Test for notification-stack-failure-origins_test.rego
+    // THIS IS NOT THE OUTPUT USED!
+    expect(result[7]).toEqual({
+      file: "./examples/tests/notification-stack-failure-origins_test.rego",
+      coverage: 98.46153846153847,
+      notCoveredLines: "",
     });
   });
 
@@ -142,6 +197,40 @@ describe("parseCoverageOutput", () => {
       file: "./examples/test.rego",
       coverage: 80,
       notCoveredLines: "10-12, 15",
+    });
+  });
+
+  it("should correctly handle files with a single uncovered line", () => {
+    const result = parseCoverageOutput(coverageOutput);
+    const singleUncoveredLineFile = result.find(
+      (r) => r.file === "./examples/tests/../cancel-in-progress-runs.rego",
+    );
+    expect(singleUncoveredLineFile).toBeDefined();
+    expect(singleUncoveredLineFile?.notCoveredLines).toBe("16");
+  });
+
+  it("should correctly handle files with multiple uncovered single line ranges", () => {
+    const result = parseCoverageOutput(coverageOutput);
+    const multipleUncoveredRangesFile = result.find(
+      (r) => r.file === "./examples/tests/../readers-writers-admins-teams.rego",
+    );
+    expect(multipleUncoveredRangesFile).toBeDefined();
+    expect(multipleUncoveredRangesFile?.notCoveredLines).toBe("16, 24, 28");
+  });
+
+  it("should handle files with 'Coverage test failed' message", () => {
+    const failedCoverageOutput = `
+      Coverage test failed for ./examples/failed_coverage_test.rego
+      {
+        "files": {}
+      }
+    `;
+    const result = parseCoverageOutput(failedCoverageOutput);
+    expect(result).toHaveLength(1);
+    expect(result[0]).toEqual({
+      file: "./examples/failed_coverage_test.rego",
+      coverage: 0,
+      notCoveredLines: "N/A",
     });
   });
 });
