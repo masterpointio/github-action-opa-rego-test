@@ -37,4 +37,4 @@ jobs:
         with:
           path: ./examples
           report_untested_files: true
-          pr_comment_title: "Below is the Action testing on itself with this PR's source code against the `/examples` directory. Confirm it is as expected."
+          pr_comment_title: Below is the Action testing on itself with this PR's source code against the `/examples` directory. Confirm it is as expected.
