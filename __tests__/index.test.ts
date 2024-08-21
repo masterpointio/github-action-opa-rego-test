@@ -56,17 +56,60 @@ describe("parseTestOutput", () => {
 
   it("should correctly parse failed tests", () => {
     const result = parseTestOutput(failedTestOutput);
-    expect(result).toHaveLength(1);
+    expect(result).toHaveLength(3);
     expect(result[0]).toEqual({
-      file: "./examples/tests/failed_test.rego",
+      file: "./opa-policies-with-different-postfix/approval-outside-working-hours.test.rego",
       status: "FAIL",
-      passed: 2,
-      total: 3,
-      details: expect.arrayContaining([
-        "✅ data.spacelift.test_1",
-        "❌ data.spacelift.test_2",
-        "✅ data.spacelift.test_3",
-      ]),
+      passed: 6,
+      total: 7,
+      details: [
+        "✅ data.spacelift.test_automatic_approve_weekday_morning",
+        "✅ data.spacelift.test_required_approval_weekday_evening",
+        "❌ data.spacelift.test_missing_approval_weekday_evening",
+        "✅ data.spacelift.test_required_approval_weekend",
+        "✅ data.spacelift.test_missing_approval_weekend",
+        "✅ data.spacelift.test_rejection_due_to_review",
+        "✅ data.spacelift.test_no_rejection_when_no_review",
+      ],
+    });
+  });
+
+  it("should correctly parse mixed test results from different files", () => {
+    const result = parseTestOutput(failedTestOutput);
+    expect(result).toHaveLength(3);
+
+    expect(result[0]).toEqual({
+      file: "./opa-policies-with-different-postfix/approval-outside-working-hours.test.rego",
+      status: "FAIL",
+      passed: 6,
+      total: 7,
+      details: [
+        "✅ data.spacelift.test_automatic_approve_weekday_morning",
+        "✅ data.spacelift.test_required_approval_weekday_evening",
+        "❌ data.spacelift.test_missing_approval_weekday_evening",
+        "✅ data.spacelift.test_required_approval_weekend",
+        "✅ data.spacelift.test_missing_approval_weekend",
+        "✅ data.spacelift.test_rejection_due_to_review",
+        "✅ data.spacelift.test_no_rejection_when_no_review",
+      ],
+    });
+
+    expect(result[1]).toEqual({
+      file: "./opa-policies-with-different-postfix/notification-failure.test.rego",
+      status: "PASS",
+      passed: 1,
+      total: 1,
+      details: ["✅ data.spacelift_test.test_run_failed_with_reject"],
+    });
+
+    expect(result[2]).toEqual({
+      file: "./opa-policies-with-different-postfix/enforce-password-length.test.rego",
+      status: "PASS",
+      passed: 1,
+      total: 1,
+      details: [
+        "✅ data.spacelift.test_allow_creation_of_password_longer_than_20_characters",
+      ],
     });
   });
 });

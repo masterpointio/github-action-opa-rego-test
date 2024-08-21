@@ -1,6 +1,40 @@
-./examples/tests/failed_test.rego:
-data.spacelift.test_1: PASS (100µs)
-data.spacelift.test_2: FAIL (150µs)
-data.spacelift.test_3: PASS (120µs)
+FAILURES
 --------------------------------------------------------------------------------
-PASS: 2/3
+data.spacelift.test_missing_approval_weekday_evening: FAIL (353.929µs)
+
+  query:1                                                                Enter data.spacelift.test_missing_approval_weekday_evening = _
+  ./...fferent-postfix/approval-outside-working-hours.test.rego:27       | Enter data.spacelift.test_missing_approval_weekday_evening
+  ./...fferent-postfix/approval-outside-working-hours.rego:11            | | Enter data.spacelift.approve
+  ./...fferent-postfix/approval-outside-working-hours.rego:13            | | | Fail lte(__local17__, 17)
+  ./...fferent-postfix/approval-outside-working-hours.rego:18            | | Enter data.spacelift.approve
+  ./...fferent-postfix/approval-outside-working-hours.rego:20            | | | Fail gte(__local2__, 1)
+  ./...fferent-postfix/approval-outside-working-hours.rego:23            | | Enter data.spacelift.approve
+  ./...fferent-postfix/approval-outside-working-hours.rego:24            | | | Fail lt(__local20__, 9)
+  ./...fferent-postfix/approval-outside-working-hours.rego:29            | | Enter data.spacelift.approve
+  ./...fferent-postfix/approval-outside-working-hours.rego:30            | | | Fail data.spacelift.weekend[__local22__]
+  ./...fferent-postfix/approval-outside-working-hours.test.rego:28       | | Fail data.spacelift.approve with input as __local9__
+  query:1                                                                | Fail data.spacelift.test_missing_approval_weekday_evening = _
+
+SUMMARY
+--------------------------------------------------------------------------------
+./opa-policies-with-different-postfix/approval-outside-working-hours.test.rego:
+data.spacelift.test_automatic_approve_weekday_morning: PASS (1.097417ms)
+data.spacelift.test_required_approval_weekday_evening: PASS (341.116µs)
+data.spacelift.test_missing_approval_weekday_evening: FAIL (353.929µs)
+data.spacelift.test_required_approval_weekend: PASS (309.256µs)
+data.spacelift.test_missing_approval_weekend: PASS (411.307µs)
+data.spacelift.test_rejection_due_to_review: PASS (214.229µs)
+data.spacelift.test_no_rejection_when_no_review: PASS (207.487µs)
+--------------------------------------------------------------------------------
+PASS: 6/7
+FAIL: 1/7
+
+./opa-policies-with-different-postfix/notification-failure.test.rego:
+data.spacelift_test.test_run_failed_with_reject: PASS (808.588µs)
+--------------------------------------------------------------------------------
+PASS: 1/1
+
+./opa-policies-with-different-postfix/enforce-password-length.test.rego:
+data.spacelift.test_allow_creation_of_password_longer_than_20_characters: PASS (387.612µs)
+--------------------------------------------------------------------------------
+PASS: 1/1
