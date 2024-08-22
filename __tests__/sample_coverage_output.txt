@@ -1,0 +1,1263 @@
+{
+  "files": {
+    "./examples/tests/../ignore-changes-outside-root.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 16
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 20
+          },
+          "end": {
+            "row": 21
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 31
+          },
+          "end": {
+            "row": 32
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 35
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 40
+          },
+          "end": {
+            "row": 40
+          }
+        }
+      ],
+      "covered_lines": 13,
+      "not_covered_lines": 1,
+      "coverage": 92.85714285714286
+    },
+    "./examples/tests/ignore-changes-outside-root_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 3
+          },
+          "end": {
+            "row": 4
+          }
+        },
+        {
+          "start": {
+            "row": 10
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 31
+          },
+          "end": {
+            "row": 32
+          }
+        },
+        {
+          "start": {
+            "row": 35
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 40
+          }
+        },
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 45
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 49
+          }
+        },
+        {
+          "start": {
+            "row": 52
+          },
+          "end": {
+            "row": 52
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 58
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 65
+          },
+          "end": {
+            "row": 66
+          }
+        }
+      ],
+      "covered_lines": 25,
+      "coverage": 100
+    }
+  },
+  "covered_lines": 38,
+  "not_covered_lines": 1,
+  "coverage": 97.43589743589743
+}
+
+{
+  "files": {
+    "./examples/tests/../track-using-labels.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 4
+          },
+          "end": {
+            "row": 4
+          }
+        },
+        {
+          "start": {
+            "row": 8
+          },
+          "end": {
+            "row": 9
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 29
+          }
+        },
+        {
+          "start": {
+            "row": 31
+          },
+          "end": {
+            "row": 32
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 3
+          },
+          "end": {
+            "row": 3
+          }
+        },
+        {
+          "start": {
+            "row": 5
+          },
+          "end": {
+            "row": 5
+          }
+        },
+        {
+          "start": {
+            "row": 12
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 23
+          },
+          "end": {
+            "row": 26
+          }
+        },
+        {
+          "start": {
+            "row": 35
+          },
+          "end": {
+            "row": 35
+          }
+        },
+        {
+          "start": {
+            "row": 37
+          },
+          "end": {
+            "row": 38
+          }
+        },
+        {
+          "start": {
+            "row": 41
+          },
+          "end": {
+            "row": 41
+          }
+        }
+      ],
+      "covered_lines": 10,
+      "not_covered_lines": 12,
+      "coverage": 45.45454545454545
+    },
+    "./examples/tests/track-using-labels_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 4
+          },
+          "end": {
+            "row": 4
+          }
+        },
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        },
+        {
+          "start": {
+            "row": 8
+          },
+          "end": {
+            "row": 8
+          }
+        },
+        {
+          "start": {
+            "row": 13
+          },
+          "end": {
+            "row": 14
+          }
+        },
+        {
+          "start": {
+            "row": 21
+          },
+          "end": {
+            "row": 22
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 37
+          },
+          "end": {
+            "row": 40
+          }
+        },
+        {
+          "start": {
+            "row": 45
+          },
+          "end": {
+            "row": 48
+          }
+        },
+        {
+          "start": {
+            "row": 53
+          },
+          "end": {
+            "row": 56
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 64
+          }
+        },
+        {
+          "start": {
+            "row": 69
+          },
+          "end": {
+            "row": 72
+          }
+        }
+      ],
+      "covered_lines": 29,
+      "coverage": 100
+    }
+  },
+  "covered_lines": 39,
+  "not_covered_lines": 12,
+  "coverage": 76.47058823529412
+}
+
+{
+  "files": {
+    "./examples/tests/../enforce-password-length.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 16
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 21
+          },
+          "end": {
+            "row": 24
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 29
+          }
+        }
+      ],
+      "covered_lines": 10,
+      "not_covered_lines": 1,
+      "coverage": 90.9090909090909
+    },
+    "./examples/tests/enforce-password-length_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 4
+          },
+          "end": {
+            "row": 5
+          }
+        },
+        {
+          "start": {
+            "row": 16
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 28
+          },
+          "end": {
+            "row": 29
+          }
+        }
+      ],
+      "covered_lines": 6,
+      "coverage": 100
+    }
+  },
+  "covered_lines": 16,
+  "not_covered_lines": 1,
+  "coverage": 94.11764705882354
+}
+
+{
+  "files": {
+    "./examples/tests/../notification-stack-failure-origins.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 8
+          },
+          "end": {
+            "row": 8
+          }
+        },
+        {
+          "start": {
+            "row": 10
+          },
+          "end": {
+            "row": 10
+          }
+        },
+        {
+          "start": {
+            "row": 15
+          },
+          "end": {
+            "row": 15
+          }
+        },
+        {
+          "start": {
+            "row": 20
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 23
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 28
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 35
+          },
+          "end": {
+            "row": 35
+          }
+        },
+        {
+          "start": {
+            "row": 37
+          },
+          "end": {
+            "row": 38
+          }
+        },
+        {
+          "start": {
+            "row": 45
+          },
+          "end": {
+            "row": 45
+          }
+        },
+        {
+          "start": {
+            "row": 47
+          },
+          "end": {
+            "row": 50
+          }
+        },
+        {
+          "start": {
+            "row": 54
+          },
+          "end": {
+            "row": 55
+          }
+        },
+        {
+          "start": {
+            "row": 60
+          },
+          "end": {
+            "row": 63
+          }
+        },
+        {
+          "start": {
+            "row": 69
+          },
+          "end": {
+            "row": 71
+          }
+        },
+        {
+          "start": {
+            "row": 76
+          },
+          "end": {
+            "row": 77
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 80
+          }
+        }
+      ],
+      "covered_lines": 29,
+      "not_covered_lines": 1,
+      "coverage": 96.66666666666667
+    },
+    "./examples/tests/notification-stack-failure-origins_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 12
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 38
+          },
+          "end": {
+            "row": 39
+          }
+        },
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 49
+          }
+        },
+        {
+          "start": {
+            "row": 54
+          },
+          "end": {
+            "row": 54
+          }
+        },
+        {
+          "start": {
+            "row": 58
+          },
+          "end": {
+            "row": 59
+          }
+        },
+        {
+          "start": {
+            "row": 76
+          },
+          "end": {
+            "row": 78
+          }
+        },
+        {
+          "start": {
+            "row": 82
+          },
+          "end": {
+            "row": 83
+          }
+        },
+        {
+          "start": {
+            "row": 100
+          },
+          "end": {
+            "row": 107
+          }
+        },
+        {
+          "start": {
+            "row": 111
+          },
+          "end": {
+            "row": 112
+          }
+        },
+        {
+          "start": {
+            "row": 117
+          },
+          "end": {
+            "row": 117
+          }
+        },
+        {
+          "start": {
+            "row": 121
+          },
+          "end": {
+            "row": 122
+          }
+        },
+        {
+          "start": {
+            "row": 127
+          },
+          "end": {
+            "row": 127
+          }
+        }
+      ],
+      "covered_lines": 35,
+      "coverage": 100
+    }
+  },
+  "covered_lines": 64,
+  "not_covered_lines": 1,
+  "coverage": 98.46153846153847
+}
+
+{
+  "files": {
+    "./examples/tests/../enforce-module-use-policy.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 32
+          },
+          "end": {
+            "row": 32
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 39
+          }
+        },
+        {
+          "start": {
+            "row": 79
+          },
+          "end": {
+            "row": 79
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 37
+          },
+          "end": {
+            "row": 37
+          }
+        },
+        {
+          "start": {
+            "row": 42
+          },
+          "end": {
+            "row": 42
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 52
+          },
+          "end": {
+            "row": 52
+          }
+        },
+        {
+          "start": {
+            "row": 54
+          },
+          "end": {
+            "row": 54
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 57
+          }
+        },
+        {
+          "start": {
+            "row": 60
+          },
+          "end": {
+            "row": 61
+          }
+        },
+        {
+          "start": {
+            "row": 64
+          },
+          "end": {
+            "row": 64
+          }
+        },
+        {
+          "start": {
+            "row": 68
+          },
+          "end": {
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 78
+          },
+          "end": {
+            "row": 78
+          }
+        },
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 80
+          }
+        }
+      ],
+      "covered_lines": 11,
+      "not_covered_lines": 12,
+      "coverage": 47.82608695652174
+    },
+    "./examples/tests/enforce-module-use-policy_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 4
+          },
+          "end": {
+            "row": 5
+          }
+        },
+        {
+          "start": {
+            "row": 13
+          },
+          "end": {
+            "row": 14
+          }
+        },
+        {
+          "start": {
+            "row": 22
+          },
+          "end": {
+            "row": 23
+          }
+        },
+        {
+          "start": {
+            "row": 31
+          },
+          "end": {
+            "row": 32
+          }
+        }
+      ],
+      "covered_lines": 8,
+      "coverage": 100
+    }
+  },
+  "covered_lines": 19,
+  "not_covered_lines": 12,
+  "coverage": 61.29032258064516
+}
+
+{
+  "files": {
+    "./examples/tests/../readers-writers-admins-teams.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 8
+          },
+          "end": {
+            "row": 8
+          }
+        },
+        {
+          "start": {
+            "row": 10
+          },
+          "end": {
+            "row": 10
+          }
+        },
+        {
+          "start": {
+            "row": 12
+          },
+          "end": {
+            "row": 12
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 19
+          }
+        },
+        {
+          "start": {
+            "row": 25
+          },
+          "end": {
+            "row": 27
+          }
+        },
+        {
+          "start": {
+            "row": 33
+          },
+          "end": {
+            "row": 38
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 16
+          },
+          "end": {
+            "row": 16
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 28
+          },
+          "end": {
+            "row": 28
+          }
+        }
+      ],
+      "covered_lines": 15,
+      "not_covered_lines": 3,
+      "coverage": 83.33333333333333
+    },
+    "./examples/tests/readers-writers-admins-teams_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 9
+          },
+          "end": {
+            "row": 10
+          }
+        },
+        {
+          "start": {
+            "row": 13
+          },
+          "end": {
+            "row": 14
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 22
+          },
+          "end": {
+            "row": 23
+          }
+        },
+        {
+          "start": {
+            "row": 27
+          },
+          "end": {
+            "row": 28
+          }
+        },
+        {
+          "start": {
+            "row": 32
+          },
+          "end": {
+            "row": 33
+          }
+        }
+      ],
+      "covered_lines": 12,
+      "coverage": 100
+    }
+  },
+  "covered_lines": 27,
+  "not_covered_lines": 3,
+  "coverage": 90
+}
+
+{
+  "files": {
+    "./examples/tests/../cancel-in-progress-runs.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 7
+          },
+          "end": {
+            "row": 11
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 16
+          },
+          "end": {
+            "row": 16
+          }
+        }
+      ],
+      "covered_lines": 5,
+      "not_covered_lines": 1,
+      "coverage": 83.33333333333333
+    },
+    "./examples/tests/cancel-in-progress-runs_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 3
+          },
+          "end": {
+            "row": 4
+          }
+        },
+        {
+          "start": {
+            "row": 15
+          },
+          "end": {
+            "row": 16
+          }
+        }
+      ],
+      "covered_lines": 4,
+      "coverage": 100
+    }
+  },
+  "covered_lines": 9,
+  "not_covered_lines": 1,
+  "coverage": 90
+}
+
+{
+  "files": {
+    "./examples/tests/../do-not-delete-stateful-resources.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 10
+          },
+          "end": {
+            "row": 10
+          }
+        },
+        {
+          "start": {
+            "row": 12
+          },
+          "end": {
+            "row": 12
+          }
+        },
+        {
+          "start": {
+            "row": 15
+          },
+          "end": {
+            "row": 15
+          }
+        },
+        {
+          "start": {
+            "row": 18
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 26
+          },
+          "end": {
+            "row": 26
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 29
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        }
+      ],
+      "covered_lines": 6,
+      "not_covered_lines": 1,
+      "coverage": 85.71428571428571
+    },
+    "./examples/tests/do-not-delete-stateful-resources_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 4
+          },
+          "end": {
+            "row": 4
+          }
+        },
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        },
+        {
+          "start": {
+            "row": 14
+          },
+          "end": {
+            "row": 14
+          }
+        },
+        {
+          "start": {
+            "row": 16
+          },
+          "end": {
+            "row": 16
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 26
+          },
+          "end": {
+            "row": 26
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 36
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        }
+      ],
+      "covered_lines": 10,
+      "coverage": 100
+    }
+  },
+  "covered_lines": 16,
+  "not_covered_lines": 1,
+  "coverage": 94.11764705882354
+}

@@ -1,0 +1,78 @@
+./examples/tests/ignore-changes-outside-root_test.rego:
+data.spacelift.test_affected_no_files: PASS (249.975µs)
+data.spacelift.test_affected_tf_files: PASS (214.83µs)
+data.spacelift.test_affected_no_tf_files: PASS (151.011µs)
+data.spacelift.test_affected_outside_project_root: PASS (131.816µs)
+data.spacelift.test_ignore_affected: PASS (115.745µs)
+data.spacelift.test_ignore_not_affected: PASS (105.065µs)
+data.spacelift.test_ignore_tag: PASS (120.214µs)
+data.spacelift.test_propose_affected: PASS (100.146µs)
+data.spacelift.test_propose_not_affected: PASS (188.07µs)
+data.spacelift.test_track_affected: PASS (202.537µs)
+data.spacelift.test_track_not_affected: PASS (214.138µs)
+data.spacelift.test_track_not_stack_branch: PASS (146.092µs)
+--------------------------------------------------------------------------------
+PASS: 12/12
+
+./examples/tests/track-using-labels_test.rego:
+data.spacelift.test_track_different_branches: PASS (255.165µs)
+data.spacelift.test_propose_non_empty_branch: PASS (203.408µs)
+data.spacelift.test_propose_empty_branch: PASS (157.172µs)
+data.spacelift.test_affected_directory: PASS (329.873µs)
+data.spacelift.test_affected_extension: PASS (302.132µs)
+data.spacelift.test_not_affected_directory: PASS (208.939µs)
+data.spacelift.test_not_affected_extension: PASS (221.041µs)
+data.spacelift.test_ignore_not_affected: PASS (207.056µs)
+--------------------------------------------------------------------------------
+PASS: 8/8
+
+./examples/tests/enforce-password-length_test.rego:
+data.spacelift.test_deny_creation_of_password_with_less_than_16_characters: PASS (393.773µs)
+data.spacelift.test_warn_creation_of_password_between_16_and_20_characters: PASS (306.851µs)
+data.spacelift.test_allow_creation_of_password_longer_than_20_characters: PASS (283.998µs)
+--------------------------------------------------------------------------------
+PASS: 3/3
+
+./examples/tests/notification-stack-failure-origins_test.rego:
+data.spacelift.test_slack_notification_for_tracked_failed_run: PASS (752.099µs)
+data.spacelift.test_no_slack_notification_for_non_tracked_run: PASS (135.763µs)
+data.spacelift.test_no_slack_notification_for_successful_run: PASS (140.792µs)
+data.spacelift.test_slack_notification_with_unknown_github_user: PASS (1.295037ms)
+data.spacelift.test_pr_comment_for_tracked_failed_run: PASS (615.375µs)
+data.spacelift.test_no_pr_comment_for_non_tracked_run: PASS (138.848µs)
+data.spacelift.test_no_pr_comment_for_successful_run: PASS (123.7µs)
+--------------------------------------------------------------------------------
+PASS: 7/7
+
+./examples/tests/enforce-module-use-policy_test.rego:
+data.spacelift.test_deny_creation_of_controlled_resource_type: PASS (673.112µs)
+data.spacelift.test_deny_update_of_controlled_resource_type: PASS (453.243µs)
+data.spacelift.test_allow_deletion_of_controlled_resource_type: PASS (254.022µs)
+data.spacelift.test_allow_creation_of_uncontrolled_resource_type: PASS (272.707µs)
+--------------------------------------------------------------------------------
+PASS: 4/4
+
+./examples/tests/readers-writers-admins-teams_test.rego:
+data.spacelift_test.test_allow_writers: PASS (281.033µs)
+data.spacelift_test.test_allow_admins: PASS (152.393µs)
+data.spacelift_test.test_allow_readers: PASS (152.714µs)
+data.spacelift_test.test_space_admin_access: PASS (241.119µs)
+data.spacelift_test.test_space_write_access: PASS (191.326µs)
+data.spacelift_test.test_space_read_access: PASS (271.805µs)
+--------------------------------------------------------------------------------
+PASS: 6/6
+
+./examples/tests/cancel-in-progress-runs_test.rego:
+data.spacelift.test_cancel_runs_allowed: PASS (346.454µs)
+data.spacelift.test_cancel_runs_denied: PASS (232.172µs)
+--------------------------------------------------------------------------------
+PASS: 2/2
+
+./examples/tests/do-not-delete-stateful-resources_test.rego:
+data.spacelift.test_deny_s3_bucket_deletion: PASS (441.592µs)
+data.spacelift.test_deny_db_instance_deletion: PASS (248.713µs)
+data.spacelift.test_deny_efs_file_system_deletion: PASS (218.176µs)
+data.spacelift.test_deny_dynamodb_table_deletion: PASS (269.491µs)
+data.spacelift.test_allow_instance_deletion: PASS (183.261µs)
+--------------------------------------------------------------------------------
+PASS: 5/5

@@ -109,6 +109,8 @@ This GitHub Action automates the process of testing OPA (Open Policy Agent) Rego
 
 ## 🧪 Running Tests
 
+On each pull request, there is a GitHub Actions workflow that runs the tests automatically, along with it testing itself by running the Action on itself against the `/examples` directory and commenting the OPA results on the same PR. To test locally, see below:
+
 1. `npm install`
 2. `npm run test`
 
@@ -132,7 +134,7 @@ To package for distribution, simply run the command which will do the above and 
 npm run build
 ```
 
-To create a new release... TODO, release please with `npm run build` and commit to /dist distribution
+To create a new release, merge the pull request created by Release Please. This will automatically create a new release with the version number and the changes made.
 
 ## 🤝 Contributing
 
@@ -145,15 +147,7 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-2.png)
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-3.png)
 
-### To-Do's:
+### TODO
 
-- make composite action logging better
-- add debug logs
-- more tests + fix tests + run test on ci
-- deal with issues like
-  - `1 error occurred: ./access/label-based-team-access.rego:35: rego_type_error: conflicting rules data.spacelift.deny found`
-  - need better visibliity to when this happens and fails
-  - right now, it just exits code 2. not helpful and someone new to sys wouldn't know where to look at.
-  - one way is to PR comment error occured in the execution of the tests. please tak eal ook at the logs..
 - publish to marketplace
-- codeowners
+- add a little something at the bottom, generated with action by Masterpoint? user can turn off.
