@@ -5,7 +5,7 @@
     "build": "npx ncc build src/index.ts -o dist --source-map",
     "test": "npx jest"
   },
-  "author": "",
+  "author": "Masterpoint",
   "license": "MIT",
   "description": "",
   "devDependencies": {
