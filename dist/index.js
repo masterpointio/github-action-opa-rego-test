@@ -27481,11 +27481,13 @@ ${pendingInterceptorsFormatter.format(pending)}
       exports.main = main;
       const core = __importStar(__nccwpck_require__(2186));
       function parseTestOutput(output) {
+        // View sample test output at __tests__/sample_test_output.txt
         const lines = output.split("\n");
         const results = [];
         let currentResult = null;
         for (let i = 0; i < lines.length; i++) {
           const line = lines[i];
+          // This begins a new test result
           if (line.startsWith("./") && line.endsWith(".rego:")) {
             if (currentResult) {
               results.push(currentResult);
@@ -27515,6 +27517,7 @@ ${pendingInterceptorsFormatter.format(pending)}
         return results;
       }
       function parseCoverageOutput(output) {
+        // View sample coverage output at __tests__/sample_coverage_output.txt
         const lines = output.split("\n");
         const results = [];
         let currentResult = null;
@@ -27694,11 +27697,15 @@ ${pendingInterceptorsFormatter.format(pending)}
               }));
               parsedResults = [...parsedResults, ...noTestFileResults];
             }
-            const formattedOutput = formatResults(
+            let formattedOutput = formatResults(
               parsedResults,
               coverageResults,
               runCoverageReport,
             );
+            if (formattedOutput === "") {
+              formattedOutput =
+                "⛔️⛔️ An unknown error has occured in generating the results, either from tests failing or an error running OPA or an issue with GItHub actions. View the logs for more information. ⛔️⛔️";
+            }
             core.setOutput("parsed_results", formattedOutput);
             const testsFailed = parsedResults.some(
               (result) => result.status === "FAIL",
