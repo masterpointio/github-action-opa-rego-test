@@ -134,7 +134,7 @@ To package for distribution, simply run the command which will do the above and 
 npm run build
 ```
 
-To create a new release... TODO, release please with `npm run build` and commit to /dist distribution
+To create a new release, merge the pull request created by Release Please. This will automatically create a new release with the version number and the changes made.
 
 ## 🤝 Contributing
 
@@ -151,4 +151,3 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 
 - publish to marketplace
 - add a little something at the bottom, generated with action by Masterpoint? user can turn off.
-- comment the parse coverage functions and the formatresults function

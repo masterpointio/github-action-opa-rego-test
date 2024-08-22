@@ -57,6 +57,8 @@ export function parseTestOutput(output: string): TestResult[] {
 
 export function parseCoverageOutput(output: string): CoverageResult[] {
   // View sample coverage output at __tests__/sample_coverage_output.txt
+  // Since the output looks to be in JSON format, why isn't this processed as a JSON?
+  // Even though it is JSON, the output is funky and it can't consistently be parsed with JSON.parse without errors. There is a lot of edge cases, so going through it line by line became simpler. After reading through this loop while referencing the sample output, you can easily see that it correlates straightforwardly.
   const lines = output.split("\n");
   const results: CoverageResult[] = [];
   let currentResult: CoverageResult | null = null;
@@ -66,10 +68,13 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
     end: number;
   }[] = [];
 
+  // Iterate through all the lines of the results, and per each file, parse and set the coverage and uncovered lines associated with it
   for (let i = 0; i < lines.length; i++) {
     const cleanLine = lines[i].trim();
 
+    // Check if we're starting a new file coverage section
     if (cleanLine.includes('.rego":')) {
+      // If we're already in a coverage section already, it means we're at the end of it. Now, finalize it and add it to the results with the line ranges.
       if (currentResult) {
         currentResult.notCoveredLines = notCoveredRanges
           .map((range) =>
@@ -80,6 +85,7 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
           .join(", ");
         results.push(currentResult);
       }
+      // Initialize a new coverage section now that we starting the new .rego file
       currentResult = {
         file: cleanLine.split('"')[1],
         coverage: 0,
@@ -88,30 +94,37 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
       inNotCovered = false;
       notCoveredRanges = [];
     } else if (currentResult && cleanLine.includes('"coverage":')) {
+      // Extract the coverage percentage for the current file
       const match = cleanLine.match(/"coverage": ([\d.]+)/);
       if (match) {
         currentResult.coverage = parseFloat(match[1]);
       }
     } else if (cleanLine.includes('"not_covered":')) {
+      // Mark that now we're entering in the not_covered section
       inNotCovered = true;
     } else if (inNotCovered && cleanLine === "{") {
-      // Start of a new not_covered range
+      // Now that we're in the not_covered section, process each not_covered range
       let startRow = -1;
       let endRow = -1;
       while (i < lines.length) {
         i++;
         const subLine = lines[i].trim();
         if (subLine.includes('"row":')) {
+          // We've found a line specifying row number
           const rowMatch = subLine.match(/"row": (\d+)/);
           if (rowMatch) {
             const row = parseInt(rowMatch[1]);
+            // If startRow is not set, this is the first row number, meaning the start
             if (startRow === -1) startRow = row;
+            // If startRow is already set, this must be the end row
             else endRow = row;
           }
         } else if (subLine === "}") {
+          // We've reached the end of the not_covered block
           break;
         }
       }
+      // Now we have this section's uncovered lines, so add it to the list
       if (startRow !== -1 && endRow !== -1) {
         notCoveredRanges.push({
           start: startRow,
@@ -128,6 +141,7 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
     }
   }
 
+  // This is to handle the ultimate last file in the output, which doesn't have a new line after it to handle it
   if (currentResult) {
     currentResult.notCoveredLines = notCoveredRanges
       .map((range) =>
@@ -183,6 +197,7 @@ export function formatResults(
     const testFileName = result.file;
 
     let coverageInfo;
+    // Find the corresponding coverage test information for the test result we're on
     if (showCoverage) {
       coverageInfo = coverageResults.find((cr) => {
         const lastSlashIndex = cr.file.lastIndexOf("/");
@@ -197,8 +212,9 @@ export function formatResults(
           dotRegoIndex,
         );
 
-        // Check if testFileName includes the base file name without extension
-        // and make sure cr.file does not include the full testFileName
+        // Match the test file with its corresponding implementation file in the coverage results
+        // Test files typically have names like 'abc_test.rego', while coverage is reported for 'abc.rego' because the test file is testing the implementation file, and the coverage is on how much the implementation file is covered.
+        // We want to associate the coverage data from 'abc.rego' with the test results from 'abc_test.rego'
         return (
           testFileName.includes(fileNameWithoutExtension) &&
           !cr.file.includes(testFileName)
@@ -256,6 +272,7 @@ export async function main() {
       coverageResults = parseCoverageOutput(coverageResult);
     }
 
+    // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
     if (noTestFiles && reportNoTestFiles) {
       const noTestFileResults: TestResult[] = noTestFiles
         .split("\n")
