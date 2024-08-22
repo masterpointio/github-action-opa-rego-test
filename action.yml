@@ -39,7 +39,7 @@ inputs:
     required: false
     default: "0.67.1"
   indicate_source_message:
-    description: "Flag to comment the origins watermark (this repository) of the GitHub Action in the PR comment. Default of true."
+    description: Flag to comment the origins watermark (this repository) of the GitHub Action in the PR comment. Default of true.
     required: false
     default: true
 outputs:
