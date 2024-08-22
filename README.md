@@ -1,6 +1,6 @@
 [![Masterpoint Logo](https://masterpoint-public.s3.us-west-2.amazonaws.com/v2/standard-long-fullcolor.png)](https://masterpoint.io)
 
-# GitHub Action for OPA Rego Policy Tests <!--[![Latest Release](https://img.shields.io/github/release/masterpointio/github-action-opa-rego-test.svg)](https://github.com/masterpointio/github-action-opa-rego-test/releases/latest)-->
+# GitHub Action for OPA Rego Policy Tests [![Latest Release](https://img.shields.io/github/release/masterpointio/github-action-opa-rego-test.svg)](https://github.com/masterpointio/github-action-opa-rego-test/releases/latest)
 
 GitHub Action to automate testing for your OPA (Open Policy Agent) Rego policies, generates a report with coverage information, and posts the test results as a comment on your pull requests, making it easy for your team to review and approve policies.
 
@@ -135,7 +135,7 @@ To package for distribution, simply run the command which will do the above and 
 npm run build
 ```
 
-To create a new release, merge the pull request created by Release Please. This will automatically create a new release with the version number and the changes made.
+To create a new release, merge the pull request created by [Release Please](https://github.com/googleapis/release-please). This will automatically create a new release with the version number and the changes made.
 
 ## 🤝 Contributing
 
