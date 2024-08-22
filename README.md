@@ -147,12 +147,8 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-2.png)
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-3.png)
 
-### To-Do's:
+### TODO
 
-- deal with issues like
-  - `1 error occurred: ./access/label-based-team-access.rego:35: rego_type_error: conflicting rules data.spacelift.deny found`
-  - need better visibliity to when this happens and fails
-  - right now, it just exits code 2. not helpful and someone new to sys wouldn't know where to look at.
-  - one way is to PR comment error occured in the execution of the tests. please tak eal ook at the logs..
 - publish to marketplace
 - add a little something at the bottom, generated with action by Masterpoint? user can turn off.
+- comment the parse coverage functions and the formatresults function

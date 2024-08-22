@@ -15,6 +15,7 @@ export interface CoverageResult {
 }
 
 export function parseTestOutput(output: string): TestResult[] {
+  // View sample test output at __tests__/sample_test_output.txt
   const lines = output.split("\n");
   const results: TestResult[] = [];
   let currentResult: TestResult | null = null;
@@ -22,6 +23,7 @@ export function parseTestOutput(output: string): TestResult[] {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
+    // This begins a new test result
     if (line.startsWith("./") && line.endsWith(".rego:")) {
       if (currentResult) {
         results.push(currentResult);
@@ -54,6 +56,7 @@ export function parseTestOutput(output: string): TestResult[] {
 }
 
 export function parseCoverageOutput(output: string): CoverageResult[] {
+  // View sample coverage output at __tests__/sample_coverage_output.txt
   const lines = output.split("\n");
   const results: CoverageResult[] = [];
   let currentResult: CoverageResult | null = null;
@@ -260,11 +263,16 @@ export async function main() {
       parsedResults = [...parsedResults, ...noTestFileResults];
     }
 
-    const formattedOutput = formatResults(
+    let formattedOutput = formatResults(
       parsedResults,
       coverageResults,
       runCoverageReport,
     );
+
+    if (formattedOutput === "") {
+      formattedOutput =
+        "⛔️⛔️ An unknown error has occured in generating the results, either from tests failing or an error running OPA or an issue with GItHub actions. View the logs for more information. ⛔️⛔️";
+    }
 
     core.setOutput("parsed_results", formattedOutput);
 
