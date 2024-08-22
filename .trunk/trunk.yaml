@@ -16,6 +16,11 @@ runtimes:
     - python@3.10.8
 # This is the section where you manage your linters. (https://docs.trunk.io/check/configuration)
 lint:
+  ignore:
+    - linters: [ALL]
+      paths:
+        # Ignore linting the distribution packaged folder
+        - dist/**
   enabled:
     - actionlint@1.7.1
     - checkov@3.2.231
