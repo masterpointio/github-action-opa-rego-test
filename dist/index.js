@@ -25054,7 +25054,10 @@ function parseCoverageOutput(output) {
                 }
             }
             if (startRow !== -1 && endRow !== -1) {
-                notCoveredRanges.push({ start: startRow, end: endRow });
+                notCoveredRanges.push({
+                    start: startRow,
+                    end: endRow,
+                });
             }
         }
         else if (cleanLine.includes("Coverage test failed for")) {
