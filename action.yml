@@ -1,4 +1,4 @@
-name: "OPA Test and Coverage Report"
+name: "OPA Rego Test and Coverage Report"
 description: "Run OPA tests and generate coverage report for PRs. Test your OPA Rego policies!"
 author: Masterpoint
 
