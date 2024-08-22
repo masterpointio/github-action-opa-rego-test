@@ -75,16 +75,17 @@ In the example below, all `_test.rego` files' location are valid and will be exe
 
 ### Inputs
 
-| Input                   | Description                                                                                | Required | Default                           |
-| ----------------------- | ------------------------------------------------------------------------------------------ | -------- | --------------------------------- |
-| `path`                  | Path to the directory containing OPA Rego files to test                                    | No       | `.` (root directory)              |
-| `test_file_postfix`     | Postfix of the test files to run (e.g. notification.rego <> notification_test.rego)        | No       | `_test`                           |
-| `write_pr_comment`      | Flag to write a user-friendly PR comment with test results                                 | No       | `true`                            |
-| `pr_comment_title`      | Title of the PR comment for test results                                                   | No       | `🧪 OPA Rego Policy Test Results` |
-| `pr_comment_mode`       | Mode that will be used to update comment. Options of upsert (update in place) or recreate. | No       | `upsert`                          |
-| `run_coverage_report`   | Flag to run OPA coverage tests and include in PR comment                                   | No       | `true`                            |
-| `report_untested_files` | Check & report Rego files without corresponding test files                                 | No       | `false`                           |
-| `opa_version`           | Version of the OPA CLI to use.                                                             | No       | `0.67.1`                          |
+| Input                     | Description                                                                                     | Required | Default                           |
+| ------------------------- | ----------------------------------------------------------------------------------------------- | -------- | --------------------------------- |
+| `path`                    | Path to the directory containing OPA Rego files to test                                         | No       | `.` (root directory)              |
+| `test_file_postfix`       | Postfix of the test files to run (e.g. notification.rego <> notification_test.rego)             | No       | `_test`                           |
+| `write_pr_comment`        | Flag to write a user-friendly PR comment with test results                                      | No       | `true`                            |
+| `pr_comment_title`        | Title of the PR comment for test results                                                        | No       | `🧪 OPA Rego Policy Test Results` |
+| `pr_comment_mode`         | Mode that will be used to update comment. Options of upsert (update in place) or recreate.      | No       | `upsert`                          |
+| `run_coverage_report`     | Flag to run OPA coverage tests and include in PR comment                                        | No       | `true`                            |
+| `report_untested_files`   | Check & report Rego files without corresponding test files                                      | No       | `false`                           |
+| `opa_version`             | Version of the OPA CLI to use.                                                                  | No       | `0.67.1`                          |
+| `indicate_source_message` | Flag to comment the origins watermark (this repository) of the GitHub Action in the PR comment. | No       | `true`                            |
 
 ### Outputs
 
@@ -150,4 +151,3 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 ### TODO
 
 - publish to marketplace
-- add a little something at the bottom, generated with action by Masterpoint? user can turn off.

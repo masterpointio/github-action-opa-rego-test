@@ -1,12 +1,10 @@
-name: "OPA Test and Coverage Report GitHub Actions"
+name: "OPA Test and Coverage Report"
 description: "Run OPA tests and generate coverage report for PRs. Test your OPA Rego policies!"
-author: ""
-
-#
+author: "Masterpoint"
 
 branding:
-  icon: "check-circle"
-  color: "green"
+  icon: "zap"
+  color: "blue"
 
 inputs:
   path:
@@ -40,6 +38,9 @@ inputs:
     description: "Version of OPA CLI to use. Default is 0.67.1."
     required: false
     default: "0.67.1"
+  indicate_source_message:
+    description: "Flag to comment the origins watermark (this repository) of the GitHub Action in the PR comment. Default of true."
+    required: true
 outputs:
   parsed_results:
     description: The parsed results after processing the tests and/or coverage report.
@@ -128,6 +129,7 @@ runs:
         no_test_files: ${{ steps.find-no-test.outputs.no_test_files }}
         pr_comment_title: ${{ inputs.pr_comment_title }}
         run_coverage_report: ${{ inputs.run_coverage_report }}
+        indicate_source_message: ${{ inputs.indicate_source_message }}
 
     # Create (or update in-place) a PR comment of the test result output
     - name: Comment on PR
