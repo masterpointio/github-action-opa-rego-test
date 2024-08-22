@@ -21,6 +21,7 @@ lint:
       paths:
         # Ignore linting the distribution packaged folder
         - dist/**
+        - .github/pull_request_template.md
   enabled:
     - actionlint@1.7.1
     - checkov@3.2.231

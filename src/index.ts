@@ -61,7 +61,10 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
   const results: CoverageResult[] = [];
   let currentResult: CoverageResult | null = null;
   let inNotCovered = false;
-  let notCoveredRanges: { start: number; end: number }[] = [];
+  let notCoveredRanges: {
+    start: number;
+    end: number;
+  }[] = [];
 
   for (let i = 0; i < lines.length; i++) {
     const cleanLine = lines[i].trim();
@@ -110,7 +113,10 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
         }
       }
       if (startRow !== -1 && endRow !== -1) {
-        notCoveredRanges.push({ start: startRow, end: endRow });
+        notCoveredRanges.push({
+          start: startRow,
+          end: endRow,
+        });
       }
     } else if (cleanLine.includes("Coverage test failed for")) {
       const file = cleanLine.split("Coverage test failed for ")[1];
