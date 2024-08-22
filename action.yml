@@ -1,6 +1,6 @@
 name: "OPA Test and Coverage Report"
 description: "Run OPA tests and generate coverage report for PRs. Test your OPA Rego policies!"
-author: "Masterpoint"
+author: Masterpoint
 
 branding:
   icon: "zap"
@@ -40,7 +40,8 @@ inputs:
     default: "0.67.1"
   indicate_source_message:
     description: "Flag to comment the origins watermark (this repository) of the GitHub Action in the PR comment. Default of true."
-    required: true
+    required: false
+    default: true
 outputs:
   parsed_results:
     description: The parsed results after processing the tests and/or coverage report.
