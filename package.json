@@ -6,7 +6,6 @@
   },
   "author": "Masterpoint",
   "license": "MIT",
-  "description": "",
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^22.1.0",
