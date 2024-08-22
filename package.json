@@ -1,6 +1,5 @@
 {
   "name": "opa-rego-test-action",
-  "version": "1.0.0",
   "scripts": {
     "build": "npx ncc build src/index.ts -o dist --source-map",
     "test": "npx jest"
