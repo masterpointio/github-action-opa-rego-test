@@ -143,6 +143,8 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
 
 ## 💬 Example Pull Request Comments
 
+One of the testing steps is running the test workflow against this Action itself. You can see some live examples in the closed PR section, including this [example here](https://github.com/masterpointio/github-action-opa-rego-test/pull/9#issuecomment-2305253112).
+
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-1.png)
   - Using `report_untested_files` to indicate policies without corresponding tests.
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-2.png)
