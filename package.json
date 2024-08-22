@@ -1,13 +1,11 @@
 {
   "name": "opa-rego-test-action",
-  "version": "1.0.0",
   "scripts": {
     "build": "npx ncc build src/index.ts -o dist --source-map",
     "test": "npx jest"
   },
-  "author": "",
+  "author": "Masterpoint",
   "license": "MIT",
-  "description": "",
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^22.1.0",
