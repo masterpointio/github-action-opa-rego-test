@@ -24959,6 +24959,7 @@ exports.parseCoverageOutput = parseCoverageOutput;
 exports.formatResults = formatResults;
 exports.main = main;
 const core = __importStar(__nccwpck_require__(2186));
+const errorString = "⛔️⛔️ An unknown error has occured in generating the results, either from tests failing or an error running OPA or an issue with GItHub actions. View the logs for more information. ⛔️⛔️";
 function parseTestOutput(output) {
     // View sample test output at __tests__/sample_test_output.txt
     const lines = output.split("\n");
@@ -25171,6 +25172,8 @@ function main() {
             const noTestFiles = process.env.no_test_files;
             const runCoverageReport = process.env.run_coverage_report === "true";
             if (!testResult) {
+                core.setOutput("parsed_results", errorString);
+                core.setOutput("tests_failed", true);
                 throw new Error("test_result environment variable is not set.");
             }
             let parsedResults = parseTestOutput(testResult);
@@ -25193,8 +25196,7 @@ function main() {
             }
             let formattedOutput = formatResults(parsedResults, coverageResults, runCoverageReport);
             if (formattedOutput === "") {
-                formattedOutput =
-                    "⛔️⛔️ An unknown error has occured in generating the results, either from tests failing or an error running OPA or an issue with GItHub actions. View the logs for more information. ⛔️⛔️";
+                formattedOutput = errorString;
             }
             core.setOutput("parsed_results", formattedOutput);
             const testsFailed = parsedResults.some((result) => result.status === "FAIL");

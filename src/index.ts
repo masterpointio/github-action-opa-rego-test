@@ -1,5 +1,8 @@
 import * as core from "@actions/core";
 
+const errorString =
+  "⛔️⛔️ An unknown error has occured in generating the results, either from tests failing or an error running OPA or an issue with GItHub actions. View the logs for more information. ⛔️⛔️";
+
 export interface TestResult {
   file: string;
   status: "PASS" | "FAIL" | "NO TESTS";
@@ -262,6 +265,8 @@ export async function main() {
     const runCoverageReport = process.env.run_coverage_report === "true";
 
     if (!testResult) {
+      core.setOutput("parsed_results", errorString);
+      core.setOutput("tests_failed", true);
       throw new Error("test_result environment variable is not set.");
     }
 
@@ -293,8 +298,7 @@ export async function main() {
     );
 
     if (formattedOutput === "") {
-      formattedOutput =
-        "⛔️⛔️ An unknown error has occured in generating the results, either from tests failing or an error running OPA or an issue with GItHub actions. View the logs for more information. ⛔️⛔️";
+      formattedOutput = errorString;
     }
 
     core.setOutput("parsed_results", formattedOutput);
