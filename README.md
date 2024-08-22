@@ -147,7 +147,3 @@ Contributions are welcome! Please feel free to submit a Pull Request or open any
   - Using `report_untested_files` to indicate policies without corresponding tests.
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-2.png)
 - ![Masterpoint GitHub Actions OPA Rego Test PR Example](./assets/readme-example-3.png)
-
-### TODO
-
-- publish to marketplace
