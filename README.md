@@ -30,6 +30,8 @@ It's super easy to get started and use this GitHub Action to test your OPA Rego 
 ```yaml
 - name: Run OPA Rego Tests
   uses: masterpointio/github-action-opa-rego-test@main
+  with:
+    report_untested_files: true # Flag to check & report Rego files without corresponding test files. Optional, defaults to false.
 ```
 
 <details>
