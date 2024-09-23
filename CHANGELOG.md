@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/masterpointio/github-action-opa-rego-test/compare/v1.0.0...v1.1.0) (2024-09-03)
+
+
+### Features
+
+* **github-action:** add actionlint to lint against gha yamls ([#18](https://github.com/masterpointio/github-action-opa-rego-test/issues/18)) ([7a7b55d](https://github.com/masterpointio/github-action-opa-rego-test/commit/7a7b55dea277136e7c1f2f96d2c5870d2c5282d9))
+
+
+### Bug Fixes
+
+* auto trunk upgrade action ([#17](https://github.com/masterpointio/github-action-opa-rego-test/issues/17)) ([491cd45](https://github.com/masterpointio/github-action-opa-rego-test/commit/491cd45379004718df5e7a6ea918998d0707f086))
+* **packagejson:** clean up ([#11](https://github.com/masterpointio/github-action-opa-rego-test/issues/11)) ([d11ba7e](https://github.com/masterpointio/github-action-opa-rego-test/commit/d11ba7e55b93c49396b44b9f8aaf862776e92161))
+
 ## 1.0.0 (2024-08-22)
 
 
