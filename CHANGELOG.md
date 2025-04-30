@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/masterpointio/github-action-opa-rego-test/compare/v1.1.0...v1.2.0) (2025-04-30)
+
+
+### Features
+
+* allow to request static opa binary ([#24](https://github.com/masterpointio/github-action-opa-rego-test/issues/24)) ([1e51290](https://github.com/masterpointio/github-action-opa-rego-test/commit/1e51290cee35301008ad302400f434d8aa37565e))
+
 ## [1.1.0](https://github.com/masterpointio/github-action-opa-rego-test/compare/v1.0.0...v1.1.0) (2025-01-15)
 
 
