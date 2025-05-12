@@ -131,6 +131,7 @@ runs:
         pr_comment_title: ${{ inputs.pr_comment_title }}
         run_coverage_report: ${{ inputs.run_coverage_report }}
         indicate_source_message: ${{ inputs.indicate_source_message }}
+        path: ${{ inputs.path }}
 
     # Create (or update in-place) a PR comment of the test result output
     - name: Comment on PR
