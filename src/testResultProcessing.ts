@@ -26,7 +26,7 @@ export interface TestResult {
 }
 
 // Process OPA test results
-function processTestResults(jsonResults: OpaTestResult[]): TestResult[] {
+export function processTestResults(jsonResults: OpaTestResult[]): TestResult[] {
   // Group by file
   const fileMap = new Map<string, OpaTestResult[]>();
 

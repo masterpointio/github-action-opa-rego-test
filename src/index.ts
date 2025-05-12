@@ -1,7 +1,11 @@
+import { processTestResults } from "./testResultProcessing";
+import { runOpaTests } from "./opaCommands";
+
+
 import * as core from "@actions/core";
 
 const errorString =
-  "⛔️⛔️ An unknown error has occured in generating the results, either from tests failing or an error running OPA or an issue with GItHub actions. View the logs for more information. ⛔️⛔️";
+  "⛔️⛔️ An unknown error has occurred in generating the results, either from tests failing or an error running OPA or an issue with GItHub actions. View the logs for more information. ⛔️⛔️";
 
 export interface TestResult {
   file: string;
@@ -275,7 +279,10 @@ export async function main() {
       throw new Error("test_result environment variable is not set.");
     }
 
-    let parsedResults = parseTestOutput(testResult);
+    let { output: opaOutput1, error: opaError1, exitCode: exitCode1 }  = await runOpaTests("examples", "_test")
+    let parsedResults = processTestResults(JSON.parse(opaOutput1));
+
+    // let parsedResults = parseTestOutput(testResult);
     let coverageResults: CoverageResult[] = [];
 
     if (coverageResult && runCoverageReport) {
