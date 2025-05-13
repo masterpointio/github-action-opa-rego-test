@@ -26774,7 +26774,7 @@ function main() {
         console.log(testResults1);
     });
 }
-main();
+// main();
 // npx ts-node ./src/toolkit.ts
 // opa test --format=json .
 //         run: opa test ./**/*.rego --v0-compatible --var-values --verbose

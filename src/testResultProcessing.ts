@@ -3,6 +3,8 @@ import * as core from "@actions/core";
 
 import { executeOpaTestByPackage, runOpaTests } from "./opaCommands";
 
+import { TestResult } from "./interfaces";
+
 // Interface for individual OPA test result - this is what is returned from the OPA test command with --format=json
 interface OpaTestResult {
   location: {
@@ -14,15 +16,6 @@ interface OpaTestResult {
   name: string;
   fail?: boolean;
   duration: number;
-}
-
-// We process the OpaTestResult into this format to put into a GitHub Pull Request Comment
-export interface TestResult {
-  file: string;
-  status: "PASS" | "FAIL" | "NO TESTS";
-  passed: number;
-  total: number;
-  details: string[]; // Array of either "✅ test_name" or "❌ test_name"
 }
 
 // Process OPA test results
@@ -138,7 +131,7 @@ export async function main() {
   console.log(testResults1);
 }
 
-main();
+// main();
 
 
 
