@@ -1,7 +1,7 @@
-import { TestResult, CoverageResult } from "./interfaces"
+import { ProcessedTestResult, CoverageResult } from "./interfaces"
 
 export function formatResults(
-  results: TestResult[],
+  results: ProcessedTestResult[],
   coverageResults: CoverageResult[],
   showCoverage: boolean,
 ): string {

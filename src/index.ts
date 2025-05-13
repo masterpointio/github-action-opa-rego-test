@@ -2,7 +2,7 @@ import { processTestResults } from "./testResultProcessing";
 import { runOpaTests } from "./opaCommands";
 import { formatResults } from "./formatResults";
 
-import { TestResult, CoverageResult } from "./interfaces"
+import { ProcessedTestResult, CoverageResult } from "./interfaces"
 
 import * as core from "@actions/core";
 
@@ -149,7 +149,7 @@ export async function main() {
 
     // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
     if (noTestFiles && reportNoTestFiles) {
-      const noTestFileResults: TestResult[] = noTestFiles
+      const noTestFileResults: ProcessedTestResult[] = noTestFiles
         .split("\n")
         .map((file) => ({
           file: file.trim(),

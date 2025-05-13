@@ -1,6 +1,6 @@
 Starting OPA test execution...
 Running OPA test command...
-[command]/opt/homebrew/bin/opa test spacelift_policies --format=json
+[command]/opt/homebrew/bin/opa test spacelift_policies/push_package copy --format=json
 [
   {
     "location": {
@@ -10,7 +10,7 @@ Running OPA test command...
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_cancel_in_progress_runs_on_pr_branch",
-    "duration": 4481209
+    "duration": 3630417
   },
   {
     "location": {
@@ -20,7 +20,7 @@ Running OPA test command...
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_not_cancel_in_progress_runs_on_pr_branch",
-    "duration": 90542
+    "duration": 249125
   },
   {
     "location": {
@@ -30,7 +30,7 @@ Running OPA test command...
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_not_cancel_in_progress_runs_on_push_branch",
-    "duration": 77292
+    "duration": 88584
   },
   {
     "location": {
@@ -39,8 +39,8 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_sample",
-    "duration": 55958
+    "name": "test_sample#02",
+    "duration": 58000
   },
   {
     "location": {
@@ -49,8 +49,8 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_other_stack#01",
-    "duration": 775708
+    "name": "test_pr_affects_files_in_other_stack",
+    "duration": 689375
   },
   {
     "location": {
@@ -59,8 +59,8 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_this_stack#01",
-    "duration": 236000
+    "name": "test_pr_affects_files_in_this_stack",
+    "duration": 225583
   },
   {
     "location": {
@@ -69,8 +69,8 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_ignore_always#01",
-    "duration": 487542
+    "name": "test_pr_affects_files_to_ignore_always",
+    "duration": 175292
   },
   {
     "location": {
@@ -79,8 +79,8 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_run_always#01",
-    "duration": 214417
+    "name": "test_pr_affects_files_to_run_always",
+    "duration": 194125
   },
   {
     "location": {
@@ -89,8 +89,8 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_mixed_files#01",
-    "duration": 439500
+    "name": "test_pr_affects_mixed_files",
+    "duration": 205125
   },
   {
     "location": {
@@ -99,8 +99,8 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_merge#01",
-    "duration": 114875
+    "name": "test_pr_merge",
+    "duration": 106083
   },
   {
     "location": {
@@ -109,8 +109,8 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_other_stack#01",
-    "duration": 170041
+    "name": "test_push_affects_files_in_other_stack",
+    "duration": 151042
   },
   {
     "location": {
@@ -119,7 +119,7 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_this_stack#01",
+    "name": "test_push_affects_files_in_this_stack",
     "duration": 164500
   },
   {
@@ -129,2507 +129,2166 @@ Running OPA test command...
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_ignore_always#01",
-    "duration": 987167
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 200,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_run_always#01",
-    "duration": 214208
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 218,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_mixed_files#01",
-    "duration": 190000
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 235,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_to_feature_branch#01",
-    "duration": 179250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 252,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#02",
-    "duration": 44959
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_in_other_stack#01",
-    "duration": 170958
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 77,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_to_ignore_always#01",
-    "duration": 164042
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 92,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_closed#01",
-    "duration": 107291
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 107,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push#01",
-    "duration": 92708
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 120,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#05",
-    "duration": 55209
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 12,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_cancel_in_progress_runs_on_pr_branch#01",
-    "fail": true,
-    "duration": 67166
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 41,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_pr_branch#01",
-    "duration": 56333
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_push_branch#01",
-    "duration": 62916
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 85,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#03",
-    "duration": 40250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 54,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_other_stack",
-    "duration": 276917
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 71,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_this_stack",
-    "duration": 190250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 88,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_ignore_always",
-    "duration": 293459
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 103,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_run_always",
-    "duration": 197125
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 121,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_mixed_files",
-    "duration": 222333
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 138,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_merge",
-    "duration": 109292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 151,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_other_stack",
-    "duration": 157459
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 168,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_this_stack",
-    "duration": 152541
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 185,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
     "name": "test_push_affects_files_to_ignore_always",
-    "duration": 623917
+    "duration": 129958
   },
   {
     "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
+      "file": "spacelift_policies/push_package copy/files_test.rego",
       "row": 200,
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_push_affects_files_to_run_always",
-    "duration": 307292
+    "duration": 135708
   },
   {
     "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
+      "file": "spacelift_policies/push_package copy/files_test.rego",
       "row": 218,
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_push_affects_mixed_files",
-    "duration": 223750
+    "duration": 150542
   },
   {
     "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
+      "file": "spacelift_policies/push_package copy/files_test.rego",
       "row": 235,
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_push_to_feature_branch",
-    "duration": 187209
+    "duration": 155500
   },
   {
     "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
+      "file": "spacelift_policies/push_package copy/files_test.rego",
       "row": 252,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#01",
-    "duration": 91292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_in_other_stack",
-    "duration": 183625
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 77,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_to_ignore_always",
-    "duration": 368334
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 92,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_closed",
-    "duration": 112250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 107,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push",
-    "duration": 100875
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 120,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#04",
-    "duration": 46458
-  }
-]
-OPA test command completed
-[
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/cancel_test.rego",
-      "row": 12,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_cancel_in_progress_runs_on_pr_branch",
-    "duration": 4481209
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/cancel_test.rego",
-      "row": 41,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_pr_branch",
-    "duration": 90542
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/cancel_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_push_branch",
-    "duration": 77292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/cancel_test.rego",
-      "row": 85,
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_sample",
-    "duration": 55958
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 54,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_other_stack#01",
-    "duration": 775708
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 71,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_this_stack#01",
-    "duration": 236000
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 88,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_ignore_always#01",
-    "duration": 487542
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 103,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_run_always#01",
-    "duration": 214417
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 121,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_mixed_files#01",
-    "duration": 439500
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 138,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_merge#01",
-    "duration": 114875
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 151,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_other_stack#01",
-    "duration": 170041
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 168,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_this_stack#01",
-    "duration": 164500
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 185,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_ignore_always#01",
-    "duration": 987167
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 200,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_run_always#01",
-    "duration": 214208
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 218,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_mixed_files#01",
-    "duration": 190000
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 235,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_to_feature_branch#01",
-    "duration": 179250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 252,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#02",
-    "duration": 44959
+    "duration": 48625
   },
   {
     "location": {
       "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_in_other_stack#01",
-    "duration": 170958
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 77,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_to_ignore_always#01",
-    "duration": 164042
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 92,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_closed#01",
-    "duration": 107291
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 107,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push#01",
-    "duration": 92708
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 120,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#05",
-    "duration": 55209
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 12,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_cancel_in_progress_runs_on_pr_branch#01",
-    "fail": true,
-    "duration": 67166
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 41,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_pr_branch#01",
-    "duration": 56333
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_push_branch#01",
-    "duration": 62916
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 85,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#03",
-    "duration": 40250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 54,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_other_stack",
-    "duration": 276917
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 71,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_this_stack",
-    "duration": 190250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 88,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_ignore_always",
-    "duration": 293459
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 103,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_run_always",
-    "duration": 197125
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 121,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_mixed_files",
-    "duration": 222333
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 138,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_merge",
-    "duration": 109292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 151,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_other_stack",
-    "duration": 157459
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 168,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_this_stack",
-    "duration": 152541
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 185,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_ignore_always",
-    "duration": 623917
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 200,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_run_always",
-    "duration": 307292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 218,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_mixed_files",
-    "duration": 223750
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 235,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_to_feature_branch",
-    "duration": 187209
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 252,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#01",
-    "duration": 91292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
       "row": 61,
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_pr_with_trigger_label_affects_files_in_other_stack",
-    "duration": 183625
+    "duration": 127833
   },
   {
     "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
+      "file": "spacelift_policies/push_package copy/labels_test.rego",
       "row": 77,
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_pr_with_trigger_label_affects_files_to_ignore_always",
-    "duration": 368334
+    "duration": 85667
   },
   {
     "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
+      "file": "spacelift_policies/push_package copy/labels_test.rego",
       "row": 92,
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_pr_with_trigger_label_closed",
-    "duration": 112250
+    "duration": 79834
   },
   {
     "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
+      "file": "spacelift_policies/push_package copy/labels_test.rego",
       "row": 107,
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_push",
-    "duration": 100875
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 120,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#04",
-    "duration": 46458
-  }
-]
-
-OPA test command completed successfully
-OPA test command failed with exit code 1: 
-OPA test command output:
-[
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/cancel_test.rego",
-      "row": 12,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_cancel_in_progress_runs_on_pr_branch",
-    "duration": 4481209
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/cancel_test.rego",
-      "row": 41,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_pr_branch",
-    "duration": 90542
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/cancel_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_push_branch",
-    "duration": 77292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/cancel_test.rego",
-      "row": 85,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample",
-    "duration": 55958
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 54,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_other_stack#01",
-    "duration": 775708
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 71,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_this_stack#01",
-    "duration": 236000
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 88,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_ignore_always#01",
-    "duration": 487542
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 103,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_run_always#01",
-    "duration": 214417
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 121,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_mixed_files#01",
-    "duration": 439500
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 138,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_merge#01",
-    "duration": 114875
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 151,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_other_stack#01",
-    "duration": 170041
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 168,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_this_stack#01",
-    "duration": 164500
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 185,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_ignore_always#01",
-    "duration": 987167
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 200,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_run_always#01",
-    "duration": 214208
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 218,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_mixed_files#01",
-    "duration": 190000
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 235,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_to_feature_branch#01",
-    "duration": 179250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/files_test.rego",
-      "row": 252,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#02",
-    "duration": 44959
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_in_other_stack#01",
-    "duration": 170958
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 77,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_to_ignore_always#01",
-    "duration": 164042
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 92,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_closed#01",
-    "duration": 107291
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package copy/labels_test.rego",
-      "row": 107,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push#01",
-    "duration": 92708
+    "duration": 84750
   },
   {
     "location": {
       "file": "spacelift_policies/push_package copy/labels_test.rego",
       "row": 120,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#05",
-    "duration": 55209
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 12,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_cancel_in_progress_runs_on_pr_branch#01",
-    "fail": true,
-    "duration": 67166
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 41,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_pr_branch#01",
-    "duration": 56333
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_not_cancel_in_progress_runs_on_push_branch#01",
-    "duration": 62916
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/cancel_test.rego",
-      "row": 85,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#03",
-    "duration": 40250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 54,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_other_stack",
-    "duration": 276917
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 71,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_in_this_stack",
-    "duration": 190250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 88,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_ignore_always",
-    "duration": 293459
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 103,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_files_to_run_always",
-    "duration": 197125
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 121,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_affects_mixed_files",
-    "duration": 222333
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 138,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_merge",
-    "duration": 109292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 151,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_other_stack",
-    "duration": 157459
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 168,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_in_this_stack",
-    "duration": 152541
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 185,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_ignore_always",
-    "duration": 623917
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 200,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_files_to_run_always",
-    "duration": 307292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 218,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_affects_mixed_files",
-    "duration": 223750
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 235,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push_to_feature_branch",
-    "duration": 187209
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/files_test.rego",
-      "row": 252,
       "col": 1
     },
     "package": "data.spacelift_policies.push_test",
     "name": "test_sample#01",
-    "duration": 91292
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_in_other_stack",
-    "duration": 183625
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 77,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_affects_files_to_ignore_always",
-    "duration": 368334
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 92,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_pr_with_trigger_label_closed",
-    "duration": 112250
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 107,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_push",
-    "duration": 100875
-  },
-  {
-    "location": {
-      "file": "spacelift_policies/push_package/labels_test.rego",
-      "row": 120,
-      "col": 1
-    },
-    "package": "data.spacelift_policies.push_test",
-    "name": "test_sample#04",
-    "duration": 46458
+    "duration": 57834
   }
 ]
+Running OPA test with coverage...
+[command]/opt/homebrew/bin/opa test spacelift_policies/push_package copy --format=json --coverage
+{
+  "files": {
+    "spacelift_policies/push_package copy/cancel.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 9
+          },
+          "end": {
+            "row": 14
+          }
+        },
+        {
+          "start": {
+            "row": 18
+          },
+          "end": {
+            "row": 18
+          }
+        }
+      ],
+      "covered_lines": 7,
+      "coverage": 100
+    },
+    "spacelift_policies/push_package copy/cancel_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 12
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 30
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 36
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 38
+          },
+          "end": {
+            "row": 38
+          }
+        },
+        {
+          "start": {
+            "row": 41
+          },
+          "end": {
+            "row": 42
+          }
+        },
+        {
+          "start": {
+            "row": 51
+          },
+          "end": {
+            "row": 51
+          }
+        },
+        {
+          "start": {
+            "row": 55
+          },
+          "end": {
+            "row": 55
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 58
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 68
+          },
+          "end": {
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 74
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 78
+          },
+          "end": {
+            "row": 79
+          }
+        },
+        {
+          "start": {
+            "row": 81
+          },
+          "end": {
+            "row": 82
+          }
+        },
+        {
+          "start": {
+            "row": 85
+          },
+          "end": {
+            "row": 86
+          }
+        }
+      ],
+      "covered_lines": 22,
+      "coverage": 100
+    },
+    "spacelift_policies/push_package copy/files.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 15
+          }
+        },
+        {
+          "start": {
+            "row": 18
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 20
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 22
+          },
+          "end": {
+            "row": 22
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 30
+          },
+          "end": {
+            "row": 31
+          }
+        },
+        {
+          "start": {
+            "row": 45
+          },
+          "end": {
+            "row": 45
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 50
+          }
+        },
+        {
+          "start": {
+            "row": 53
+          },
+          "end": {
+            "row": 56
+          }
+        },
+        {
+          "start": {
+            "row": 59
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 65
+          },
+          "end": {
+            "row": 65
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 72
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 76
+          }
+        },
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 85
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 70
+          },
+          "end": {
+            "row": 70
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 77
+          }
+        },
+        {
+          "start": {
+            "row": 89
+          },
+          "end": {
+            "row": 89
+          }
+        }
+      ],
+      "covered_lines": 35,
+      "not_covered_lines": 5,
+      "coverage": 87.5
+    },
+    "spacelift_policies/push_package copy/files_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 31
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 54
+          },
+          "end": {
+            "row": 55
+          }
+        },
+        {
+          "start": {
+            "row": 58
+          },
+          "end": {
+            "row": 58
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 61
+          }
+        },
+        {
+          "start": {
+            "row": 63
+          },
+          "end": {
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 72
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 75
+          }
+        },
+        {
+          "start": {
+            "row": 78
+          },
+          "end": {
+            "row": 78
+          }
+        },
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 85
+          }
+        },
+        {
+          "start": {
+            "row": 88
+          },
+          "end": {
+            "row": 89
+          }
+        },
+        {
+          "start": {
+            "row": 92
+          },
+          "end": {
+            "row": 92
+          }
+        },
+        {
+          "start": {
+            "row": 95
+          },
+          "end": {
+            "row": 95
+          }
+        },
+        {
+          "start": {
+            "row": 97
+          },
+          "end": {
+            "row": 100
+          }
+        },
+        {
+          "start": {
+            "row": 103
+          },
+          "end": {
+            "row": 104
+          }
+        },
+        {
+          "start": {
+            "row": 107
+          },
+          "end": {
+            "row": 107
+          }
+        },
+        {
+          "start": {
+            "row": 110
+          },
+          "end": {
+            "row": 110
+          }
+        },
+        {
+          "start": {
+            "row": 112
+          },
+          "end": {
+            "row": 117
+          }
+        },
+        {
+          "start": {
+            "row": 121
+          },
+          "end": {
+            "row": 122
+          }
+        },
+        {
+          "start": {
+            "row": 125
+          },
+          "end": {
+            "row": 125
+          }
+        },
+        {
+          "start": {
+            "row": 128
+          },
+          "end": {
+            "row": 128
+          }
+        },
+        {
+          "start": {
+            "row": 130
+          },
+          "end": {
+            "row": 135
+          }
+        },
+        {
+          "start": {
+            "row": 138
+          },
+          "end": {
+            "row": 139
+          }
+        },
+        {
+          "start": {
+            "row": 142
+          },
+          "end": {
+            "row": 142
+          }
+        },
+        {
+          "start": {
+            "row": 145
+          },
+          "end": {
+            "row": 145
+          }
+        },
+        {
+          "start": {
+            "row": 147
+          },
+          "end": {
+            "row": 148
+          }
+        },
+        {
+          "start": {
+            "row": 151
+          },
+          "end": {
+            "row": 152
+          }
+        },
+        {
+          "start": {
+            "row": 155
+          },
+          "end": {
+            "row": 155
+          }
+        },
+        {
+          "start": {
+            "row": 158
+          },
+          "end": {
+            "row": 158
+          }
+        },
+        {
+          "start": {
+            "row": 160
+          },
+          "end": {
+            "row": 165
+          }
+        },
+        {
+          "start": {
+            "row": 168
+          },
+          "end": {
+            "row": 169
+          }
+        },
+        {
+          "start": {
+            "row": 172
+          },
+          "end": {
+            "row": 172
+          }
+        },
+        {
+          "start": {
+            "row": 175
+          },
+          "end": {
+            "row": 175
+          }
+        },
+        {
+          "start": {
+            "row": 177
+          },
+          "end": {
+            "row": 182
+          }
+        },
+        {
+          "start": {
+            "row": 185
+          },
+          "end": {
+            "row": 186
+          }
+        },
+        {
+          "start": {
+            "row": 189
+          },
+          "end": {
+            "row": 189
+          }
+        },
+        {
+          "start": {
+            "row": 192
+          },
+          "end": {
+            "row": 192
+          }
+        },
+        {
+          "start": {
+            "row": 194
+          },
+          "end": {
+            "row": 197
+          }
+        },
+        {
+          "start": {
+            "row": 200
+          },
+          "end": {
+            "row": 201
+          }
+        },
+        {
+          "start": {
+            "row": 204
+          },
+          "end": {
+            "row": 204
+          }
+        },
+        {
+          "start": {
+            "row": 207
+          },
+          "end": {
+            "row": 207
+          }
+        },
+        {
+          "start": {
+            "row": 209
+          },
+          "end": {
+            "row": 214
+          }
+        },
+        {
+          "start": {
+            "row": 218
+          },
+          "end": {
+            "row": 219
+          }
+        },
+        {
+          "start": {
+            "row": 222
+          },
+          "end": {
+            "row": 222
+          }
+        },
+        {
+          "start": {
+            "row": 225
+          },
+          "end": {
+            "row": 225
+          }
+        },
+        {
+          "start": {
+            "row": 227
+          },
+          "end": {
+            "row": 232
+          }
+        },
+        {
+          "start": {
+            "row": 235
+          },
+          "end": {
+            "row": 236
+          }
+        },
+        {
+          "start": {
+            "row": 239
+          },
+          "end": {
+            "row": 239
+          }
+        },
+        {
+          "start": {
+            "row": 242
+          },
+          "end": {
+            "row": 242
+          }
+        },
+        {
+          "start": {
+            "row": 244
+          },
+          "end": {
+            "row": 249
+          }
+        },
+        {
+          "start": {
+            "row": 252
+          },
+          "end": {
+            "row": 253
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 49
+          },
+          "end": {
+            "row": 49
+          }
+        },
+        {
+          "start": {
+            "row": 51
+          },
+          "end": {
+            "row": 51
+          }
+        }
+      ],
+      "covered_lines": 124,
+      "not_covered_lines": 4,
+      "coverage": 96.875
+    },
+    "spacelift_policies/push_package copy/labels.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        }
+      ],
+      "covered_lines": 1,
+      "not_covered_lines": 1,
+      "coverage": 50
+    },
+    "spacelift_policies/push_package copy/labels_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 66
+          },
+          "end": {
+            "row": 66
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 71
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 78
+          }
+        },
+        {
+          "start": {
+            "row": 82
+          },
+          "end": {
+            "row": 82
+          }
+        },
+        {
+          "start": {
+            "row": 87
+          },
+          "end": {
+            "row": 87
+          }
+        },
+        {
+          "start": {
+            "row": 89
+          },
+          "end": {
+            "row": 89
+          }
+        },
+        {
+          "start": {
+            "row": 92
+          },
+          "end": {
+            "row": 93
+          }
+        },
+        {
+          "start": {
+            "row": 97
+          },
+          "end": {
+            "row": 97
+          }
+        },
+        {
+          "start": {
+            "row": 102
+          },
+          "end": {
+            "row": 102
+          }
+        },
+        {
+          "start": {
+            "row": 104
+          },
+          "end": {
+            "row": 104
+          }
+        },
+        {
+          "start": {
+            "row": 107
+          },
+          "end": {
+            "row": 108
+          }
+        },
+        {
+          "start": {
+            "row": 111
+          },
+          "end": {
+            "row": 112
+          }
+        },
+        {
+          "start": {
+            "row": 114
+          },
+          "end": {
+            "row": 114
+          }
+        },
+        {
+          "start": {
+            "row": 116
+          },
+          "end": {
+            "row": 117
+          }
+        },
+        {
+          "start": {
+            "row": 120
+          },
+          "end": {
+            "row": 121
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 13
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 27
+          },
+          "end": {
+            "row": 27
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 29
+          }
+        },
+        {
+          "start": {
+            "row": 40
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 58
+          }
+        }
+      ],
+      "covered_lines": 25,
+      "not_covered_lines": 11,
+      "coverage": 69.44444444444444
+    }
+  },
+  "covered_lines": 214,
+  "not_covered_lines": 21,
+  "coverage": 91.06382978723404
+}
+Coverage Exit code: 0
+OPA test commands completed
+{
+  "files": {
+    "spacelift_policies/push_package copy/cancel.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 9
+          },
+          "end": {
+            "row": 14
+          }
+        },
+        {
+          "start": {
+            "row": 18
+          },
+          "end": {
+            "row": 18
+          }
+        }
+      ],
+      "covered_lines": 7,
+      "coverage": 100
+    },
+    "spacelift_policies/push_package copy/cancel_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 12
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 30
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 36
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 38
+          },
+          "end": {
+            "row": 38
+          }
+        },
+        {
+          "start": {
+            "row": 41
+          },
+          "end": {
+            "row": 42
+          }
+        },
+        {
+          "start": {
+            "row": 51
+          },
+          "end": {
+            "row": 51
+          }
+        },
+        {
+          "start": {
+            "row": 55
+          },
+          "end": {
+            "row": 55
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 58
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 68
+          },
+          "end": {
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 74
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 78
+          },
+          "end": {
+            "row": 79
+          }
+        },
+        {
+          "start": {
+            "row": 81
+          },
+          "end": {
+            "row": 82
+          }
+        },
+        {
+          "start": {
+            "row": 85
+          },
+          "end": {
+            "row": 86
+          }
+        }
+      ],
+      "covered_lines": 22,
+      "coverage": 100
+    },
+    "spacelift_policies/push_package copy/files.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 15
+          }
+        },
+        {
+          "start": {
+            "row": 18
+          },
+          "end": {
+            "row": 18
+          }
+        },
+        {
+          "start": {
+            "row": 20
+          },
+          "end": {
+            "row": 20
+          }
+        },
+        {
+          "start": {
+            "row": 22
+          },
+          "end": {
+            "row": 22
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 30
+          },
+          "end": {
+            "row": 31
+          }
+        },
+        {
+          "start": {
+            "row": 45
+          },
+          "end": {
+            "row": 45
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 50
+          }
+        },
+        {
+          "start": {
+            "row": 53
+          },
+          "end": {
+            "row": 56
+          }
+        },
+        {
+          "start": {
+            "row": 59
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 65
+          },
+          "end": {
+            "row": 65
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 72
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 76
+          }
+        },
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 85
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 70
+          },
+          "end": {
+            "row": 70
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 77
+          }
+        },
+        {
+          "start": {
+            "row": 89
+          },
+          "end": {
+            "row": 89
+          }
+        }
+      ],
+      "covered_lines": 35,
+      "not_covered_lines": 5,
+      "coverage": 87.5
+    },
+    "spacelift_policies/push_package copy/files_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 31
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 54
+          },
+          "end": {
+            "row": 55
+          }
+        },
+        {
+          "start": {
+            "row": 58
+          },
+          "end": {
+            "row": 58
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 61
+          }
+        },
+        {
+          "start": {
+            "row": 63
+          },
+          "end": {
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 72
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 75
+          }
+        },
+        {
+          "start": {
+            "row": 78
+          },
+          "end": {
+            "row": 78
+          }
+        },
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 85
+          }
+        },
+        {
+          "start": {
+            "row": 88
+          },
+          "end": {
+            "row": 89
+          }
+        },
+        {
+          "start": {
+            "row": 92
+          },
+          "end": {
+            "row": 92
+          }
+        },
+        {
+          "start": {
+            "row": 95
+          },
+          "end": {
+            "row": 95
+          }
+        },
+        {
+          "start": {
+            "row": 97
+          },
+          "end": {
+            "row": 100
+          }
+        },
+        {
+          "start": {
+            "row": 103
+          },
+          "end": {
+            "row": 104
+          }
+        },
+        {
+          "start": {
+            "row": 107
+          },
+          "end": {
+            "row": 107
+          }
+        },
+        {
+          "start": {
+            "row": 110
+          },
+          "end": {
+            "row": 110
+          }
+        },
+        {
+          "start": {
+            "row": 112
+          },
+          "end": {
+            "row": 117
+          }
+        },
+        {
+          "start": {
+            "row": 121
+          },
+          "end": {
+            "row": 122
+          }
+        },
+        {
+          "start": {
+            "row": 125
+          },
+          "end": {
+            "row": 125
+          }
+        },
+        {
+          "start": {
+            "row": 128
+          },
+          "end": {
+            "row": 128
+          }
+        },
+        {
+          "start": {
+            "row": 130
+          },
+          "end": {
+            "row": 135
+          }
+        },
+        {
+          "start": {
+            "row": 138
+          },
+          "end": {
+            "row": 139
+          }
+        },
+        {
+          "start": {
+            "row": 142
+          },
+          "end": {
+            "row": 142
+          }
+        },
+        {
+          "start": {
+            "row": 145
+          },
+          "end": {
+            "row": 145
+          }
+        },
+        {
+          "start": {
+            "row": 147
+          },
+          "end": {
+            "row": 148
+          }
+        },
+        {
+          "start": {
+            "row": 151
+          },
+          "end": {
+            "row": 152
+          }
+        },
+        {
+          "start": {
+            "row": 155
+          },
+          "end": {
+            "row": 155
+          }
+        },
+        {
+          "start": {
+            "row": 158
+          },
+          "end": {
+            "row": 158
+          }
+        },
+        {
+          "start": {
+            "row": 160
+          },
+          "end": {
+            "row": 165
+          }
+        },
+        {
+          "start": {
+            "row": 168
+          },
+          "end": {
+            "row": 169
+          }
+        },
+        {
+          "start": {
+            "row": 172
+          },
+          "end": {
+            "row": 172
+          }
+        },
+        {
+          "start": {
+            "row": 175
+          },
+          "end": {
+            "row": 175
+          }
+        },
+        {
+          "start": {
+            "row": 177
+          },
+          "end": {
+            "row": 182
+          }
+        },
+        {
+          "start": {
+            "row": 185
+          },
+          "end": {
+            "row": 186
+          }
+        },
+        {
+          "start": {
+            "row": 189
+          },
+          "end": {
+            "row": 189
+          }
+        },
+        {
+          "start": {
+            "row": 192
+          },
+          "end": {
+            "row": 192
+          }
+        },
+        {
+          "start": {
+            "row": 194
+          },
+          "end": {
+            "row": 197
+          }
+        },
+        {
+          "start": {
+            "row": 200
+          },
+          "end": {
+            "row": 201
+          }
+        },
+        {
+          "start": {
+            "row": 204
+          },
+          "end": {
+            "row": 204
+          }
+        },
+        {
+          "start": {
+            "row": 207
+          },
+          "end": {
+            "row": 207
+          }
+        },
+        {
+          "start": {
+            "row": 209
+          },
+          "end": {
+            "row": 214
+          }
+        },
+        {
+          "start": {
+            "row": 218
+          },
+          "end": {
+            "row": 219
+          }
+        },
+        {
+          "start": {
+            "row": 222
+          },
+          "end": {
+            "row": 222
+          }
+        },
+        {
+          "start": {
+            "row": 225
+          },
+          "end": {
+            "row": 225
+          }
+        },
+        {
+          "start": {
+            "row": 227
+          },
+          "end": {
+            "row": 232
+          }
+        },
+        {
+          "start": {
+            "row": 235
+          },
+          "end": {
+            "row": 236
+          }
+        },
+        {
+          "start": {
+            "row": 239
+          },
+          "end": {
+            "row": 239
+          }
+        },
+        {
+          "start": {
+            "row": 242
+          },
+          "end": {
+            "row": 242
+          }
+        },
+        {
+          "start": {
+            "row": 244
+          },
+          "end": {
+            "row": 249
+          }
+        },
+        {
+          "start": {
+            "row": 252
+          },
+          "end": {
+            "row": 253
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 49
+          },
+          "end": {
+            "row": 49
+          }
+        },
+        {
+          "start": {
+            "row": 51
+          },
+          "end": {
+            "row": 51
+          }
+        }
+      ],
+      "covered_lines": 124,
+      "not_covered_lines": 4,
+      "coverage": 96.875
+    },
+    "spacelift_policies/push_package copy/labels.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        }
+      ],
+      "covered_lines": 1,
+      "not_covered_lines": 1,
+      "coverage": 50
+    },
+    "spacelift_policies/push_package copy/labels_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 66
+          },
+          "end": {
+            "row": 66
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 71
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 78
+          }
+        },
+        {
+          "start": {
+            "row": 82
+          },
+          "end": {
+            "row": 82
+          }
+        },
+        {
+          "start": {
+            "row": 87
+          },
+          "end": {
+            "row": 87
+          }
+        },
+        {
+          "start": {
+            "row": 89
+          },
+          "end": {
+            "row": 89
+          }
+        },
+        {
+          "start": {
+            "row": 92
+          },
+          "end": {
+            "row": 93
+          }
+        },
+        {
+          "start": {
+            "row": 97
+          },
+          "end": {
+            "row": 97
+          }
+        },
+        {
+          "start": {
+            "row": 102
+          },
+          "end": {
+            "row": 102
+          }
+        },
+        {
+          "start": {
+            "row": 104
+          },
+          "end": {
+            "row": 104
+          }
+        },
+        {
+          "start": {
+            "row": 107
+          },
+          "end": {
+            "row": 108
+          }
+        },
+        {
+          "start": {
+            "row": 111
+          },
+          "end": {
+            "row": 112
+          }
+        },
+        {
+          "start": {
+            "row": 114
+          },
+          "end": {
+            "row": 114
+          }
+        },
+        {
+          "start": {
+            "row": 116
+          },
+          "end": {
+            "row": 117
+          }
+        },
+        {
+          "start": {
+            "row": 120
+          },
+          "end": {
+            "row": 121
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 13
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 27
+          },
+          "end": {
+            "row": 27
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 29
+          }
+        },
+        {
+          "start": {
+            "row": 40
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 58
+          }
+        }
+      ],
+      "covered_lines": 25,
+      "not_covered_lines": 11,
+      "coverage": 69.44444444444444
+    }
+  },
+  "covered_lines": 214,
+  "not_covered_lines": 21,
+  "coverage": 91.06382978723404
+}
 
+error
 
-
-
-
-
-
-OPA test completed with 44 results
-
-
-
-
-
-
-Parsed Test Results:
-[
-  {
-    file: 'spacelift_policies/push_package copy/cancel_test.rego',
-    status: 'PASS',
-    passed: 4,
-    total: 4,
-    details: [
-      '✅ test_cancel_in_progress_runs_on_pr_branch',
-      '✅ test_not_cancel_in_progress_runs_on_pr_branch',
-      '✅ test_not_cancel_in_progress_runs_on_push_branch',
-      '✅ test_sample'
-    ]
-  },
-  {
-    file: 'spacelift_policies/push_package copy/files_test.rego',
-    status: 'PASS',
-    passed: 13,
-    total: 13,
-    details: [
-      '✅ test_pr_affects_files_in_other_stack#01',
-      '✅ test_pr_affects_files_in_this_stack#01',
-      '✅ test_pr_affects_files_to_ignore_always#01',
-      '✅ test_pr_affects_files_to_run_always#01',
-      '✅ test_pr_affects_mixed_files#01',
-      '✅ test_pr_merge#01',
-      '✅ test_push_affects_files_in_other_stack#01',
-      '✅ test_push_affects_files_in_this_stack#01',
-      '✅ test_push_affects_files_to_ignore_always#01',
-      '✅ test_push_affects_files_to_run_always#01',
-      '✅ test_push_affects_mixed_files#01',
-      '✅ test_push_to_feature_branch#01',
-      '✅ test_sample#02'
-    ]
-  },
-  {
-    file: 'spacelift_policies/push_package copy/labels_test.rego',
-    status: 'PASS',
-    passed: 5,
-    total: 5,
-    details: [
-      '✅ test_pr_with_trigger_label_affects_files_in_other_stack#01',
-      '✅ test_pr_with_trigger_label_affects_files_to_ignore_always#01',
-      '✅ test_pr_with_trigger_label_closed#01',
-      '✅ test_push#01',
-      '✅ test_sample#05'
-    ]
-  },
-  {
-    file: 'spacelift_policies/push_package/cancel_test.rego',
-    status: 'FAIL',
-    passed: 3,
-    total: 4,
-    details: [
-      '❌ test_cancel_in_progress_runs_on_pr_branch#01',
-      '✅ test_not_cancel_in_progress_runs_on_pr_branch#01',
-      '✅ test_not_cancel_in_progress_runs_on_push_branch#01',
-      '✅ test_sample#03'
-    ]
-  },
-  {
-    file: 'spacelift_policies/push_package/files_test.rego',
-    status: 'PASS',
-    passed: 13,
-    total: 13,
-    details: [
-      '✅ test_pr_affects_files_in_other_stack',
-      '✅ test_pr_affects_files_in_this_stack',
-      '✅ test_pr_affects_files_to_ignore_always',
-      '✅ test_pr_affects_files_to_run_always',
-      '✅ test_pr_affects_mixed_files',
-      '✅ test_pr_merge',
-      '✅ test_push_affects_files_in_other_stack',
-      '✅ test_push_affects_files_in_this_stack',
-      '✅ test_push_affects_files_to_ignore_always',
-      '✅ test_push_affects_files_to_run_always',
-      '✅ test_push_affects_mixed_files',
-      '✅ test_push_to_feature_branch',
-      '✅ test_sample#01'
-    ]
-  },
-  {
-    file: 'spacelift_policies/push_package/labels_test.rego',
-    status: 'PASS',
-    passed: 5,
-    total: 5,
-    details: [
-      '✅ test_pr_with_trigger_label_affects_files_in_other_stack',
-      '✅ test_pr_with_trigger_label_affects_files_to_ignore_always',
-      '✅ test_pr_with_trigger_label_closed',
-      '✅ test_push',
-      '✅ test_sample#04'
-    ]
-  }
-]
-Test Results Summary:
-spacelift_policies/push_package copy/cancel_test.rego: 4/4 tests passed - Status: PASS
-spacelift_policies/push_package copy/files_test.rego: 13/13 tests passed - Status: PASS
-spacelift_policies/push_package copy/labels_test.rego: 5/5 tests passed - Status: PASS
-spacelift_policies/push_package/cancel_test.rego: 3/4 tests passed - Status: FAIL
-spacelift_policies/push_package/files_test.rego: 13/13 tests passed - Status: PASS
-spacelift_policies/push_package/labels_test.rego: 5/5 tests passed - Status: PASS
-::error::Some tests have failed. Check the details for more information.
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-
-
-*****************************************
-Searching for test files in examples with postfix _test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find examples -type f -name *_test.rego
-examples/tests/notification-stack-failure-origins_test.rego
-examples/tests/readers-writers-admins-teams_test.rego
-examples/tests/track-using-labels_test.rego
-examples/tests/enforce-module-use-policy_test.rego
-examples/tests/enforce-password-length_test.rego
-examples/tests/cancel-in-progress-runs_test.rego
-examples/tests/ignore-changes-outside-root_test.rego
-examples/tests/do-not-delete-stateful-resources_test.rego
-Found 8 test files
-Running test: examples/tests/notification-stack-failure-origins_test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find examples/tests examples/tests/.. -maxdepth 1 -type f -name notification-stack-failure-origins.rego
-examples/tests/../notification-stack-failure-origins.rego
-Found implementation file: examples/tests/../notification-stack-failure-origins.rego
-[command]/opt/homebrew/bin/opa test examples/tests/notification-stack-failure-origins_test.rego examples/tests/../notification-stack-failure-origins.rego --format=json
-[
-  {
-    "location": {
-      "file": "examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 11,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_slack_notification_for_tracked_failed_run",
-    "duration": 270958
-  },
-  {
-    "location": {
-      "file": "examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 38,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_no_slack_notification_for_non_tracked_run",
-    "duration": 62625
-  },
-  {
-    "location": {
-      "file": "examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 48,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_no_slack_notification_for_successful_run",
-    "duration": 47417
-  },
-  {
-    "location": {
-      "file": "examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 58,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_slack_notification_with_unknown_github_user",
-    "duration": 91167
-  },
-  {
-    "location": {
-      "file": "examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 82,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_pr_comment_for_tracked_failed_run",
-    "duration": 81834
-  },
-  {
-    "location": {
-      "file": "examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 111,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_no_pr_comment_for_non_tracked_run",
-    "duration": 41375
-  },
-  {
-    "location": {
-      "file": "examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 121,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_no_pr_comment_for_successful_run",
-    "duration": 46875
-  }
-]
-Running test: examples/tests/readers-writers-admins-teams_test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find examples/tests examples/tests/.. -maxdepth 1 -type f -name readers-writers-admins-teams.rego
-examples/tests/../readers-writers-admins-teams.rego
-Found implementation file: examples/tests/../readers-writers-admins-teams.rego
-[command]/opt/homebrew/bin/opa test examples/tests/readers-writers-admins-teams_test.rego examples/tests/../readers-writers-admins-teams.rego --format=json
-[
-  {
-    "location": {
-      "file": "examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 9,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_allow_writers",
-    "duration": 95291
-  },
-  {
-    "location": {
-      "file": "examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 13,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_allow_admins",
-    "duration": 68750
-  },
-  {
-    "location": {
-      "file": "examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 17,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_allow_readers",
-    "duration": 52541
-  },
-  {
-    "location": {
-      "file": "examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 22,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_space_admin_access",
-    "duration": 98708
-  },
-  {
-    "location": {
-      "file": "examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 27,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_space_write_access",
-    "duration": 50958
-  },
-  {
-    "location": {
-      "file": "examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 32,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_space_read_access",
-    "duration": 52459
-  }
-]
-Running test: examples/tests/track-using-labels_test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find examples/tests examples/tests/.. -maxdepth 1 -type f -name track-using-labels.rego
-examples/tests/../track-using-labels.rego
-Found implementation file: examples/tests/../track-using-labels.rego
-[command]/opt/homebrew/bin/opa test examples/tests/track-using-labels_test.rego examples/tests/../track-using-labels.rego --format=json
-[
-  {
-    "location": {
-      "file": "examples/tests/track-using-labels_test.rego",
-      "row": 13,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_track_different_branches",
-    "duration": 91834
-  },
-  {
-    "location": {
-      "file": "examples/tests/track-using-labels_test.rego",
-      "row": 21,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_propose_non_empty_branch",
-    "duration": 82292
-  },
-  {
-    "location": {
-      "file": "examples/tests/track-using-labels_test.rego",
-      "row": 29,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_propose_empty_branch",
-    "duration": 50250
-  },
-  {
-    "location": {
-      "file": "examples/tests/track-using-labels_test.rego",
-      "row": 37,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_directory",
-    "duration": 101500
-  },
-  {
-    "location": {
-      "file": "examples/tests/track-using-labels_test.rego",
-      "row": 45,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_extension",
-    "duration": 62083
-  },
-  {
-    "location": {
-      "file": "examples/tests/track-using-labels_test.rego",
-      "row": 53,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_not_affected_directory",
-    "duration": 51709
-  },
-  {
-    "location": {
-      "file": "examples/tests/track-using-labels_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_not_affected_extension",
-    "duration": 51000
-  },
-  {
-    "location": {
-      "file": "examples/tests/track-using-labels_test.rego",
-      "row": 69,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_ignore_not_affected",
-    "duration": 50125
-  }
-]
-Running test: examples/tests/enforce-module-use-policy_test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find examples/tests examples/tests/.. -maxdepth 1 -type f -name enforce-module-use-policy.rego
-examples/tests/../enforce-module-use-policy.rego
-Found implementation file: examples/tests/../enforce-module-use-policy.rego
-[command]/opt/homebrew/bin/opa test examples/tests/enforce-module-use-policy_test.rego examples/tests/../enforce-module-use-policy.rego --format=json
-[
-  {
-    "location": {
-      "file": "examples/tests/enforce-module-use-policy_test.rego",
-      "row": 4,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_creation_of_controlled_resource_type",
-    "duration": 200500
-  },
-  {
-    "location": {
-      "file": "examples/tests/enforce-module-use-policy_test.rego",
-      "row": 13,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_update_of_controlled_resource_type",
-    "duration": 73875
-  },
-  {
-    "location": {
-      "file": "examples/tests/enforce-module-use-policy_test.rego",
-      "row": 22,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_allow_deletion_of_controlled_resource_type",
-    "duration": 54959
-  },
-  {
-    "location": {
-      "file": "examples/tests/enforce-module-use-policy_test.rego",
-      "row": 31,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_allow_creation_of_uncontrolled_resource_type",
-    "duration": 59417
-  }
-]
-Running test: examples/tests/enforce-password-length_test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find examples/tests examples/tests/.. -maxdepth 1 -type f -name enforce-password-length.rego
-examples/tests/../enforce-password-length.rego
-Found implementation file: examples/tests/../enforce-password-length.rego
-[command]/opt/homebrew/bin/opa test examples/tests/enforce-password-length_test.rego examples/tests/../enforce-password-length.rego --format=json
-[
-  {
-    "location": {
-      "file": "examples/tests/enforce-password-length_test.rego",
-      "row": 4,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_creation_of_password_with_less_than_16_characters",
-    "duration": 161375
-  },
-  {
-    "location": {
-      "file": "examples/tests/enforce-password-length_test.rego",
-      "row": 16,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_warn_creation_of_password_between_16_and_20_characters",
-    "duration": 70958
-  },
-  {
-    "location": {
-      "file": "examples/tests/enforce-password-length_test.rego",
-      "row": 28,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_allow_creation_of_password_longer_than_20_characters",
-    "duration": 59459
-  }
-]
-Running test: examples/tests/cancel-in-progress-runs_test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find examples/tests examples/tests/.. -maxdepth 1 -type f -name cancel-in-progress-runs.rego
-examples/tests/../cancel-in-progress-runs.rego
-Found implementation file: examples/tests/../cancel-in-progress-runs.rego
-[command]/opt/homebrew/bin/opa test examples/tests/cancel-in-progress-runs_test.rego examples/tests/../cancel-in-progress-runs.rego --format=json
-[
-  {
-    "location": {
-      "file": "examples/tests/cancel-in-progress-runs_test.rego",
-      "row": 3,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_cancel_runs_allowed",
-    "duration": 140417
-  },
-  {
-    "location": {
-      "file": "examples/tests/cancel-in-progress-runs_test.rego",
-      "row": 15,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_cancel_runs_denied",
-    "duration": 64959
-  }
-]
-Running test: examples/tests/ignore-changes-outside-root_test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find examples/tests examples/tests/.. -maxdepth 1 -type f -name ignore-changes-outside-root.rego
-examples/tests/../ignore-changes-outside-root.rego
-Found implementation file: examples/tests/../ignore-changes-outside-root.rego
-[command]/opt/homebrew/bin/opa test examples/tests/ignore-changes-outside-root_test.rego examples/tests/../ignore-changes-outside-root.rego --format=json
-[
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 3,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_no_files",
-    "duration": 116250
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 10,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_tf_files",
-    "duration": 86958
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 17,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_no_tf_files",
-    "duration": 50084
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 24,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_outside_project_root",
-    "duration": 44875
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 31,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_ignore_affected",
-    "duration": 56875
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 35,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_ignore_not_affected",
-    "duration": 47375
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 39,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_ignore_tag",
-    "duration": 46542
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 44,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_propose_affected",
-    "duration": 38750
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 48,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_propose_not_affected",
-    "duration": 46167
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 57,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_track_affected",
-    "duration": 54250
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_track_not_affected",
-    "duration": 41042
-  },
-  {
-    "location": {
-      "file": "examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 65,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_track_not_stack_branch",
-    "duration": 49250
-  }
-]
-Running test: examples/tests/do-not-delete-stateful-resources_test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find examples/tests examples/tests/.. -maxdepth 1 -type f -name do-not-delete-stateful-resources.rego
-examples/tests/../do-not-delete-stateful-resources.rego
-Found implementation file: examples/tests/../do-not-delete-stateful-resources.rego
-[command]/opt/homebrew/bin/opa test examples/tests/do-not-delete-stateful-resources_test.rego examples/tests/../do-not-delete-stateful-resources.rego --format=json
-[
-  {
-    "location": {
-      "file": "examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 4,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_s3_bucket_deletion",
-    "duration": 150625
-  },
-  {
-    "location": {
-      "file": "examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 14,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_db_instance_deletion",
-    "duration": 65000
-  },
-  {
-    "location": {
-      "file": "examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 24,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_efs_file_system_deletion",
-    "duration": 62125
-  },
-  {
-    "location": {
-      "file": "examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 34,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_dynamodb_table_deletion",
-    "duration": 50083
-  },
-  {
-    "location": {
-      "file": "examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 44,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_allow_instance_deletion",
-    "duration": 51417
-  }
-]
-All tests completed
-[
-  {
-    location: {
-      file: 'examples/tests/notification-stack-failure-origins_test.rego',
-      row: 11,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_slack_notification_for_tracked_failed_run',
-    duration: 270958
-  },
-  {
-    location: {
-      file: 'examples/tests/notification-stack-failure-origins_test.rego',
-      row: 38,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_no_slack_notification_for_non_tracked_run',
-    duration: 62625
-  },
-  {
-    location: {
-      file: 'examples/tests/notification-stack-failure-origins_test.rego',
-      row: 48,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_no_slack_notification_for_successful_run',
-    duration: 47417
-  },
-  {
-    location: {
-      file: 'examples/tests/notification-stack-failure-origins_test.rego',
-      row: 58,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_slack_notification_with_unknown_github_user',
-    duration: 91167
-  },
-  {
-    location: {
-      file: 'examples/tests/notification-stack-failure-origins_test.rego',
-      row: 82,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_pr_comment_for_tracked_failed_run',
-    duration: 81834
-  },
-  {
-    location: {
-      file: 'examples/tests/notification-stack-failure-origins_test.rego',
-      row: 111,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_no_pr_comment_for_non_tracked_run',
-    duration: 41375
-  },
-  {
-    location: {
-      file: 'examples/tests/notification-stack-failure-origins_test.rego',
-      row: 121,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_no_pr_comment_for_successful_run',
-    duration: 46875
-  },
-  {
-    location: {
-      file: 'examples/tests/readers-writers-admins-teams_test.rego',
-      row: 9,
-      col: 1
-    },
-    package: 'data.spacelift_test',
-    name: 'test_allow_writers',
-    duration: 95291
-  },
-  {
-    location: {
-      file: 'examples/tests/readers-writers-admins-teams_test.rego',
-      row: 13,
-      col: 1
-    },
-    package: 'data.spacelift_test',
-    name: 'test_allow_admins',
-    duration: 68750
-  },
-  {
-    location: {
-      file: 'examples/tests/readers-writers-admins-teams_test.rego',
-      row: 17,
-      col: 1
-    },
-    package: 'data.spacelift_test',
-    name: 'test_allow_readers',
-    duration: 52541
-  },
-  {
-    location: {
-      file: 'examples/tests/readers-writers-admins-teams_test.rego',
-      row: 22,
-      col: 1
-    },
-    package: 'data.spacelift_test',
-    name: 'test_space_admin_access',
-    duration: 98708
-  },
-  {
-    location: {
-      file: 'examples/tests/readers-writers-admins-teams_test.rego',
-      row: 27,
-      col: 1
-    },
-    package: 'data.spacelift_test',
-    name: 'test_space_write_access',
-    duration: 50958
-  },
-  {
-    location: {
-      file: 'examples/tests/readers-writers-admins-teams_test.rego',
-      row: 32,
-      col: 1
-    },
-    package: 'data.spacelift_test',
-    name: 'test_space_read_access',
-    duration: 52459
-  },
-  {
-    location: {
-      file: 'examples/tests/track-using-labels_test.rego',
-      row: 13,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_track_different_branches',
-    duration: 91834
-  },
-  {
-    location: {
-      file: 'examples/tests/track-using-labels_test.rego',
-      row: 21,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_propose_non_empty_branch',
-    duration: 82292
-  },
-  {
-    location: {
-      file: 'examples/tests/track-using-labels_test.rego',
-      row: 29,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_propose_empty_branch',
-    duration: 50250
-  },
-  {
-    location: {
-      file: 'examples/tests/track-using-labels_test.rego',
-      row: 37,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_affected_directory',
-    duration: 101500
-  },
-  {
-    location: {
-      file: 'examples/tests/track-using-labels_test.rego',
-      row: 45,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_affected_extension',
-    duration: 62083
-  },
-  {
-    location: {
-      file: 'examples/tests/track-using-labels_test.rego',
-      row: 53,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_not_affected_directory',
-    duration: 51709
-  },
-  {
-    location: {
-      file: 'examples/tests/track-using-labels_test.rego',
-      row: 61,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_not_affected_extension',
-    duration: 51000
-  },
-  {
-    location: {
-      file: 'examples/tests/track-using-labels_test.rego',
-      row: 69,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_ignore_not_affected',
-    duration: 50125
-  },
-  {
-    location: {
-      file: 'examples/tests/enforce-module-use-policy_test.rego',
-      row: 4,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_deny_creation_of_controlled_resource_type',
-    duration: 200500
-  },
-  {
-    location: {
-      file: 'examples/tests/enforce-module-use-policy_test.rego',
-      row: 13,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_deny_update_of_controlled_resource_type',
-    duration: 73875
-  },
-  {
-    location: {
-      file: 'examples/tests/enforce-module-use-policy_test.rego',
-      row: 22,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_allow_deletion_of_controlled_resource_type',
-    duration: 54959
-  },
-  {
-    location: {
-      file: 'examples/tests/enforce-module-use-policy_test.rego',
-      row: 31,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_allow_creation_of_uncontrolled_resource_type',
-    duration: 59417
-  },
-  {
-    location: {
-      file: 'examples/tests/enforce-password-length_test.rego',
-      row: 4,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_deny_creation_of_password_with_less_than_16_characters',
-    duration: 161375
-  },
-  {
-    location: {
-      file: 'examples/tests/enforce-password-length_test.rego',
-      row: 16,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_warn_creation_of_password_between_16_and_20_characters',
-    duration: 70958
-  },
-  {
-    location: {
-      file: 'examples/tests/enforce-password-length_test.rego',
-      row: 28,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_allow_creation_of_password_longer_than_20_characters',
-    duration: 59459
-  },
-  {
-    location: {
-      file: 'examples/tests/cancel-in-progress-runs_test.rego',
-      row: 3,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_cancel_runs_allowed',
-    duration: 140417
-  },
-  {
-    location: {
-      file: 'examples/tests/cancel-in-progress-runs_test.rego',
-      row: 15,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_cancel_runs_denied',
-    duration: 64959
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 3,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_affected_no_files',
-    duration: 116250
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 10,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_affected_tf_files',
-    duration: 86958
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 17,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_affected_no_tf_files',
-    duration: 50084
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 24,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_affected_outside_project_root',
-    duration: 44875
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 31,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_ignore_affected',
-    duration: 56875
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 35,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_ignore_not_affected',
-    duration: 47375
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 39,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_ignore_tag',
-    duration: 46542
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 44,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_propose_affected',
-    duration: 38750
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 48,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_propose_not_affected',
-    duration: 46167
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 57,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_track_affected',
-    duration: 54250
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 61,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_track_not_affected',
-    duration: 41042
-  },
-  {
-    location: {
-      file: 'examples/tests/ignore-changes-outside-root_test.rego',
-      row: 65,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_track_not_stack_branch',
-    duration: 49250
-  },
-  {
-    location: {
-      file: 'examples/tests/do-not-delete-stateful-resources_test.rego',
-      row: 4,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_deny_s3_bucket_deletion',
-    duration: 150625
-  },
-  {
-    location: {
-      file: 'examples/tests/do-not-delete-stateful-resources_test.rego',
-      row: 14,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_deny_db_instance_deletion',
-    duration: 65000
-  },
-  {
-    location: {
-      file: 'examples/tests/do-not-delete-stateful-resources_test.rego',
-      row: 24,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_deny_efs_file_system_deletion',
-    duration: 62125
-  },
-  {
-    location: {
-      file: 'examples/tests/do-not-delete-stateful-resources_test.rego',
-      row: 34,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_deny_dynamodb_table_deletion',
-    duration: 50083
-  },
-  {
-    location: {
-      file: 'examples/tests/do-not-delete-stateful-resources_test.rego',
-      row: 44,
-      col: 1
-    },
-    package: 'data.spacelift',
-    name: 'test_allow_instance_deletion',
-    duration: 51417
-  }
-]
-Test Results:
-[
-  {
-    file: 'examples/tests/notification-stack-failure-origins_test.rego',
-    status: 'PASS',
-    passed: 7,
-    total: 7,
-    details: [
-      '✅ test_slack_notification_for_tracked_failed_run',
-      '✅ test_no_slack_notification_for_non_tracked_run',
-      '✅ test_no_slack_notification_for_successful_run',
-      '✅ test_slack_notification_with_unknown_github_user',
-      '✅ test_pr_comment_for_tracked_failed_run',
-      '✅ test_no_pr_comment_for_non_tracked_run',
-      '✅ test_no_pr_comment_for_successful_run'
-    ]
-  },
-  {
-    file: 'examples/tests/readers-writers-admins-teams_test.rego',
-    status: 'PASS',
-    passed: 6,
-    total: 6,
-    details: [
-      '✅ test_allow_writers',
-      '✅ test_allow_admins',
-      '✅ test_allow_readers',
-      '✅ test_space_admin_access',
-      '✅ test_space_write_access',
-      '✅ test_space_read_access'
-    ]
-  },
-  {
-    file: 'examples/tests/track-using-labels_test.rego',
-    status: 'PASS',
-    passed: 8,
-    total: 8,
-    details: [
-      '✅ test_track_different_branches',
-      '✅ test_propose_non_empty_branch',
-      '✅ test_propose_empty_branch',
-      '✅ test_affected_directory',
-      '✅ test_affected_extension',
-      '✅ test_not_affected_directory',
-      '✅ test_not_affected_extension',
-      '✅ test_ignore_not_affected'
-    ]
-  },
-  {
-    file: 'examples/tests/enforce-module-use-policy_test.rego',
-    status: 'PASS',
-    passed: 4,
-    total: 4,
-    details: [
-      '✅ test_deny_creation_of_controlled_resource_type',
-      '✅ test_deny_update_of_controlled_resource_type',
-      '✅ test_allow_deletion_of_controlled_resource_type',
-      '✅ test_allow_creation_of_uncontrolled_resource_type'
-    ]
-  },
-  {
-    file: 'examples/tests/enforce-password-length_test.rego',
-    status: 'PASS',
-    passed: 3,
-    total: 3,
-    details: [
-      '✅ test_deny_creation_of_password_with_less_than_16_characters',
-      '✅ test_warn_creation_of_password_between_16_and_20_characters',
-      '✅ test_allow_creation_of_password_longer_than_20_characters'
-    ]
-  },
-  {
-    file: 'examples/tests/cancel-in-progress-runs_test.rego',
-    status: 'PASS',
-    passed: 2,
-    total: 2,
-    details: [ '✅ test_cancel_runs_allowed', '✅ test_cancel_runs_denied' ]
-  },
-  {
-    file: 'examples/tests/ignore-changes-outside-root_test.rego',
-    status: 'PASS',
-    passed: 12,
-    total: 12,
-    details: [
-      '✅ test_affected_no_files',
-      '✅ test_affected_tf_files',
-      '✅ test_affected_no_tf_files',
-      '✅ test_affected_outside_project_root',
-      '✅ test_ignore_affected',
-      '✅ test_ignore_not_affected',
-      '✅ test_ignore_tag',
-      '✅ test_propose_affected',
-      '✅ test_propose_not_affected',
-      '✅ test_track_affected',
-      '✅ test_track_not_affected',
-      '✅ test_track_not_stack_branch'
-    ]
-  },
-  {
-    file: 'examples/tests/do-not-delete-stateful-resources_test.rego',
-    status: 'PASS',
-    passed: 5,
-    total: 5,
-    details: [
-      '✅ test_deny_s3_bucket_deletion',
-      '✅ test_deny_db_instance_deletion',
-      '✅ test_deny_efs_file_system_deletion',
-      '✅ test_deny_dynamodb_table_deletion',
-      '✅ test_allow_instance_deletion'
-    ]
-  }
-]

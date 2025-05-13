@@ -3,25 +3,13 @@ import * as core from "@actions/core";
 
 import { executeOpaTestByPackage, runOpaTests } from "./opaCommands";
 
-import { TestResult } from "./interfaces";
+import { ProcessedTestResult, OpaRawJsonTestResult, OpaRawJsonCoverageReport, CoverageResult } from "./interfaces";
 
-// Interface for individual OPA test result - this is what is returned from the OPA test command with --format=json
-interface OpaTestResult {
-  location: {
-    file: string;
-    row: number;
-    col: number;
-  };
-  package: string;
-  name: string;
-  fail?: boolean;
-  duration: number;
-}
 
 // Process OPA test results
-export function processTestResults(jsonResults: OpaTestResult[]): TestResult[] {
+export function processTestResults(jsonResults: OpaRawJsonTestResult[]): ProcessedTestResult[] {
   // Group by file
-  const fileMap = new Map<string, OpaTestResult[]>();
+  const fileMap = new Map<string, OpaRawJsonTestResult[]>();
 
   // Group tests by file
   jsonResults.forEach(result => {
@@ -33,10 +21,10 @@ export function processTestResults(jsonResults: OpaTestResult[]): TestResult[] {
   });
 
   // Process each file's results
-  const testResults: TestResult[] = [];
+  const testResults: ProcessedTestResult[] = [];
 
   fileMap.forEach((tests, file) => {
-    const result: TestResult = {
+    const result: ProcessedTestResult = {
       file,
       status: "PASS",
       passed: 0,
@@ -65,78 +53,123 @@ export function processTestResults(jsonResults: OpaTestResult[]): TestResult[] {
 }
 
 
+/**
+ * Processes OPA coverage report into a more readable format
+ * @param report The raw OPA coverage report
+ * @returns Array of CoverageResult objects
+ */
+export function processCoverageReport(report: OpaRawJsonCoverageReport): CoverageResult[] {
+  const results: CoverageResult[] = [];
+
+  // Iterate through each file in the report
+  for (const [filePath, fileData] of Object.entries(report.files)) {
+    // Skip if there are no uncovered lines (100% coverage)
+    if (!fileData.not_covered || fileData.not_covered.length === 0) {
+      results.push({
+        file: filePath,
+        coverage: fileData.coverage,
+        notCoveredLines: "" // No uncovered lines
+      });
+      continue;
+    }
+
+    // Process not_covered sections to create the formatted string
+    const notCoveredRanges: string[] = [];
+
+    for (const section of fileData.not_covered) {
+      const startRow = section.start.row;
+      const endRow = section.end.row;
+
+      if (startRow === endRow) {
+        // Single line
+        notCoveredRanges.push(startRow.toString());
+      } else {
+        // Range of lines
+        notCoveredRanges.push(`${startRow}-${endRow}`);
+      }
+    }
+
+    // Sort numerically
+    notCoveredRanges.sort((a, b) => {
+      // Extract the first number from each range for comparison
+      const aStart = parseInt(a.split('-')[0]);
+      const bStart = parseInt(b.split('-')[0]);
+      return aStart - bStart;
+    });
+
+    results.push({
+      file: filePath,
+      coverage: fileData.coverage,
+      notCoveredLines: notCoveredRanges.join(', ')
+    });
+  }
+
+  return results;
+}
+
+
 export async function main() {
   console.log("Starting OPA test execution...");
 
-  let { output: opaOutput, error: opaError, exitCode: exitCode } = await executeOpaTestByPackage("spacelift_policies");
+  let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeOpaTestByPackage("spacelift_policies/push_package copy", true);
 
-  console.log(opaOutput)
-
-
-
-  console.log("OPA test command completed successfully");
-
-  if (exitCode !== 0) {
-    // core.setFailed(`OPA test command failed with exit code ${exitCode}: ${opaError}`);
-    // don't fail / return, just error out  and log the error because we still want to comment
-    console.log(`OPA test command failed with exit code ${exitCode}: ${opaError}`);
-    // return;
-  }
-
-  console.log("OPA test command output:");
-  console.log(opaOutput);
-  // console log 5 new lines
-  console.log("\n\n\n\n\n");
-
-  try {
-    // Parse output directly into a JSON object
-    const jsonResults: OpaTestResult[] = JSON.parse(opaOutput);
-
-    console.log(`OPA test completed with ${jsonResults?.length || 0} results`);
-
-    // Process the results into the required format
-    const testResults = processTestResults(jsonResults);
-
-    // Set the output for GitHub Actions
-    // core.setOutput("parsed_results", JSON.stringify(testResults));
-
-    // log testResults by itself with new lies
-    console.log("\n\n\n\n\n");
-    console.log("Parsed Test Results:");
-    console.log(testResults);
-
-    // Log a summary of results
-    console.log("Test Results Summary:");
-    testResults.forEach(result => {
-      console.log(`${result.file}: ${result.passed}/${result.total} tests passed - Status: ${result.status}`);
-    });
-
-    // Check if any file has failed tests
-    const anyFailures = testResults.some(result => result.status === "FAIL");
-    if (anyFailures) {
-      core.setFailed("Some tests have failed. Check the details for more information.");
+  let processedTestResults: ProcessedTestResult[] | undefined;
+  if (opaOutput) {
+    try {
+      const parsedOpaOutput = JSON.parse(opaOutput) as OpaRawJsonTestResult[];
+      processedTestResults = processTestResults(parsedOpaOutput);
     }
-  } catch (e) {
-    core.setFailed(`Failed to parse JSON output: ${e}\nRaw output: ${opaOutput}`);
+    catch (error) {
+      console.error("Failed to parse OPA output:", error);
+    }
+  } else {
+    console.error("OPA output is undefined.");
   }
 
-  for (let i = 0; i < 20; i++) {
-    console.log("\n");
+
+  for (let i = 0; i < 5; i++) {
     console.log("*****************************************");
   }
-  let { output: opaOutput1, error: opaError1, exitCode: exitCode1 }  = await runOpaTests("examples", "_test")
 
-  const testResults1 = processTestResults(JSON.parse(opaOutput1));
-  console.log("Test Results:");
-  console.log(testResults1);
+  console.log(coverageOutput)
+
+  for (let i = 0; i < 5; i++) {
+    console.log("*****************************************");
+  }
+
+  let coverageReport: CoverageResult[] | undefined;
+
+  if (coverageOutput) {
+    try {
+        const parsedCoverageOutput = JSON.parse(coverageOutput) as OpaRawJsonCoverageReport;
+        coverageReport = processCoverageReport(parsedCoverageOutput);
+    } catch (error) {
+        console.error("Failed to parse coverage output:", error);
+    }
+  } else {
+    console.error("Coverage output is undefined.");
+  }
+
+  console.log("processed coverage report");
+  console.log(coverageReport);
+
+  for (let i = 0; i < 5; i++) {
+    console.log("*****************************************");
+  }
+
+  console.log("error");
+  console.log(opaError);
+
+
+
 }
 
-// main();
+main();
 
 
 
 
-// npx ts-node ./src/toolkit.ts
+// npx ts-node ./src/testResultProcessing.ts
 
 
 // opa test --format=json .

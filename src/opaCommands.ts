@@ -1,13 +1,22 @@
+import { OpaRawJsonTestResult } from "./interfaces";
 import * as exec from "@actions/exec";
 import * as core from "@actions/core";
 
-export async function executeOpaTestByPackage(path: string): Promise<{
+export async function executeOpaTestByPackage(
+  path: string,
+  runCoverageReport: boolean = false
+): Promise<{
   output: string;
   error: string;
   exitCode: number;
+  coverageOutput?: string;
+  coverageExitCode?: number;
 }> {
   let opaOutput = '';
   let opaError = '';
+  let opaCoverageOutput = '';
+  let exitCode = 0;
+  let coverageExitCode;
 
   // Set up options to capture stdout and stderr
   const options: exec.ExecOptions = {
@@ -22,38 +31,54 @@ export async function executeOpaTestByPackage(path: string): Promise<{
   };
 
   console.log("Running OPA test command...");
-  let exitCode = 0;
 
   // Execute the OPA test command
   try {
     exitCode = await exec.exec('opa', ['test', path, '--format=json'], options);
   } catch (error) {
     console.error(`Error executing OPA command: ${error}`);
-    // Set exit code to non-zero to indicate failure
     exitCode = 1;
   }
 
-  console.log("OPA test command completed");
+  // Only run coverage if the flag is set to true
+  if (runCoverageReport) {
+    // Set up options for coverage command
+    const coverageOptions: exec.ExecOptions = {
+      listeners: {
+        stdout: (data: Buffer) => {
+          opaCoverageOutput += data.toString();
+        },
+        stderr: (data: Buffer) => {
+          // Add a prefix to distinguish coverage errors
+          opaError += `\nCoverage: ${data.toString()}`;
+        }
+      },
+      ignoreReturnCode: true
+    };
+
+    console.log("Running OPA test with coverage...");
+    coverageExitCode = await exec.exec('opa', ['test', path, '--format=json', '--coverage'], coverageOptions);
+    console.log(`Coverage Exit code: ${coverageExitCode}`);
+  } else {
+    console.log("Coverage reporting skipped due to runCoverageReport flag set to false");
+  }
+
+  console.log("OPA test commands completed");
 
   return {
     output: opaOutput,
     error: opaError,
-    exitCode: exitCode
+    exitCode: exitCode,
+    ...(runCoverageReport && {
+      coverageOutput: opaCoverageOutput,
+      coverageExitCode: coverageExitCode
+    })
   };
 }
 
 
-interface OpaTestResult {
-    location: {
-      file: string;
-      row: number;
-      col: number;
-    };
-    package: string;
-    name: string;
-    fail?: boolean;
-    duration: number;
-  }
+
+
 
 import * as fs from "fs";
 import * as path from "path";
@@ -67,7 +92,7 @@ export async function runOpaTests(
   exitCode: number;
 }> {
   // Array to hold all test results
-  const allTestResults: OpaTestResult[] = [];
+  const allTestResults: OpaRawJsonTestResult[] = [];
   let opaError = '';
   let exitCode = 0;
 
