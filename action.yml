@@ -132,6 +132,7 @@ runs:
         run_coverage_report: ${{ inputs.run_coverage_report }}
         indicate_source_message: ${{ inputs.indicate_source_message }}
         path: ${{ inputs.path }}
+        test_file_postfix: ${{ inputs.test_file_postfix }}
 
     # Create (or update in-place) a PR comment of the test result output
     - name: Comment on PR

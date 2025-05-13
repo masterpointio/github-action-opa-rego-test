@@ -1,66 +1,14 @@
 import { processTestResults } from "./testResultProcessing";
 import { runOpaTests } from "./opaCommands";
+import { formatResults } from "./formatResults";
 
+import { TestResult, CoverageResult } from "./interfaces"
 
 import * as core from "@actions/core";
 
 const errorString =
   "⛔️⛔️ An unknown error has occurred in generating the results, either from tests failing or an error running OPA or an issue with GItHub actions. View the logs for more information. ⛔️⛔️";
 
-export interface TestResult {
-  file: string;
-  status: "PASS" | "FAIL" | "NO TESTS";
-  passed: number;
-  total: number;
-  details: string[];
-}
-
-export interface CoverageResult {
-  file: string;
-  coverage: number;
-  notCoveredLines: string;
-}
-
-export function parseTestOutput(output: string): TestResult[] {
-  // View sample test output at __tests__/sample_test_output.txt
-  const lines = output.split("\n");
-  const results: TestResult[] = [];
-  let currentResult: TestResult | null = null;
-
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-
-    // This begins a new test result
-    if (line.startsWith("./") && line.endsWith(".rego:")) {
-      if (currentResult) {
-        results.push(currentResult);
-      }
-      currentResult = {
-        file: line.replace(/:/g, ""), // Remove all colons from the string
-        status: "PASS",
-        passed: 0,
-        total: 0,
-        details: [],
-      };
-    } else if (currentResult) {
-      if (line.includes(": PASS")) {
-        currentResult.passed++;
-        currentResult.total++;
-        currentResult.details.push(`✅ ${line.split(":")[0]}`);
-      } else if (line.includes(": FAIL")) {
-        currentResult.total++;
-        currentResult.status = "FAIL";
-        currentResult.details.push(`❌ ${line.split(":")[0]}`);
-      }
-    }
-  }
-
-  if (currentResult) {
-    results.push(currentResult);
-  }
-
-  return results;
-}
 
 export function parseCoverageOutput(output: string): CoverageResult[] {
   // View sample coverage output at __tests__/sample_coverage_output.txt
@@ -169,117 +117,27 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
   return uniqueResults;
 }
 
-export function formatResults(
-  results: TestResult[],
-  coverageResults: CoverageResult[],
-  showCoverage: boolean,
-): string {
-  let output = `# ${process.env.pr_comment_title || "🧪 OPA Rego Policy Test Results"}\n\n`;
-
-  if (showCoverage) {
-    output += "| File | Status | Passed | Total | Coverage | Details |\n";
-    output += "|------|--------|--------|-------|----------|----------|\n";
-  } else {
-    output += "| File | Status | Passed | Total | Details |\n";
-    output += "|------|--------|--------|-------|----------|\n";
-  }
-
-  for (const result of results) {
-    let statusEmoji, statusText;
-    switch (result.status) {
-      case "PASS":
-        statusEmoji = "✅";
-        statusText = `${statusEmoji} PASS`;
-        break;
-      case "FAIL":
-        statusEmoji = "❌";
-        statusText = `${statusEmoji} FAIL`;
-        break;
-      case "NO TESTS":
-        statusEmoji = "⚠️";
-        statusText = `${statusEmoji} NO TESTS`;
-        break;
-    }
-
-    const testFileName = result.file;
-
-    let coverageInfo;
-    // Find the corresponding coverage test information for the test result we're on
-    if (showCoverage) {
-      coverageInfo = coverageResults.find((cr) => {
-        const lastSlashIndex = cr.file.lastIndexOf("/");
-        const dotRegoIndex = cr.file.lastIndexOf(".rego");
-
-        // Check if the file paths are valid
-        if (lastSlashIndex === -1 || dotRegoIndex === -1) return false;
-
-        // Extract the base file name without extension from the coverage report
-        const fileNameWithoutExtension = cr.file.slice(
-          lastSlashIndex + 1,
-          dotRegoIndex,
-        );
-
-        // Match the test file with its corresponding implementation file in the coverage results
-        // Test files typically have names like 'abc_test.rego', while coverage is reported for 'abc.rego' because the test file is testing the implementation file, and the coverage is on how much the implementation file is covered.
-        // We want to associate the coverage data from 'abc.rego' with the test results from 'abc_test.rego'
-        return (
-          testFileName.includes(fileNameWithoutExtension) &&
-          !cr.file.includes(testFileName)
-        );
-      });
-    }
-
-    const details =
-      result.status === "NO TESTS"
-        ? "No test file found"
-        : result.details.join("<br>");
-
-    const detailsColumn = `<details><summary>Show Details</summary>${details}</details>`;
-
-    let row = `| ${testFileName} | ${statusText} | ${result.passed} | ${result.total} `;
-
-    if (showCoverage) {
-      let coverageText = "N/A";
-      let uncoveredLinesDetails = "";
-      if (coverageInfo) {
-        coverageText = `${coverageInfo.coverage.toFixed(2)}%`;
-        if (
-          coverageInfo.notCoveredLines &&
-          coverageInfo.notCoveredLines !== "N/A"
-        ) {
-          uncoveredLinesDetails = `<details><summary>Uncovered Lines</summary>${coverageInfo.notCoveredLines}</details>`;
-        }
-      }
-      row += `| ${coverageText} ${uncoveredLinesDetails} `;
-    }
-
-    row += `| ${detailsColumn} |\n`;
-    output += row;
-  }
-
-  if (process.env.indicate_source_message === "true") {
-    output +=
-      "\n\n<small>Report generated by [🧪 GitHub Actions for OPA Rego Test](https://github.com/masterpointio/github-action-opa-rego-test)</small>";
-  }
-
-  return output;
-}
-
 export async function main() {
   try {
-    const testResult = process.env.test_result;
+    // const testResult = process.env.test_result;
     const coverageResult = process.env.coverage_result;
     const reportNoTestFiles = process.env.report_untested_files === "true";
     const noTestFiles = process.env.no_test_files;
     const runCoverageReport = process.env.run_coverage_report === "true";
+    const path = process.env.path;
+    const test_file_postfix = process.env.test_file_postfix || "_test";
 
-    if (!testResult) {
-      core.setOutput("parsed_results", errorString);
-      core.setOutput("tests_failed", true);
-      throw new Error("test_result environment variable is not set.");
+    // if (!testResult) {
+    //   core.setOutput("parsed_results", errorString);
+    //   core.setOutput("tests_failed", true);
+    //   throw new Error("test_result environment variable is not set.");
+    // }
+
+    if (!path || !test_file_postfix) {
+      throw new Error("Both 'path' and 'test_file_postfix' environment variables must be set.");
     }
 
-    let { output: opaOutput1, error: opaError1, exitCode: exitCode1 }  = await runOpaTests("examples", "_test")
+    let { output: opaOutput1, error: opaError1, exitCode: exitCode1 }  = await runOpaTests(path, test_file_postfix);
     let parsedResults = processTestResults(JSON.parse(opaOutput1));
 
     // let parsedResults = parseTestOutput(testResult);
