@@ -38,6 +38,10 @@ inputs:
     description: "Version of OPA CLI to use. Default is 0.67.1."
     required: false
     default: "0.67.1"
+  opa_static:
+    description: "Whether to use the static binary. Default is false."
+    required: false
+    default: false
   indicate_source_message:
     description: Flag to comment the origins watermark (this repository) of the GitHub Action in the PR comment. Default of true.
     required: false
@@ -57,6 +61,7 @@ runs:
       uses: open-policy-agent/setup-opa@v2
       with:
         version: ${{ inputs.opa_version }}
+        static: ${{ inputs.opa_static }}
 
     - name: Run OPA Tests and Coverage
       id: opa-test-coverage
