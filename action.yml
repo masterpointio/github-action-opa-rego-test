@@ -119,3 +119,4 @@ runs:
       shell: bash
       run: |
         printenv
+        echo "test?"
