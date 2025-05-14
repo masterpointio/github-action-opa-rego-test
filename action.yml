@@ -18,7 +18,7 @@ inputs:
   write_pr_comment:
     description: "Flag to write an user friendly PR comment of the test results. Default of true."
     required: false
-    default: true
+    default: "true"
   pr_comment_title:
     description: "Title of the PR comment of the test results."
     required: false
@@ -29,23 +29,23 @@ inputs:
   run_coverage_report:
     description: "Flag to run OPA coverage tests and write to the PR. The `write_pr_comment` must be enabled for the coverage report to be written. Default of true."
     required: false
-    default: true
+    default: "true"
   report_untested_files:
     description: "Check & report in the PR comments of the Rego files that do not have any corresponding test files. For best conventions, append the postfix `_test` (or what you set as the `test_file_postfix` input) for your test file. E.g. `notification.rego` <> `notification_test.rego`"
     required: false
-    default: false
+    default: "false"
   opa_version:
     description: "Version of OPA CLI to use. Default is 0.67.1."
     required: false
-    default: "0.67.1"
+    default: "1.4.2"
   opa_static:
     description: "Whether to use the static binary. Default is false."
     required: false
-    default: false
+    default: "false"
   indicate_source_message:
     description: Flag to comment the origins watermark (this repository) of the GitHub Action in the PR comment. Default of true.
     required: false
-    default: true
+    default: "true"
 outputs:
   parsed_results:
     description: The parsed results after processing the tests and/or coverage report.
