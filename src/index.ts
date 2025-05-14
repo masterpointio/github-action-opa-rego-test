@@ -1,4 +1,4 @@
-import { processTestResults } from "./testResultProcessing";
+import { processTestResults, processCoverageReport } from "./testResultProcessing";
 import { runOpaTests } from "./opaCommands";
 import { formatResults } from "./formatResults";
 
@@ -120,7 +120,7 @@ export function parseCoverageOutput(output: string): CoverageResult[] {
 export async function main() {
   try {
     // const testResult = process.env.test_result;
-    const coverageResult = process.env.coverage_result;
+    // const coverageResult = process.env.coverage_result;
     const reportNoTestFiles = process.env.report_untested_files === "true";
     const noTestFiles = process.env.no_test_files;
     const runCoverageReport = process.env.run_coverage_report === "true";
@@ -137,14 +137,16 @@ export async function main() {
       throw new Error("Both 'path' and 'test_file_postfix' environment variables must be set.");
     }
 
-    let { output: opaOutput1, error: opaError1, exitCode: exitCode1 }  = await runOpaTests(path, test_file_postfix);
+    let { output: opaOutput1, error: opaError1, exitCode: exitCode1, coverageOutput: coverageOutput }  = await runOpaTests(path, test_file_postfix, true);
     let parsedResults = processTestResults(JSON.parse(opaOutput1));
+    let coverageResult = coverageOutput;
 
     // let parsedResults = parseTestOutput(testResult);
     let coverageResults: CoverageResult[] = [];
 
     if (coverageResult && runCoverageReport) {
-      coverageResults = parseCoverageOutput(coverageResult);
+      // coverageResults = parseCoverageOutput(coverageResult);
+      coverageResults = processCoverageReport(JSON.parse(coverageResult));
     }
 
     // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.

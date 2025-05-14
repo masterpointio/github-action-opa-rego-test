@@ -1,115 +1,248 @@
 Starting OPA test execution...
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find ./examples -type f -name *_test.rego
-./examples/tests/notification-stack-failure-origins_test.rego
-./examples/tests/readers-writers-admins-teams_test.rego
-./examples/tests/track-using-labels_test.rego
-./examples/tests/enforce-module-use-policy_test.rego
-./examples/tests/enforce-password-length_test.rego
-./examples/tests/cancel-in-progress-runs_test.rego
-./examples/tests/ignore-changes-outside-root_test.rego
-./examples/tests/do-not-delete-stateful-resources_test.rego
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find ./examples/tests ./examples/tests/.. -maxdepth 1 -type f -name notification-stack-failure-origins.rego
-./examples/tests/../notification-stack-failure-origins.rego
-[command]/opt/homebrew/bin/opa test ./examples/tests/notification-stack-failure-origins_test.rego ./examples/tests/../notification-stack-failure-origins.rego --format=json
+Running OPA test command...
+[command]/opt/homebrew/bin/opa test ./spacelift_policies/push_package copy --format=json
 [
   {
     "location": {
-      "file": "./examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 11,
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 54,
       "col": 1
     },
-    "package": "data.spacelift",
-    "name": "test_slack_notification_for_tracked_failed_run",
-    "duration": 4773792
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_pr_affects_files_in_other_stack",
+    "duration": 4480458
   },
   {
     "location": {
-      "file": "./examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 38,
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 71,
       "col": 1
     },
-    "package": "data.spacelift",
-    "name": "test_no_slack_notification_for_non_tracked_run",
-    "duration": 67333
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_pr_affects_files_in_this_stack",
+    "duration": 197041
   },
   {
     "location": {
-      "file": "./examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 48,
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 88,
       "col": 1
     },
-    "package": "data.spacelift",
-    "name": "test_no_slack_notification_for_successful_run",
-    "duration": 56792
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_pr_affects_files_to_ignore_always",
+    "duration": 187666
   },
   {
     "location": {
-      "file": "./examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 58,
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 103,
       "col": 1
     },
-    "package": "data.spacelift",
-    "name": "test_slack_notification_with_unknown_github_user",
-    "duration": 82666
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_pr_affects_files_to_run_always",
+    "duration": 194209
   },
   {
     "location": {
-      "file": "./examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 82,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_pr_comment_for_tracked_failed_run",
-    "duration": 82959
-  },
-  {
-    "location": {
-      "file": "./examples/tests/notification-stack-failure-origins_test.rego",
-      "row": 111,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_no_pr_comment_for_non_tracked_run",
-    "duration": 45084
-  },
-  {
-    "location": {
-      "file": "./examples/tests/notification-stack-failure-origins_test.rego",
+      "file": "spacelift_policies/push_package copy/files_test.rego",
       "row": 121,
       "col": 1
     },
-    "package": "data.spacelift",
-    "name": "test_no_pr_comment_for_successful_run",
-    "duration": 49333
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_pr_affects_mixed_files",
+    "duration": 187291
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 138,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_pr_merge",
+    "duration": 102250
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 151,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_push_affects_files_in_other_stack",
+    "duration": 155584
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 168,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_push_affects_files_in_this_stack",
+    "duration": 140542
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 185,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_push_affects_files_to_ignore_always",
+    "duration": 140625
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 200,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_push_affects_files_to_run_always",
+    "duration": 149375
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 218,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_push_affects_mixed_files",
+    "duration": 147583
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 235,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_push_to_feature_branch",
+    "duration": 134375
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/files_test.rego",
+      "row": 252,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_sample#01",
+    "duration": 47875
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/labels_test.rego",
+      "row": 61,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_pr_with_trigger_label_affects_files_in_other_stack",
+    "duration": 119625
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/labels_test.rego",
+      "row": 77,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_pr_with_trigger_label_affects_files_to_ignore_always",
+    "duration": 90542
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/labels_test.rego",
+      "row": 92,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_pr_with_trigger_label_closed",
+    "duration": 73667
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/labels_test.rego",
+      "row": 107,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_push",
+    "duration": 84334
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/labels_test.rego",
+      "row": 120,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_sample#02",
+    "duration": 45375
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/nested/cancel_test.rego",
+      "row": 12,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_cancel_in_progress_runs_on_pr_branch",
+    "duration": 124083
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/nested/cancel_test.rego",
+      "row": 41,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_not_cancel_in_progress_runs_on_pr_branch",
+    "duration": 303083
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/nested/cancel_test.rego",
+      "row": 61,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_not_cancel_in_progress_runs_on_push_branch",
+    "duration": 195792
+  },
+  {
+    "location": {
+      "file": "spacelift_policies/push_package copy/nested/cancel_test.rego",
+      "row": 85,
+      "col": 1
+    },
+    "package": "data.spacelift_policies.push_test",
+    "name": "test_sample",
+    "duration": 147083
   }
 ]
-[command]/opt/homebrew/bin/opa test ./examples/tests/notification-stack-failure-origins_test.rego ./examples/tests/../notification-stack-failure-origins.rego --coverage --format=json
+Running OPA test with coverage...
+[command]/opt/homebrew/bin/opa test ./spacelift_policies/push_package copy --format=json --coverage
 {
   "files": {
-    "./examples/tests/../notification-stack-failure-origins.rego": {
+    "spacelift_policies/push_package copy/files.rego": {
       "covered": [
         {
           "start": {
-            "row": 8
+            "row": 11
           },
           "end": {
-            "row": 8
+            "row": 15
           }
         },
         {
           "start": {
-            "row": 10
+            "row": 18
           },
           "end": {
-            "row": 10
-          }
-        },
-        {
-          "start": {
-            "row": 15
-          },
-          "end": {
-            "row": 15
+            "row": 18
           }
         },
         {
@@ -122,7 +255,15 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 23
+            "row": 22
+          },
+          "end": {
+            "row": 22
+          }
+        },
+        {
+          "start": {
+            "row": 24
           },
           "end": {
             "row": 25
@@ -130,26 +271,10 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 28
-          },
-          "end": {
             "row": 30
-          }
-        },
-        {
-          "start": {
-            "row": 35
           },
           "end": {
-            "row": 35
-          }
-        },
-        {
-          "start": {
-            "row": 37
-          },
-          "end": {
-            "row": 38
+            "row": 31
           }
         },
         {
@@ -162,10 +287,147 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 47
+            "row": 48
           },
           "end": {
             "row": 50
+          }
+        },
+        {
+          "start": {
+            "row": 53
+          },
+          "end": {
+            "row": 56
+          }
+        },
+        {
+          "start": {
+            "row": 59
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 65
+          },
+          "end": {
+            "row": 65
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 72
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 76
+          }
+        },
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 85
+          }
+        },
+        {
+          "start": {
+            "row": 89
+          },
+          "end": {
+            "row": 89
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 70
+          },
+          "end": {
+            "row": 70
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 77
+          }
+        }
+      ],
+      "covered_lines": 36,
+      "not_covered_lines": 4,
+      "coverage": 90
+    },
+    "spacelift_policies/push_package copy/files_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 31
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 41
           }
         },
         {
@@ -178,104 +440,47 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 60
-          },
-          "end": {
-            "row": 63
-          }
-        },
-        {
-          "start": {
-            "row": 69
-          },
-          "end": {
-            "row": 71
-          }
-        },
-        {
-          "start": {
-            "row": 76
-          },
-          "end": {
-            "row": 77
-          }
-        }
-      ],
-      "not_covered": [
-        {
-          "start": {
-            "row": 80
-          },
-          "end": {
-            "row": 80
-          }
-        }
-      ],
-      "covered_lines": 29,
-      "not_covered_lines": 1,
-      "coverage": 96.66666666666667
-    },
-    "./examples/tests/notification-stack-failure-origins_test.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 11
-          },
-          "end": {
-            "row": 12
-          }
-        },
-        {
-          "start": {
-            "row": 29
-          },
-          "end": {
-            "row": 34
-          }
-        },
-        {
-          "start": {
-            "row": 38
-          },
-          "end": {
-            "row": 39
-          }
-        },
-        {
-          "start": {
-            "row": 44
-          },
-          "end": {
-            "row": 44
-          }
-        },
-        {
-          "start": {
-            "row": 48
-          },
-          "end": {
-            "row": 49
-          }
-        },
-        {
-          "start": {
-            "row": 54
-          },
-          "end": {
-            "row": 54
-          }
-        },
-        {
-          "start": {
             "row": 58
           },
           "end": {
-            "row": 59
+            "row": 58
           }
         },
         {
           "start": {
-            "row": 76
+            "row": 61
+          },
+          "end": {
+            "row": 61
+          }
+        },
+        {
+          "start": {
+            "row": 63
+          },
+          "end": {
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 72
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 75
+          }
+        },
+        {
+          "start": {
+            "row": 78
           },
           "end": {
             "row": 78
@@ -283,15 +488,55 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 82
+            "row": 80
           },
           "end": {
-            "row": 83
+            "row": 85
           }
         },
         {
           "start": {
+            "row": 88
+          },
+          "end": {
+            "row": 89
+          }
+        },
+        {
+          "start": {
+            "row": 92
+          },
+          "end": {
+            "row": 92
+          }
+        },
+        {
+          "start": {
+            "row": 95
+          },
+          "end": {
+            "row": 95
+          }
+        },
+        {
+          "start": {
+            "row": 97
+          },
+          "end": {
             "row": 100
+          }
+        },
+        {
+          "start": {
+            "row": 103
+          },
+          "end": {
+            "row": 104
+          }
+        },
+        {
+          "start": {
+            "row": 107
           },
           "end": {
             "row": 107
@@ -299,15 +544,15 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 111
+            "row": 110
           },
           "end": {
-            "row": 112
+            "row": 110
           }
         },
         {
           "start": {
-            "row": 117
+            "row": 112
           },
           "end": {
             "row": 117
@@ -323,1205 +568,281 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 127
+            "row": 125
           },
           "end": {
-            "row": 127
-          }
-        }
-      ],
-      "covered_lines": 35,
-      "coverage": 100
-    }
-  },
-  "covered_lines": 64,
-  "not_covered_lines": 1,
-  "coverage": 98.46153846153847
-}
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find ./examples/tests ./examples/tests/.. -maxdepth 1 -type f -name readers-writers-admins-teams.rego
-./examples/tests/../readers-writers-admins-teams.rego
-[command]/opt/homebrew/bin/opa test ./examples/tests/readers-writers-admins-teams_test.rego ./examples/tests/../readers-writers-admins-teams.rego --format=json
-[
-  {
-    "location": {
-      "file": "./examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 9,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_allow_writers",
-    "duration": 96042
-  },
-  {
-    "location": {
-      "file": "./examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 13,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_allow_admins",
-    "duration": 50041
-  },
-  {
-    "location": {
-      "file": "./examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 17,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_allow_readers",
-    "duration": 222666
-  },
-  {
-    "location": {
-      "file": "./examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 22,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_space_admin_access",
-    "duration": 413250
-  },
-  {
-    "location": {
-      "file": "./examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 27,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_space_write_access",
-    "duration": 59083
-  },
-  {
-    "location": {
-      "file": "./examples/tests/readers-writers-admins-teams_test.rego",
-      "row": 32,
-      "col": 1
-    },
-    "package": "data.spacelift_test",
-    "name": "test_space_read_access",
-    "duration": 60958
-  }
-]
-[command]/opt/homebrew/bin/opa test ./examples/tests/readers-writers-admins-teams_test.rego ./examples/tests/../readers-writers-admins-teams.rego --coverage --format=json
-{
-  "files": {
-    "./examples/tests/../readers-writers-admins-teams.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 8
-          },
-          "end": {
-            "row": 8
+            "row": 125
           }
         },
         {
           "start": {
-            "row": 10
+            "row": 128
           },
           "end": {
-            "row": 10
+            "row": 128
           }
         },
         {
           "start": {
-            "row": 12
+            "row": 130
           },
           "end": {
-            "row": 12
+            "row": 135
           }
         },
         {
           "start": {
-            "row": 17
+            "row": 138
           },
           "end": {
-            "row": 19
+            "row": 139
           }
         },
         {
           "start": {
-            "row": 25
+            "row": 142
           },
           "end": {
-            "row": 27
+            "row": 142
           }
         },
         {
           "start": {
-            "row": 33
+            "row": 145
           },
           "end": {
-            "row": 38
-          }
-        }
-      ],
-      "not_covered": [
-        {
-          "start": {
-            "row": 16
-          },
-          "end": {
-            "row": 16
+            "row": 145
           }
         },
         {
           "start": {
-            "row": 24
+            "row": 147
           },
           "end": {
-            "row": 24
+            "row": 148
           }
         },
         {
           "start": {
-            "row": 28
+            "row": 151
           },
           "end": {
-            "row": 28
-          }
-        }
-      ],
-      "covered_lines": 15,
-      "not_covered_lines": 3,
-      "coverage": 83.33333333333333
-    },
-    "./examples/tests/readers-writers-admins-teams_test.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 9
-          },
-          "end": {
-            "row": 10
+            "row": 152
           }
         },
         {
           "start": {
-            "row": 13
+            "row": 155
           },
           "end": {
-            "row": 14
+            "row": 155
           }
         },
         {
           "start": {
-            "row": 17
+            "row": 158
           },
           "end": {
-            "row": 18
+            "row": 158
           }
         },
         {
           "start": {
-            "row": 22
+            "row": 160
           },
           "end": {
-            "row": 23
+            "row": 165
           }
         },
         {
           "start": {
-            "row": 27
+            "row": 168
           },
           "end": {
-            "row": 28
+            "row": 169
           }
         },
         {
           "start": {
-            "row": 32
+            "row": 172
           },
           "end": {
-            "row": 33
-          }
-        }
-      ],
-      "covered_lines": 12,
-      "coverage": 100
-    }
-  },
-  "covered_lines": 27,
-  "not_covered_lines": 3,
-  "coverage": 90
-}
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find ./examples/tests ./examples/tests/.. -maxdepth 1 -type f -name track-using-labels.rego
-./examples/tests/../track-using-labels.rego
-[command]/opt/homebrew/bin/opa test ./examples/tests/track-using-labels_test.rego ./examples/tests/../track-using-labels.rego --format=json
-[
-  {
-    "location": {
-      "file": "./examples/tests/track-using-labels_test.rego",
-      "row": 13,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_track_different_branches",
-    "duration": 718750
-  },
-  {
-    "location": {
-      "file": "./examples/tests/track-using-labels_test.rego",
-      "row": 21,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_propose_non_empty_branch",
-    "duration": 85833
-  },
-  {
-    "location": {
-      "file": "./examples/tests/track-using-labels_test.rego",
-      "row": 29,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_propose_empty_branch",
-    "duration": 52291
-  },
-  {
-    "location": {
-      "file": "./examples/tests/track-using-labels_test.rego",
-      "row": 37,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_directory",
-    "duration": 96500
-  },
-  {
-    "location": {
-      "file": "./examples/tests/track-using-labels_test.rego",
-      "row": 45,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_extension",
-    "duration": 63875
-  },
-  {
-    "location": {
-      "file": "./examples/tests/track-using-labels_test.rego",
-      "row": 53,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_not_affected_directory",
-    "duration": 50958
-  },
-  {
-    "location": {
-      "file": "./examples/tests/track-using-labels_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_not_affected_extension",
-    "duration": 48125
-  },
-  {
-    "location": {
-      "file": "./examples/tests/track-using-labels_test.rego",
-      "row": 69,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_ignore_not_affected",
-    "duration": 43375
-  }
-]
-[command]/opt/homebrew/bin/opa test ./examples/tests/track-using-labels_test.rego ./examples/tests/../track-using-labels.rego --coverage --format=json
-{
-  "files": {
-    "./examples/tests/../track-using-labels.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 4
-          },
-          "end": {
-            "row": 4
+            "row": 172
           }
         },
         {
           "start": {
-            "row": 8
+            "row": 175
           },
           "end": {
-            "row": 9
+            "row": 175
           }
         },
         {
           "start": {
-            "row": 17
+            "row": 177
           },
           "end": {
-            "row": 20
+            "row": 182
           }
         },
         {
           "start": {
-            "row": 29
+            "row": 185
           },
           "end": {
-            "row": 29
+            "row": 186
           }
         },
         {
           "start": {
-            "row": 31
+            "row": 189
           },
           "end": {
-            "row": 32
+            "row": 189
+          }
+        },
+        {
+          "start": {
+            "row": 192
+          },
+          "end": {
+            "row": 192
+          }
+        },
+        {
+          "start": {
+            "row": 194
+          },
+          "end": {
+            "row": 197
+          }
+        },
+        {
+          "start": {
+            "row": 200
+          },
+          "end": {
+            "row": 201
+          }
+        },
+        {
+          "start": {
+            "row": 204
+          },
+          "end": {
+            "row": 204
+          }
+        },
+        {
+          "start": {
+            "row": 207
+          },
+          "end": {
+            "row": 207
+          }
+        },
+        {
+          "start": {
+            "row": 209
+          },
+          "end": {
+            "row": 214
+          }
+        },
+        {
+          "start": {
+            "row": 218
+          },
+          "end": {
+            "row": 219
+          }
+        },
+        {
+          "start": {
+            "row": 222
+          },
+          "end": {
+            "row": 222
+          }
+        },
+        {
+          "start": {
+            "row": 225
+          },
+          "end": {
+            "row": 225
+          }
+        },
+        {
+          "start": {
+            "row": 227
+          },
+          "end": {
+            "row": 232
+          }
+        },
+        {
+          "start": {
+            "row": 235
+          },
+          "end": {
+            "row": 236
+          }
+        },
+        {
+          "start": {
+            "row": 239
+          },
+          "end": {
+            "row": 239
+          }
+        },
+        {
+          "start": {
+            "row": 242
+          },
+          "end": {
+            "row": 242
+          }
+        },
+        {
+          "start": {
+            "row": 244
+          },
+          "end": {
+            "row": 249
+          }
+        },
+        {
+          "start": {
+            "row": 252
+          },
+          "end": {
+            "row": 253
           }
         }
       ],
       "not_covered": [
-        {
-          "start": {
-            "row": 3
-          },
-          "end": {
-            "row": 3
-          }
-        },
-        {
-          "start": {
-            "row": 5
-          },
-          "end": {
-            "row": 5
-          }
-        },
-        {
-          "start": {
-            "row": 12
-          },
-          "end": {
-            "row": 13
-          }
-        },
-        {
-          "start": {
-            "row": 23
-          },
-          "end": {
-            "row": 26
-          }
-        },
-        {
-          "start": {
-            "row": 35
-          },
-          "end": {
-            "row": 35
-          }
-        },
-        {
-          "start": {
-            "row": 37
-          },
-          "end": {
-            "row": 38
-          }
-        },
-        {
-          "start": {
-            "row": 41
-          },
-          "end": {
-            "row": 41
-          }
-        }
-      ],
-      "covered_lines": 10,
-      "not_covered_lines": 12,
-      "coverage": 45.45454545454545
-    },
-    "./examples/tests/track-using-labels_test.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 4
-          },
-          "end": {
-            "row": 4
-          }
-        },
-        {
-          "start": {
-            "row": 6
-          },
-          "end": {
-            "row": 6
-          }
-        },
-        {
-          "start": {
-            "row": 8
-          },
-          "end": {
-            "row": 8
-          }
-        },
-        {
-          "start": {
-            "row": 13
-          },
-          "end": {
-            "row": 14
-          }
-        },
-        {
-          "start": {
-            "row": 21
-          },
-          "end": {
-            "row": 22
-          }
-        },
-        {
-          "start": {
-            "row": 29
-          },
-          "end": {
-            "row": 30
-          }
-        },
-        {
-          "start": {
-            "row": 37
-          },
-          "end": {
-            "row": 40
-          }
-        },
-        {
-          "start": {
-            "row": 45
-          },
-          "end": {
-            "row": 48
-          }
-        },
-        {
-          "start": {
-            "row": 53
-          },
-          "end": {
-            "row": 56
-          }
-        },
-        {
-          "start": {
-            "row": 61
-          },
-          "end": {
-            "row": 64
-          }
-        },
-        {
-          "start": {
-            "row": 69
-          },
-          "end": {
-            "row": 72
-          }
-        }
-      ],
-      "covered_lines": 29,
-      "coverage": 100
-    }
-  },
-  "covered_lines": 39,
-  "not_covered_lines": 12,
-  "coverage": 76.47058823529412
-}
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find ./examples/tests ./examples/tests/.. -maxdepth 1 -type f -name enforce-module-use-policy.rego
-./examples/tests/../enforce-module-use-policy.rego
-[command]/opt/homebrew/bin/opa test ./examples/tests/enforce-module-use-policy_test.rego ./examples/tests/../enforce-module-use-policy.rego --format=json
-[
-  {
-    "location": {
-      "file": "./examples/tests/enforce-module-use-policy_test.rego",
-      "row": 4,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_creation_of_controlled_resource_type",
-    "duration": 177291
-  },
-  {
-    "location": {
-      "file": "./examples/tests/enforce-module-use-policy_test.rego",
-      "row": 13,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_update_of_controlled_resource_type",
-    "duration": 73000
-  },
-  {
-    "location": {
-      "file": "./examples/tests/enforce-module-use-policy_test.rego",
-      "row": 22,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_allow_deletion_of_controlled_resource_type",
-    "duration": 60667
-  },
-  {
-    "location": {
-      "file": "./examples/tests/enforce-module-use-policy_test.rego",
-      "row": 31,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_allow_creation_of_uncontrolled_resource_type",
-    "duration": 56833
-  }
-]
-[command]/opt/homebrew/bin/opa test ./examples/tests/enforce-module-use-policy_test.rego ./examples/tests/../enforce-module-use-policy.rego --coverage --format=json
-{
-  "files": {
-    "./examples/tests/../enforce-module-use-policy.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 17
-          },
-          "end": {
-            "row": 17
-          }
-        },
-        {
-          "start": {
-            "row": 24
-          },
-          "end": {
-            "row": 30
-          }
-        },
-        {
-          "start": {
-            "row": 32
-          },
-          "end": {
-            "row": 32
-          }
-        },
-        {
-          "start": {
-            "row": 39
-          },
-          "end": {
-            "row": 39
-          }
-        },
-        {
-          "start": {
-            "row": 79
-          },
-          "end": {
-            "row": 79
-          }
-        }
-      ],
-      "not_covered": [
-        {
-          "start": {
-            "row": 37
-          },
-          "end": {
-            "row": 37
-          }
-        },
-        {
-          "start": {
-            "row": 42
-          },
-          "end": {
-            "row": 42
-          }
-        },
-        {
-          "start": {
-            "row": 46
-          },
-          "end": {
-            "row": 46
-          }
-        },
-        {
-          "start": {
-            "row": 52
-          },
-          "end": {
-            "row": 52
-          }
-        },
-        {
-          "start": {
-            "row": 54
-          },
-          "end": {
-            "row": 54
-          }
-        },
-        {
-          "start": {
-            "row": 57
-          },
-          "end": {
-            "row": 57
-          }
-        },
-        {
-          "start": {
-            "row": 60
-          },
-          "end": {
-            "row": 61
-          }
-        },
-        {
-          "start": {
-            "row": 64
-          },
-          "end": {
-            "row": 64
-          }
-        },
-        {
-          "start": {
-            "row": 68
-          },
-          "end": {
-            "row": 68
-          }
-        },
-        {
-          "start": {
-            "row": 78
-          },
-          "end": {
-            "row": 78
-          }
-        },
-        {
-          "start": {
-            "row": 80
-          },
-          "end": {
-            "row": 80
-          }
-        }
-      ],
-      "covered_lines": 11,
-      "not_covered_lines": 12,
-      "coverage": 47.82608695652174
-    },
-    "./examples/tests/enforce-module-use-policy_test.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 4
-          },
-          "end": {
-            "row": 5
-          }
-        },
-        {
-          "start": {
-            "row": 13
-          },
-          "end": {
-            "row": 14
-          }
-        },
-        {
-          "start": {
-            "row": 22
-          },
-          "end": {
-            "row": 23
-          }
-        },
-        {
-          "start": {
-            "row": 31
-          },
-          "end": {
-            "row": 32
-          }
-        }
-      ],
-      "covered_lines": 8,
-      "coverage": 100
-    }
-  },
-  "covered_lines": 19,
-  "not_covered_lines": 12,
-  "coverage": 61.29032258064516
-}
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find ./examples/tests ./examples/tests/.. -maxdepth 1 -type f -name enforce-password-length.rego
-./examples/tests/../enforce-password-length.rego
-[command]/opt/homebrew/bin/opa test ./examples/tests/enforce-password-length_test.rego ./examples/tests/../enforce-password-length.rego --format=json
-[
-  {
-    "location": {
-      "file": "./examples/tests/enforce-password-length_test.rego",
-      "row": 4,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_creation_of_password_with_less_than_16_characters",
-    "duration": 126542
-  },
-  {
-    "location": {
-      "file": "./examples/tests/enforce-password-length_test.rego",
-      "row": 16,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_warn_creation_of_password_between_16_and_20_characters",
-    "duration": 65042
-  },
-  {
-    "location": {
-      "file": "./examples/tests/enforce-password-length_test.rego",
-      "row": 28,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_allow_creation_of_password_longer_than_20_characters",
-    "duration": 65416
-  }
-]
-[command]/opt/homebrew/bin/opa test ./examples/tests/enforce-password-length_test.rego ./examples/tests/../enforce-password-length.rego --coverage --format=json
-{
-  "files": {
-    "./examples/tests/../enforce-password-length.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 11
-          },
-          "end": {
-            "row": 13
-          }
-        },
-        {
-          "start": {
-            "row": 16
-          },
-          "end": {
-            "row": 18
-          }
-        },
-        {
-          "start": {
-            "row": 21
-          },
-          "end": {
-            "row": 24
-          }
-        }
-      ],
-      "not_covered": [
-        {
-          "start": {
-            "row": 29
-          },
-          "end": {
-            "row": 29
-          }
-        }
-      ],
-      "covered_lines": 10,
-      "not_covered_lines": 1,
-      "coverage": 90.9090909090909
-    },
-    "./examples/tests/enforce-password-length_test.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 4
-          },
-          "end": {
-            "row": 5
-          }
-        },
-        {
-          "start": {
-            "row": 16
-          },
-          "end": {
-            "row": 17
-          }
-        },
-        {
-          "start": {
-            "row": 28
-          },
-          "end": {
-            "row": 29
-          }
-        }
-      ],
-      "covered_lines": 6,
-      "coverage": 100
-    }
-  },
-  "covered_lines": 16,
-  "not_covered_lines": 1,
-  "coverage": 94.11764705882354
-}
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find ./examples/tests ./examples/tests/.. -maxdepth 1 -type f -name cancel-in-progress-runs.rego
-./examples/tests/../cancel-in-progress-runs.rego
-[command]/opt/homebrew/bin/opa test ./examples/tests/cancel-in-progress-runs_test.rego ./examples/tests/../cancel-in-progress-runs.rego --format=json
-[
-  {
-    "location": {
-      "file": "./examples/tests/cancel-in-progress-runs_test.rego",
-      "row": 3,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_cancel_runs_allowed",
-    "duration": 253625
-  },
-  {
-    "location": {
-      "file": "./examples/tests/cancel-in-progress-runs_test.rego",
-      "row": 15,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_cancel_runs_denied",
-    "duration": 59250
-  }
-]
-[command]/opt/homebrew/bin/opa test ./examples/tests/cancel-in-progress-runs_test.rego ./examples/tests/../cancel-in-progress-runs.rego --coverage --format=json
-{
-  "files": {
-    "./examples/tests/../cancel-in-progress-runs.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 7
-          },
-          "end": {
-            "row": 11
-          }
-        }
-      ],
-      "not_covered": [
-        {
-          "start": {
-            "row": 16
-          },
-          "end": {
-            "row": 16
-          }
-        }
-      ],
-      "covered_lines": 5,
-      "not_covered_lines": 1,
-      "coverage": 83.33333333333333
-    },
-    "./examples/tests/cancel-in-progress-runs_test.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 3
-          },
-          "end": {
-            "row": 4
-          }
-        },
-        {
-          "start": {
-            "row": 15
-          },
-          "end": {
-            "row": 16
-          }
-        }
-      ],
-      "covered_lines": 4,
-      "coverage": 100
-    }
-  },
-  "covered_lines": 9,
-  "not_covered_lines": 1,
-  "coverage": 90
-}
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find ./examples/tests ./examples/tests/.. -maxdepth 1 -type f -name ignore-changes-outside-root.rego
-./examples/tests/../ignore-changes-outside-root.rego
-[command]/opt/homebrew/bin/opa test ./examples/tests/ignore-changes-outside-root_test.rego ./examples/tests/../ignore-changes-outside-root.rego --format=json
-[
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 3,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_no_files",
-    "duration": 109000
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 10,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_tf_files",
-    "duration": 108250
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 17,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_no_tf_files",
-    "duration": 73209
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 24,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_affected_outside_project_root",
-    "duration": 57750
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 31,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_ignore_affected",
-    "duration": 60125
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 35,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_ignore_not_affected",
-    "duration": 50125
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 39,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_ignore_tag",
-    "duration": 57958
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 44,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_propose_affected",
-    "duration": 47459
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 48,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_propose_not_affected",
-    "duration": 44209
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 57,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_track_affected",
-    "duration": 54542
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 61,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_track_not_affected",
-    "duration": 51334
-  },
-  {
-    "location": {
-      "file": "./examples/tests/ignore-changes-outside-root_test.rego",
-      "row": 65,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_track_not_stack_branch",
-    "duration": 45333
-  }
-]
-[command]/opt/homebrew/bin/opa test ./examples/tests/ignore-changes-outside-root_test.rego ./examples/tests/../ignore-changes-outside-root.rego --coverage --format=json
-{
-  "files": {
-    "./examples/tests/../ignore-changes-outside-root.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 11
-          },
-          "end": {
-            "row": 13
-          }
-        },
-        {
-          "start": {
-            "row": 16
-          },
-          "end": {
-            "row": 17
-          }
-        },
-        {
-          "start": {
-            "row": 20
-          },
-          "end": {
-            "row": 21
-          }
-        },
-        {
-          "start": {
-            "row": 24
-          },
-          "end": {
-            "row": 25
-          }
-        },
-        {
-          "start": {
-            "row": 31
-          },
-          "end": {
-            "row": 32
-          }
-        },
-        {
-          "start": {
-            "row": 34
-          },
-          "end": {
-            "row": 35
-          }
-        }
-      ],
-      "not_covered": [
-        {
-          "start": {
-            "row": 40
-          },
-          "end": {
-            "row": 40
-          }
-        }
-      ],
-      "covered_lines": 13,
-      "not_covered_lines": 1,
-      "coverage": 92.85714285714286
-    },
-    "./examples/tests/ignore-changes-outside-root_test.rego": {
-      "covered": [
-        {
-          "start": {
-            "row": 3
-          },
-          "end": {
-            "row": 4
-          }
-        },
-        {
-          "start": {
-            "row": 10
-          },
-          "end": {
-            "row": 11
-          }
-        },
-        {
-          "start": {
-            "row": 17
-          },
-          "end": {
-            "row": 18
-          }
-        },
-        {
-          "start": {
-            "row": 24
-          },
-          "end": {
-            "row": 25
-          }
-        },
-        {
-          "start": {
-            "row": 31
-          },
-          "end": {
-            "row": 32
-          }
-        },
-        {
-          "start": {
-            "row": 35
-          },
-          "end": {
-            "row": 36
-          }
-        },
-        {
-          "start": {
-            "row": 39
-          },
-          "end": {
-            "row": 40
-          }
-        },
         {
           "start": {
             "row": 44
           },
           "end": {
-            "row": 45
+            "row": 44
           }
         },
         {
           "start": {
-            "row": 48
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 49
           },
           "end": {
             "row": 49
@@ -1529,10 +850,348 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 52
+            "row": 51
           },
           "end": {
-            "row": 52
+            "row": 51
+          }
+        }
+      ],
+      "covered_lines": 124,
+      "not_covered_lines": 4,
+      "coverage": 96.875
+    },
+    "spacelift_policies/push_package copy/labels.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        }
+      ],
+      "covered_lines": 1,
+      "not_covered_lines": 1,
+      "coverage": 50
+    },
+    "spacelift_policies/push_package copy/labels_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 66
+          },
+          "end": {
+            "row": 66
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 71
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 78
+          }
+        },
+        {
+          "start": {
+            "row": 82
+          },
+          "end": {
+            "row": 82
+          }
+        },
+        {
+          "start": {
+            "row": 87
+          },
+          "end": {
+            "row": 87
+          }
+        },
+        {
+          "start": {
+            "row": 89
+          },
+          "end": {
+            "row": 89
+          }
+        },
+        {
+          "start": {
+            "row": 92
+          },
+          "end": {
+            "row": 93
+          }
+        },
+        {
+          "start": {
+            "row": 97
+          },
+          "end": {
+            "row": 97
+          }
+        },
+        {
+          "start": {
+            "row": 102
+          },
+          "end": {
+            "row": 102
+          }
+        },
+        {
+          "start": {
+            "row": 104
+          },
+          "end": {
+            "row": 104
+          }
+        },
+        {
+          "start": {
+            "row": 107
+          },
+          "end": {
+            "row": 108
+          }
+        },
+        {
+          "start": {
+            "row": 111
+          },
+          "end": {
+            "row": 112
+          }
+        },
+        {
+          "start": {
+            "row": 114
+          },
+          "end": {
+            "row": 114
+          }
+        },
+        {
+          "start": {
+            "row": 116
+          },
+          "end": {
+            "row": 117
+          }
+        },
+        {
+          "start": {
+            "row": 120
+          },
+          "end": {
+            "row": 121
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 13
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 27
+          },
+          "end": {
+            "row": 27
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 29
+          }
+        },
+        {
+          "start": {
+            "row": 40
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 58
+          }
+        }
+      ],
+      "covered_lines": 25,
+      "not_covered_lines": 11,
+      "coverage": 69.44444444444444
+    },
+    "spacelift_policies/push_package copy/nested/cancel.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 9
+          },
+          "end": {
+            "row": 14
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 18
+          },
+          "end": {
+            "row": 18
+          }
+        }
+      ],
+      "covered_lines": 6,
+      "not_covered_lines": 1,
+      "coverage": 85.71428571428571
+    },
+    "spacelift_policies/push_package copy/nested/cancel_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 12
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 30
+          },
+          "end": {
+            "row": 30
+          }
+        },
+        {
+          "start": {
+            "row": 34
+          },
+          "end": {
+            "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 36
+          },
+          "end": {
+            "row": 36
+          }
+        },
+        {
+          "start": {
+            "row": 38
+          },
+          "end": {
+            "row": 38
+          }
+        },
+        {
+          "start": {
+            "row": 41
+          },
+          "end": {
+            "row": 42
+          }
+        },
+        {
+          "start": {
+            "row": 51
+          },
+          "end": {
+            "row": 51
+          }
+        },
+        {
+          "start": {
+            "row": 55
+          },
+          "end": {
+            "row": 55
           }
         },
         {
@@ -1553,100 +1212,67 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 65
+            "row": 68
           },
           "end": {
-            "row": 66
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 74
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 78
+          },
+          "end": {
+            "row": 79
+          }
+        },
+        {
+          "start": {
+            "row": 81
+          },
+          "end": {
+            "row": 82
+          }
+        },
+        {
+          "start": {
+            "row": 85
+          },
+          "end": {
+            "row": 86
           }
         }
       ],
-      "covered_lines": 25,
+      "covered_lines": 22,
       "coverage": 100
     }
   },
-  "covered_lines": 38,
-  "not_covered_lines": 1,
-  "coverage": 97.43589743589743
+  "covered_lines": 214,
+  "not_covered_lines": 21,
+  "coverage": 91.06382978723404
 }
-[command]/opt/homebrew/opt/findutils/libexec/gnubin/find ./examples/tests ./examples/tests/.. -maxdepth 1 -type f -name do-not-delete-stateful-resources.rego
-./examples/tests/../do-not-delete-stateful-resources.rego
-[command]/opt/homebrew/bin/opa test ./examples/tests/do-not-delete-stateful-resources_test.rego ./examples/tests/../do-not-delete-stateful-resources.rego --format=json
-[
-  {
-    "location": {
-      "file": "./examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 4,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_s3_bucket_deletion",
-    "duration": 130292
-  },
-  {
-    "location": {
-      "file": "./examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 14,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_db_instance_deletion",
-    "duration": 75084
-  },
-  {
-    "location": {
-      "file": "./examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 24,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_efs_file_system_deletion",
-    "duration": 71750
-  },
-  {
-    "location": {
-      "file": "./examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 34,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_deny_dynamodb_table_deletion",
-    "duration": 63666
-  },
-  {
-    "location": {
-      "file": "./examples/tests/do-not-delete-stateful-resources_test.rego",
-      "row": 44,
-      "col": 1
-    },
-    "package": "data.spacelift",
-    "name": "test_allow_instance_deletion",
-    "duration": 61125
-  }
-]
-[command]/opt/homebrew/bin/opa test ./examples/tests/do-not-delete-stateful-resources_test.rego ./examples/tests/../do-not-delete-stateful-resources.rego --coverage --format=json
+Coverage Exit code: 0
+OPA test commands completed
+*****************************************
+*****************************************
+*****************************************
+*****************************************
+*****************************************
 {
   "files": {
-    "./examples/tests/../do-not-delete-stateful-resources.rego": {
+    "spacelift_policies/push_package copy/files.rego": {
       "covered": [
         {
           "start": {
-            "row": 10
-          },
-          "end": {
-            "row": 10
-          }
-        },
-        {
-          "start": {
-            "row": 12
-          },
-          "end": {
-            "row": 12
-          }
-        },
-        {
-          "start": {
-            "row": 15
+            "row": 11
           },
           "end": {
             "row": 15
@@ -1662,28 +1288,880 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 26
+            "row": 20
           },
           "end": {
-            "row": 26
+            "row": 20
           }
         },
         {
           "start": {
-            "row": 29
+            "row": 22
           },
           "end": {
-            "row": 29
+            "row": 22
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 25
+          }
+        },
+        {
+          "start": {
+            "row": 30
+          },
+          "end": {
+            "row": 31
+          }
+        },
+        {
+          "start": {
+            "row": 45
+          },
+          "end": {
+            "row": 45
+          }
+        },
+        {
+          "start": {
+            "row": 48
+          },
+          "end": {
+            "row": 50
+          }
+        },
+        {
+          "start": {
+            "row": 53
+          },
+          "end": {
+            "row": 56
+          }
+        },
+        {
+          "start": {
+            "row": 59
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 65
+          },
+          "end": {
+            "row": 65
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 72
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 76
+          }
+        },
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 85
+          }
+        },
+        {
+          "start": {
+            "row": 89
+          },
+          "end": {
+            "row": 89
           }
         }
       ],
       "not_covered": [
         {
           "start": {
+            "row": 70
+          },
+          "end": {
+            "row": 70
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 77
+          }
+        }
+      ],
+      "covered_lines": 36,
+      "not_covered_lines": 4,
+      "coverage": 90
+    },
+    "spacelift_policies/push_package copy/files_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 17
+          },
+          "end": {
+            "row": 17
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 31
+          }
+        },
+        {
+          "start": {
             "row": 34
           },
           "end": {
             "row": 34
+          }
+        },
+        {
+          "start": {
+            "row": 39
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 54
+          },
+          "end": {
+            "row": 55
+          }
+        },
+        {
+          "start": {
+            "row": 58
+          },
+          "end": {
+            "row": 58
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 61
+          }
+        },
+        {
+          "start": {
+            "row": 63
+          },
+          "end": {
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 72
+          }
+        },
+        {
+          "start": {
+            "row": 75
+          },
+          "end": {
+            "row": 75
+          }
+        },
+        {
+          "start": {
+            "row": 78
+          },
+          "end": {
+            "row": 78
+          }
+        },
+        {
+          "start": {
+            "row": 80
+          },
+          "end": {
+            "row": 85
+          }
+        },
+        {
+          "start": {
+            "row": 88
+          },
+          "end": {
+            "row": 89
+          }
+        },
+        {
+          "start": {
+            "row": 92
+          },
+          "end": {
+            "row": 92
+          }
+        },
+        {
+          "start": {
+            "row": 95
+          },
+          "end": {
+            "row": 95
+          }
+        },
+        {
+          "start": {
+            "row": 97
+          },
+          "end": {
+            "row": 100
+          }
+        },
+        {
+          "start": {
+            "row": 103
+          },
+          "end": {
+            "row": 104
+          }
+        },
+        {
+          "start": {
+            "row": 107
+          },
+          "end": {
+            "row": 107
+          }
+        },
+        {
+          "start": {
+            "row": 110
+          },
+          "end": {
+            "row": 110
+          }
+        },
+        {
+          "start": {
+            "row": 112
+          },
+          "end": {
+            "row": 117
+          }
+        },
+        {
+          "start": {
+            "row": 121
+          },
+          "end": {
+            "row": 122
+          }
+        },
+        {
+          "start": {
+            "row": 125
+          },
+          "end": {
+            "row": 125
+          }
+        },
+        {
+          "start": {
+            "row": 128
+          },
+          "end": {
+            "row": 128
+          }
+        },
+        {
+          "start": {
+            "row": 130
+          },
+          "end": {
+            "row": 135
+          }
+        },
+        {
+          "start": {
+            "row": 138
+          },
+          "end": {
+            "row": 139
+          }
+        },
+        {
+          "start": {
+            "row": 142
+          },
+          "end": {
+            "row": 142
+          }
+        },
+        {
+          "start": {
+            "row": 145
+          },
+          "end": {
+            "row": 145
+          }
+        },
+        {
+          "start": {
+            "row": 147
+          },
+          "end": {
+            "row": 148
+          }
+        },
+        {
+          "start": {
+            "row": 151
+          },
+          "end": {
+            "row": 152
+          }
+        },
+        {
+          "start": {
+            "row": 155
+          },
+          "end": {
+            "row": 155
+          }
+        },
+        {
+          "start": {
+            "row": 158
+          },
+          "end": {
+            "row": 158
+          }
+        },
+        {
+          "start": {
+            "row": 160
+          },
+          "end": {
+            "row": 165
+          }
+        },
+        {
+          "start": {
+            "row": 168
+          },
+          "end": {
+            "row": 169
+          }
+        },
+        {
+          "start": {
+            "row": 172
+          },
+          "end": {
+            "row": 172
+          }
+        },
+        {
+          "start": {
+            "row": 175
+          },
+          "end": {
+            "row": 175
+          }
+        },
+        {
+          "start": {
+            "row": 177
+          },
+          "end": {
+            "row": 182
+          }
+        },
+        {
+          "start": {
+            "row": 185
+          },
+          "end": {
+            "row": 186
+          }
+        },
+        {
+          "start": {
+            "row": 189
+          },
+          "end": {
+            "row": 189
+          }
+        },
+        {
+          "start": {
+            "row": 192
+          },
+          "end": {
+            "row": 192
+          }
+        },
+        {
+          "start": {
+            "row": 194
+          },
+          "end": {
+            "row": 197
+          }
+        },
+        {
+          "start": {
+            "row": 200
+          },
+          "end": {
+            "row": 201
+          }
+        },
+        {
+          "start": {
+            "row": 204
+          },
+          "end": {
+            "row": 204
+          }
+        },
+        {
+          "start": {
+            "row": 207
+          },
+          "end": {
+            "row": 207
+          }
+        },
+        {
+          "start": {
+            "row": 209
+          },
+          "end": {
+            "row": 214
+          }
+        },
+        {
+          "start": {
+            "row": 218
+          },
+          "end": {
+            "row": 219
+          }
+        },
+        {
+          "start": {
+            "row": 222
+          },
+          "end": {
+            "row": 222
+          }
+        },
+        {
+          "start": {
+            "row": 225
+          },
+          "end": {
+            "row": 225
+          }
+        },
+        {
+          "start": {
+            "row": 227
+          },
+          "end": {
+            "row": 232
+          }
+        },
+        {
+          "start": {
+            "row": 235
+          },
+          "end": {
+            "row": 236
+          }
+        },
+        {
+          "start": {
+            "row": 239
+          },
+          "end": {
+            "row": 239
+          }
+        },
+        {
+          "start": {
+            "row": 242
+          },
+          "end": {
+            "row": 242
+          }
+        },
+        {
+          "start": {
+            "row": 244
+          },
+          "end": {
+            "row": 249
+          }
+        },
+        {
+          "start": {
+            "row": 252
+          },
+          "end": {
+            "row": 253
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 49
+          },
+          "end": {
+            "row": 49
+          }
+        },
+        {
+          "start": {
+            "row": 51
+          },
+          "end": {
+            "row": 51
+          }
+        }
+      ],
+      "covered_lines": 124,
+      "not_covered_lines": 4,
+      "coverage": 96.875
+    },
+    "spacelift_policies/push_package copy/labels.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 6
+          },
+          "end": {
+            "row": 6
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        }
+      ],
+      "covered_lines": 1,
+      "not_covered_lines": 1,
+      "coverage": 50
+    },
+    "spacelift_policies/push_package copy/labels_test.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 66
+          },
+          "end": {
+            "row": 66
+          }
+        },
+        {
+          "start": {
+            "row": 71
+          },
+          "end": {
+            "row": 71
+          }
+        },
+        {
+          "start": {
+            "row": 73
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 77
+          },
+          "end": {
+            "row": 78
+          }
+        },
+        {
+          "start": {
+            "row": 82
+          },
+          "end": {
+            "row": 82
+          }
+        },
+        {
+          "start": {
+            "row": 87
+          },
+          "end": {
+            "row": 87
+          }
+        },
+        {
+          "start": {
+            "row": 89
+          },
+          "end": {
+            "row": 89
+          }
+        },
+        {
+          "start": {
+            "row": 92
+          },
+          "end": {
+            "row": 93
+          }
+        },
+        {
+          "start": {
+            "row": 97
+          },
+          "end": {
+            "row": 97
+          }
+        },
+        {
+          "start": {
+            "row": 102
+          },
+          "end": {
+            "row": 102
+          }
+        },
+        {
+          "start": {
+            "row": 104
+          },
+          "end": {
+            "row": 104
+          }
+        },
+        {
+          "start": {
+            "row": 107
+          },
+          "end": {
+            "row": 108
+          }
+        },
+        {
+          "start": {
+            "row": 111
+          },
+          "end": {
+            "row": 112
+          }
+        },
+        {
+          "start": {
+            "row": 114
+          },
+          "end": {
+            "row": 114
+          }
+        },
+        {
+          "start": {
+            "row": 116
+          },
+          "end": {
+            "row": 117
+          }
+        },
+        {
+          "start": {
+            "row": 120
+          },
+          "end": {
+            "row": 121
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 11
+          },
+          "end": {
+            "row": 11
+          }
+        },
+        {
+          "start": {
+            "row": 13
+          },
+          "end": {
+            "row": 13
+          }
+        },
+        {
+          "start": {
+            "row": 24
+          },
+          "end": {
+            "row": 24
+          }
+        },
+        {
+          "start": {
+            "row": 27
+          },
+          "end": {
+            "row": 27
+          }
+        },
+        {
+          "start": {
+            "row": 29
+          },
+          "end": {
+            "row": 29
+          }
+        },
+        {
+          "start": {
+            "row": 40
+          },
+          "end": {
+            "row": 41
+          }
+        },
+        {
+          "start": {
+            "row": 44
+          },
+          "end": {
+            "row": 44
+          }
+        },
+        {
+          "start": {
+            "row": 46
+          },
+          "end": {
+            "row": 46
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 58
+          }
+        }
+      ],
+      "covered_lines": 25,
+      "not_covered_lines": 11,
+      "coverage": 69.44444444444444
+    },
+    "spacelift_policies/push_package copy/nested/cancel.rego": {
+      "covered": [
+        {
+          "start": {
+            "row": 9
+          },
+          "end": {
+            "row": 14
+          }
+        }
+      ],
+      "not_covered": [
+        {
+          "start": {
+            "row": 18
+          },
+          "end": {
+            "row": 18
           }
         }
       ],
@@ -1691,54 +2169,22 @@ Starting OPA test execution...
       "not_covered_lines": 1,
       "coverage": 85.71428571428571
     },
-    "./examples/tests/do-not-delete-stateful-resources_test.rego": {
+    "spacelift_policies/push_package copy/nested/cancel_test.rego": {
       "covered": [
         {
           "start": {
-            "row": 4
+            "row": 12
           },
           "end": {
-            "row": 4
+            "row": 13
           }
         },
         {
           "start": {
-            "row": 6
+            "row": 30
           },
           "end": {
-            "row": 6
-          }
-        },
-        {
-          "start": {
-            "row": 14
-          },
-          "end": {
-            "row": 14
-          }
-        },
-        {
-          "start": {
-            "row": 16
-          },
-          "end": {
-            "row": 16
-          }
-        },
-        {
-          "start": {
-            "row": 24
-          },
-          "end": {
-            "row": 24
-          }
-        },
-        {
-          "start": {
-            "row": 26
-          },
-          "end": {
-            "row": 26
+            "row": 30
           }
         },
         {
@@ -1759,35 +2205,102 @@ Starting OPA test execution...
         },
         {
           "start": {
-            "row": 44
+            "row": 38
           },
           "end": {
-            "row": 44
+            "row": 38
           }
         },
         {
           "start": {
-            "row": 46
+            "row": 41
           },
           "end": {
-            "row": 46
+            "row": 42
+          }
+        },
+        {
+          "start": {
+            "row": 51
+          },
+          "end": {
+            "row": 51
+          }
+        },
+        {
+          "start": {
+            "row": 55
+          },
+          "end": {
+            "row": 55
+          }
+        },
+        {
+          "start": {
+            "row": 57
+          },
+          "end": {
+            "row": 58
+          }
+        },
+        {
+          "start": {
+            "row": 61
+          },
+          "end": {
+            "row": 62
+          }
+        },
+        {
+          "start": {
+            "row": 68
+          },
+          "end": {
+            "row": 68
+          }
+        },
+        {
+          "start": {
+            "row": 74
+          },
+          "end": {
+            "row": 74
+          }
+        },
+        {
+          "start": {
+            "row": 78
+          },
+          "end": {
+            "row": 79
+          }
+        },
+        {
+          "start": {
+            "row": 81
+          },
+          "end": {
+            "row": 82
+          }
+        },
+        {
+          "start": {
+            "row": 85
+          },
+          "end": {
+            "row": 86
           }
         }
       ],
-      "covered_lines": 10,
+      "covered_lines": 22,
       "coverage": 100
     }
   },
-  "covered_lines": 16,
-  "not_covered_lines": 1,
-  "coverage": 94.11764705882354
+  "covered_lines": 214,
+  "not_covered_lines": 21,
+  "coverage": 91.06382978723404
 }
-*****************************************
-*****************************************
-*****************************************
-*****************************************
-*****************************************
-{"files":{"./examples/tests/../notification-stack-failure-origins.rego":{"covered":[{"start":{"row":8},"end":{"row":8}},{"start":{"row":10},"end":{"row":10}},{"start":{"row":15},"end":{"row":15}},{"start":{"row":20},"end":{"row":20}},{"start":{"row":23},"end":{"row":25}},{"start":{"row":28},"end":{"row":30}},{"start":{"row":35},"end":{"row":35}},{"start":{"row":37},"end":{"row":38}},{"start":{"row":45},"end":{"row":45}},{"start":{"row":47},"end":{"row":50}},{"start":{"row":54},"end":{"row":55}},{"start":{"row":60},"end":{"row":63}},{"start":{"row":69},"end":{"row":71}},{"start":{"row":76},"end":{"row":77}}],"not_covered":[{"start":{"row":80},"end":{"row":80}}],"covered_lines":29,"not_covered_lines":1,"coverage":96.66666666666667},"./examples/tests/notification-stack-failure-origins_test.rego":{"covered":[{"start":{"row":11},"end":{"row":12}},{"start":{"row":29},"end":{"row":34}},{"start":{"row":38},"end":{"row":39}},{"start":{"row":44},"end":{"row":44}},{"start":{"row":48},"end":{"row":49}},{"start":{"row":54},"end":{"row":54}},{"start":{"row":58},"end":{"row":59}},{"start":{"row":76},"end":{"row":78}},{"start":{"row":82},"end":{"row":83}},{"start":{"row":100},"end":{"row":107}},{"start":{"row":111},"end":{"row":112}},{"start":{"row":117},"end":{"row":117}},{"start":{"row":121},"end":{"row":122}},{"start":{"row":127},"end":{"row":127}}],"covered_lines":35,"coverage":100},"./examples/tests/../readers-writers-admins-teams.rego":{"covered":[{"start":{"row":8},"end":{"row":8}},{"start":{"row":10},"end":{"row":10}},{"start":{"row":12},"end":{"row":12}},{"start":{"row":17},"end":{"row":19}},{"start":{"row":25},"end":{"row":27}},{"start":{"row":33},"end":{"row":38}}],"not_covered":[{"start":{"row":16},"end":{"row":16}},{"start":{"row":24},"end":{"row":24}},{"start":{"row":28},"end":{"row":28}}],"covered_lines":15,"not_covered_lines":3,"coverage":83.33333333333333},"./examples/tests/readers-writers-admins-teams_test.rego":{"covered":[{"start":{"row":9},"end":{"row":10}},{"start":{"row":13},"end":{"row":14}},{"start":{"row":17},"end":{"row":18}},{"start":{"row":22},"end":{"row":23}},{"start":{"row":27},"end":{"row":28}},{"start":{"row":32},"end":{"row":33}}],"covered_lines":12,"coverage":100},"./examples/tests/../track-using-labels.rego":{"covered":[{"start":{"row":4},"end":{"row":4}},{"start":{"row":8},"end":{"row":9}},{"start":{"row":17},"end":{"row":20}},{"start":{"row":29},"end":{"row":29}},{"start":{"row":31},"end":{"row":32}}],"not_covered":[{"start":{"row":3},"end":{"row":3}},{"start":{"row":5},"end":{"row":5}},{"start":{"row":12},"end":{"row":13}},{"start":{"row":23},"end":{"row":26}},{"start":{"row":35},"end":{"row":35}},{"start":{"row":37},"end":{"row":38}},{"start":{"row":41},"end":{"row":41}}],"covered_lines":10,"not_covered_lines":12,"coverage":45.45454545454545},"./examples/tests/track-using-labels_test.rego":{"covered":[{"start":{"row":4},"end":{"row":4}},{"start":{"row":6},"end":{"row":6}},{"start":{"row":8},"end":{"row":8}},{"start":{"row":13},"end":{"row":14}},{"start":{"row":21},"end":{"row":22}},{"start":{"row":29},"end":{"row":30}},{"start":{"row":37},"end":{"row":40}},{"start":{"row":45},"end":{"row":48}},{"start":{"row":53},"end":{"row":56}},{"start":{"row":61},"end":{"row":64}},{"start":{"row":69},"end":{"row":72}}],"covered_lines":29,"coverage":100},"./examples/tests/../enforce-module-use-policy.rego":{"covered":[{"start":{"row":17},"end":{"row":17}},{"start":{"row":24},"end":{"row":30}},{"start":{"row":32},"end":{"row":32}},{"start":{"row":39},"end":{"row":39}},{"start":{"row":79},"end":{"row":79}}],"not_covered":[{"start":{"row":37},"end":{"row":37}},{"start":{"row":42},"end":{"row":42}},{"start":{"row":46},"end":{"row":46}},{"start":{"row":52},"end":{"row":52}},{"start":{"row":54},"end":{"row":54}},{"start":{"row":57},"end":{"row":57}},{"start":{"row":60},"end":{"row":61}},{"start":{"row":64},"end":{"row":64}},{"start":{"row":68},"end":{"row":68}},{"start":{"row":78},"end":{"row":78}},{"start":{"row":80},"end":{"row":80}}],"covered_lines":11,"not_covered_lines":12,"coverage":47.82608695652174},"./examples/tests/enforce-module-use-policy_test.rego":{"covered":[{"start":{"row":4},"end":{"row":5}},{"start":{"row":13},"end":{"row":14}},{"start":{"row":22},"end":{"row":23}},{"start":{"row":31},"end":{"row":32}}],"covered_lines":8,"coverage":100},"./examples/tests/../enforce-password-length.rego":{"covered":[{"start":{"row":11},"end":{"row":13}},{"start":{"row":16},"end":{"row":18}},{"start":{"row":21},"end":{"row":24}}],"not_covered":[{"start":{"row":29},"end":{"row":29}}],"covered_lines":10,"not_covered_lines":1,"coverage":90.9090909090909},"./examples/tests/enforce-password-length_test.rego":{"covered":[{"start":{"row":4},"end":{"row":5}},{"start":{"row":16},"end":{"row":17}},{"start":{"row":28},"end":{"row":29}}],"covered_lines":6,"coverage":100},"./examples/tests/../cancel-in-progress-runs.rego":{"covered":[{"start":{"row":7},"end":{"row":11}}],"not_covered":[{"start":{"row":16},"end":{"row":16}}],"covered_lines":5,"not_covered_lines":1,"coverage":83.33333333333333},"./examples/tests/cancel-in-progress-runs_test.rego":{"covered":[{"start":{"row":3},"end":{"row":4}},{"start":{"row":15},"end":{"row":16}}],"covered_lines":4,"coverage":100},"./examples/tests/../ignore-changes-outside-root.rego":{"covered":[{"start":{"row":11},"end":{"row":13}},{"start":{"row":16},"end":{"row":17}},{"start":{"row":20},"end":{"row":21}},{"start":{"row":24},"end":{"row":25}},{"start":{"row":31},"end":{"row":32}},{"start":{"row":34},"end":{"row":35}}],"not_covered":[{"start":{"row":40},"end":{"row":40}}],"covered_lines":13,"not_covered_lines":1,"coverage":92.85714285714286},"./examples/tests/ignore-changes-outside-root_test.rego":{"covered":[{"start":{"row":3},"end":{"row":4}},{"start":{"row":10},"end":{"row":11}},{"start":{"row":17},"end":{"row":18}},{"start":{"row":24},"end":{"row":25}},{"start":{"row":31},"end":{"row":32}},{"start":{"row":35},"end":{"row":36}},{"start":{"row":39},"end":{"row":40}},{"start":{"row":44},"end":{"row":45}},{"start":{"row":48},"end":{"row":49}},{"start":{"row":52},"end":{"row":52}},{"start":{"row":57},"end":{"row":58}},{"start":{"row":61},"end":{"row":62}},{"start":{"row":65},"end":{"row":66}}],"covered_lines":25,"coverage":100},"./examples/tests/../do-not-delete-stateful-resources.rego":{"covered":[{"start":{"row":10},"end":{"row":10}},{"start":{"row":12},"end":{"row":12}},{"start":{"row":15},"end":{"row":15}},{"start":{"row":18},"end":{"row":18}},{"start":{"row":26},"end":{"row":26}},{"start":{"row":29},"end":{"row":29}}],"not_covered":[{"start":{"row":34},"end":{"row":34}}],"covered_lines":6,"not_covered_lines":1,"coverage":85.71428571428571},"./examples/tests/do-not-delete-stateful-resources_test.rego":{"covered":[{"start":{"row":4},"end":{"row":4}},{"start":{"row":6},"end":{"row":6}},{"start":{"row":14},"end":{"row":14}},{"start":{"row":16},"end":{"row":16}},{"start":{"row":24},"end":{"row":24}},{"start":{"row":26},"end":{"row":26}},{"start":{"row":34},"end":{"row":34}},{"start":{"row":36},"end":{"row":36}},{"start":{"row":44},"end":{"row":44}},{"start":{"row":46},"end":{"row":46}}],"covered_lines":10,"coverage":100}}}
+
 *****************************************
 *****************************************
 *****************************************
@@ -1796,82 +2309,32 @@ Starting OPA test execution...
 processed coverage report
 [
   {
-    file: './examples/tests/../notification-stack-failure-origins.rego',
-    coverage: 96.66666666666667,
-    notCoveredLines: '80'
+    file: 'spacelift_policies/push_package copy/files.rego',
+    coverage: 90,
+    notCoveredLines: '70, 73-74, 77'
   },
   {
-    file: './examples/tests/notification-stack-failure-origins_test.rego',
-    coverage: 100,
-    notCoveredLines: ''
+    file: 'spacelift_policies/push_package copy/files_test.rego',
+    coverage: 96.875,
+    notCoveredLines: '44, 46, 49, 51'
   },
   {
-    file: './examples/tests/../readers-writers-admins-teams.rego',
-    coverage: 83.33333333333333,
-    notCoveredLines: '16, 24, 28'
+    file: 'spacelift_policies/push_package copy/labels.rego',
+    coverage: 50,
+    notCoveredLines: '11'
   },
   {
-    file: './examples/tests/readers-writers-admins-teams_test.rego',
-    coverage: 100,
-    notCoveredLines: ''
+    file: 'spacelift_policies/push_package copy/labels_test.rego',
+    coverage: 69.44444444444444,
+    notCoveredLines: '11, 13, 24, 27, 29, 40-41, 44, 46, 57-58'
   },
   {
-    file: './examples/tests/../track-using-labels.rego',
-    coverage: 45.45454545454545,
-    notCoveredLines: '3, 5, 12-13, 23-26, 35, 37-38, 41'
-  },
-  {
-    file: './examples/tests/track-using-labels_test.rego',
-    coverage: 100,
-    notCoveredLines: ''
-  },
-  {
-    file: './examples/tests/../enforce-module-use-policy.rego',
-    coverage: 47.82608695652174,
-    notCoveredLines: '37, 42, 46, 52, 54, 57, 60-61, 64, 68, 78, 80'
-  },
-  {
-    file: './examples/tests/enforce-module-use-policy_test.rego',
-    coverage: 100,
-    notCoveredLines: ''
-  },
-  {
-    file: './examples/tests/../enforce-password-length.rego',
-    coverage: 90.9090909090909,
-    notCoveredLines: '29'
-  },
-  {
-    file: './examples/tests/enforce-password-length_test.rego',
-    coverage: 100,
-    notCoveredLines: ''
-  },
-  {
-    file: './examples/tests/../cancel-in-progress-runs.rego',
-    coverage: 83.33333333333333,
-    notCoveredLines: '16'
-  },
-  {
-    file: './examples/tests/cancel-in-progress-runs_test.rego',
-    coverage: 100,
-    notCoveredLines: ''
-  },
-  {
-    file: './examples/tests/../ignore-changes-outside-root.rego',
-    coverage: 92.85714285714286,
-    notCoveredLines: '40'
-  },
-  {
-    file: './examples/tests/ignore-changes-outside-root_test.rego',
-    coverage: 100,
-    notCoveredLines: ''
-  },
-  {
-    file: './examples/tests/../do-not-delete-stateful-resources.rego',
+    file: 'spacelift_policies/push_package copy/nested/cancel.rego',
     coverage: 85.71428571428571,
-    notCoveredLines: '34'
+    notCoveredLines: '18'
   },
   {
-    file: './examples/tests/do-not-delete-stateful-resources_test.rego',
+    file: 'spacelift_policies/push_package copy/nested/cancel_test.rego',
     coverage: 100,
     notCoveredLines: ''
   }
@@ -1888,12 +2351,7 @@ Final comment:
 
 | File | Status | Passed | Total | Coverage | Details |
 |------|--------|--------|-------|----------|----------|
-| ./examples/tests/notification-stack-failure-origins_test.rego | ✅ PASS | 7 | 7 | 96.67% <details><summary>Uncovered Lines</summary>80</details> | <details><summary>Show Details</summary>✅ test_slack_notification_for_tracked_failed_run<br>✅ test_no_slack_notification_for_non_tracked_run<br>✅ test_no_slack_notification_for_successful_run<br>✅ test_slack_notification_with_unknown_github_user<br>✅ test_pr_comment_for_tracked_failed_run<br>✅ test_no_pr_comment_for_non_tracked_run<br>✅ test_no_pr_comment_for_successful_run</details> |
-| ./examples/tests/readers-writers-admins-teams_test.rego | ✅ PASS | 6 | 6 | 83.33% <details><summary>Uncovered Lines</summary>16, 24, 28</details> | <details><summary>Show Details</summary>✅ test_allow_writers<br>✅ test_allow_admins<br>✅ test_allow_readers<br>✅ test_space_admin_access<br>✅ test_space_write_access<br>✅ test_space_read_access</details> |
-| ./examples/tests/track-using-labels_test.rego | ✅ PASS | 8 | 8 | 45.45% <details><summary>Uncovered Lines</summary>3, 5, 12-13, 23-26, 35, 37-38, 41</details> | <details><summary>Show Details</summary>✅ test_track_different_branches<br>✅ test_propose_non_empty_branch<br>✅ test_propose_empty_branch<br>✅ test_affected_directory<br>✅ test_affected_extension<br>✅ test_not_affected_directory<br>✅ test_not_affected_extension<br>✅ test_ignore_not_affected</details> |
-| ./examples/tests/enforce-module-use-policy_test.rego | ✅ PASS | 4 | 4 | 47.83% <details><summary>Uncovered Lines</summary>37, 42, 46, 52, 54, 57, 60-61, 64, 68, 78, 80</details> | <details><summary>Show Details</summary>✅ test_deny_creation_of_controlled_resource_type<br>✅ test_deny_update_of_controlled_resource_type<br>✅ test_allow_deletion_of_controlled_resource_type<br>✅ test_allow_creation_of_uncontrolled_resource_type</details> |
-| ./examples/tests/enforce-password-length_test.rego | ✅ PASS | 3 | 3 | 90.91% <details><summary>Uncovered Lines</summary>29</details> | <details><summary>Show Details</summary>✅ test_deny_creation_of_password_with_less_than_16_characters<br>✅ test_warn_creation_of_password_between_16_and_20_characters<br>✅ test_allow_creation_of_password_longer_than_20_characters</details> |
-| ./examples/tests/cancel-in-progress-runs_test.rego | ✅ PASS | 2 | 2 | 83.33% <details><summary>Uncovered Lines</summary>16</details> | <details><summary>Show Details</summary>✅ test_cancel_runs_allowed<br>✅ test_cancel_runs_denied</details> |
-| ./examples/tests/ignore-changes-outside-root_test.rego | ✅ PASS | 12 | 12 | 92.86% <details><summary>Uncovered Lines</summary>40</details> | <details><summary>Show Details</summary>✅ test_affected_no_files<br>✅ test_affected_tf_files<br>✅ test_affected_no_tf_files<br>✅ test_affected_outside_project_root<br>✅ test_ignore_affected<br>✅ test_ignore_not_affected<br>✅ test_ignore_tag<br>✅ test_propose_affected<br>✅ test_propose_not_affected<br>✅ test_track_affected<br>✅ test_track_not_affected<br>✅ test_track_not_stack_branch</details> |
-| ./examples/tests/do-not-delete-stateful-resources_test.rego | ✅ PASS | 5 | 5 | 85.71% <details><summary>Uncovered Lines</summary>34</details> | <details><summary>Show Details</summary>✅ test_deny_s3_bucket_deletion<br>✅ test_deny_db_instance_deletion<br>✅ test_deny_efs_file_system_deletion<br>✅ test_deny_dynamodb_table_deletion<br>✅ test_allow_instance_deletion</details> |
+| spacelift_policies/push_package copy/files_test.rego | ✅ PASS | 13 | 13 | 90.00% <details><summary>Uncovered Lines</summary>70, 73-74, 77</details> | <details><summary>Show Details</summary>✅ test_pr_affects_files_in_other_stack<br>✅ test_pr_affects_files_in_this_stack<br>✅ test_pr_affects_files_to_ignore_always<br>✅ test_pr_affects_files_to_run_always<br>✅ test_pr_affects_mixed_files<br>✅ test_pr_merge<br>✅ test_push_affects_files_in_other_stack<br>✅ test_push_affects_files_in_this_stack<br>✅ test_push_affects_files_to_ignore_always<br>✅ test_push_affects_files_to_run_always<br>✅ test_push_affects_mixed_files<br>✅ test_push_to_feature_branch<br>✅ test_sample#01</details> |
+| spacelift_policies/push_package copy/labels_test.rego | ✅ PASS | 5 | 5 | 50.00% <details><summary>Uncovered Lines</summary>11</details> | <details><summary>Show Details</summary>✅ test_pr_with_trigger_label_affects_files_in_other_stack<br>✅ test_pr_with_trigger_label_affects_files_to_ignore_always<br>✅ test_pr_with_trigger_label_closed<br>✅ test_push<br>✅ test_sample#02</details> |
+| spacelift_policies/push_package copy/nested/cancel_test.rego | ✅ PASS | 4 | 4 | 85.71% <details><summary>Uncovered Lines</summary>18</details> | <details><summary>Show Details</summary>✅ test_cancel_in_progress_runs_on_pr_branch<br>✅ test_not_cancel_in_progress_runs_on_pr_branch<br>✅ test_not_cancel_in_progress_runs_on_push_branch<br>✅ test_sample</details> |
 

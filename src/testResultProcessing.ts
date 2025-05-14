@@ -113,8 +113,8 @@ export function processCoverageReport(report: OpaRawJsonCoverageReport): Coverag
 export async function main() {
   console.log("Starting OPA test execution...");
 
-  // let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeOpaTestByPackage("./spacelift_policies/push_package copy", true);
-  let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await runOpaTests("./examples", "_test", true);
+  let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeOpaTestByPackage("./spacelift_policies/push_package copy", true);
+  // let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await runOpaTests("./examples", "_test", true);
 
   let processedTestResults: ProcessedTestResult[] | undefined;
   if (opaOutput) {
@@ -165,7 +165,7 @@ export async function main() {
 
 }
 
-main();
+// main();
 
 
 
