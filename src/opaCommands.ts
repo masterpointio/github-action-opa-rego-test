@@ -39,6 +39,8 @@ export async function executeOpaTestByPackage(
     exitCode = 1;
   }
 
+  console.log(`OPA test command completed with exit code: ${exitCode}`);
+
   if (runCoverageReport) {
     const coverageOptions: exec.ExecOptions = {
       listeners: {

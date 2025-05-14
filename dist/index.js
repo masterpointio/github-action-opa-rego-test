@@ -26410,6 +26410,7 @@ function executeOpaTestByPackage(path_2) {
             console.error(`Error executing OPA command: ${error}`);
             exitCode = 1;
         }
+        console.log(`OPA test command completed with exit code: ${exitCode}`);
         if (runCoverageReport) {
             const coverageOptions = {
                 listeners: {
