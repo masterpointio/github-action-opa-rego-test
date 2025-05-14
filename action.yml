@@ -114,3 +114,8 @@ runs:
           ${{ steps.parse-results.outputs.parsed_results }}
         comment_tag: opa-test-results-${{ env.GITHUB_ACTION }}
         mode: ${{ inputs.pr_comment_mode }}
+
+    - name: print out all environment variables (not just individual)
+      shell: bash
+      run: |
+        printenv
