@@ -26606,7 +26606,7 @@ function processTestResults(jsonResults) {
 /**
  * Processes OPA coverage report into a more readable format
  * @param report The raw OPA coverage report
- * @returns Array of CoverageResult objects
+ * @returns Array of ProcessedCoverageResult objects
  */
 function processCoverageReport(report) {
     const results = [];
