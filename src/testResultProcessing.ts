@@ -1,7 +1,7 @@
 import * as exec from "@actions/exec";
 import * as core from "@actions/core";
 
-import { executeOpaTestByPackage, runOpaTests } from "./opaCommands";
+import { executeOpaTestByPackage, executeIndividualOpaTests } from "./opaCommands";
 
 import { ProcessedTestResult, OpaRawJsonTestResult, OpaRawJsonCoverageReport, ProcessedCoverageResult } from "./interfaces";
 
@@ -114,7 +114,7 @@ export async function main() {
   console.log("Starting OPA test execution...");
 
   let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeOpaTestByPackage("./spacelift_policies/push_package copy", true);
-  // let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await runOpaTests("./examples", "_test", true);
+  // let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeIndividualOpaTests("./examples", "_test", true);
 
   let processedTestResults: ProcessedTestResult[] | undefined;
   if (opaOutput) {

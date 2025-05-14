@@ -1,8 +1,6 @@
 import { OpaRawJsonTestResult } from "./interfaces";
 import * as exec from "@actions/exec";
-
 import path from "path";
-import * as core from "@actions/core";
 
 export async function executeOpaTestByPackage(
   path: string,
@@ -20,7 +18,6 @@ export async function executeOpaTestByPackage(
   let exitCode = 0;
   let coverageExitCode;
 
-  // Set up options to capture stdout and stderr
   const options: exec.ExecOptions = {
     listeners: {
       stdout: (data: Buffer) => {
@@ -34,24 +31,21 @@ export async function executeOpaTestByPackage(
 
   console.log("Running OPA test command...");
 
-  // Execute the OPA test command
   try {
     exitCode = await exec.exec('opa', ['test', path, '--format=json'], options);
+    // maybe remove this try catch and use ignore return code
   } catch (error) {
     console.error(`Error executing OPA command: ${error}`);
     exitCode = 1;
   }
 
-  // Only run coverage if the flag is set to true
   if (runCoverageReport) {
-    // Set up options for coverage command
     const coverageOptions: exec.ExecOptions = {
       listeners: {
         stdout: (data: Buffer) => {
           opaCoverageOutput += data.toString();
         },
         stderr: (data: Buffer) => {
-          // Add a prefix to distinguish coverage errors
           opaError += `\nCoverage: ${data.toString()}`;
         }
       },
@@ -78,7 +72,18 @@ export async function executeOpaTestByPackage(
   };
 }
 
-export async function runOpaTests(
+
+
+
+
+/**
+ * Run OPA tests on all files matching the given test file postfix in the specified base path.
+ * @param basePath - The base path to search for test files.
+ * @param testFilePostfix - The postfix of the test files to look for (e.g., "_test").
+ * @param runCoverageReport - Whether to run coverage report (default: false).
+ * @returns An object containing the test results, error messages, and exit codes.
+ */
+export async function executeIndividualOpaTests(
   basePath: string,
   testFilePostfix: string,
   runCoverageReport = false

@@ -1,5 +1,5 @@
 import { processTestResults, processCoverageReport } from "./testResultProcessing";
-import { runOpaTests } from "./opaCommands";
+import { executeIndividualOpaTests } from "./opaCommands";
 import { formatResults } from "./formatResults";
 
 import { ProcessedTestResult, ProcessedCoverageResult } from "./interfaces"
@@ -29,7 +29,7 @@ export async function main() {
       throw new Error("Both 'path' and 'test_file_postfix' environment variables must be set.");
     }
 
-    let { output: opaOutput1, error: opaError1, exitCode: exitCode1, coverageOutput: coverageOutput }  = await runOpaTests(path, test_file_postfix, true);
+    let { output: opaOutput1, error: opaError1, exitCode: exitCode1, coverageOutput: coverageOutput }  = await executeIndividualOpaTests(path, test_file_postfix, true);
     let parsedResults = processTestResults(JSON.parse(opaOutput1));
     let coverageResult = coverageOutput;
 

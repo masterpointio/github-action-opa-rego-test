@@ -12,6 +12,7 @@ export interface ProcessedCoverageResult {
   notCoveredLines: string;
 }
 
+// This is what is returned from the OPA test command with `--format=json` and `--coverage`
 export interface OpaRawJsonCoverageReport {
   files: {
     [filePath: string]: {

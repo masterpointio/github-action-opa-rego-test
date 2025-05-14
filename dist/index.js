@@ -26291,7 +26291,7 @@ function main() {
             if (!path || !test_file_postfix) {
                 throw new Error("Both 'path' and 'test_file_postfix' environment variables must be set.");
             }
-            let { output: opaOutput1, error: opaError1, exitCode: exitCode1, coverageOutput: coverageOutput } = yield (0, opaCommands_1.runOpaTests)(path, test_file_postfix, true);
+            let { output: opaOutput1, error: opaError1, exitCode: exitCode1, coverageOutput: coverageOutput } = yield (0, opaCommands_1.executeIndividualOpaTests)(path, test_file_postfix, true);
             let parsedResults = (0, testResultProcessing_1.processTestResults)(JSON.parse(opaOutput1));
             let coverageResult = coverageOutput;
             // let parsedResults = parseTestOutput(testResult);
@@ -26381,7 +26381,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.executeOpaTestByPackage = executeOpaTestByPackage;
-exports.runOpaTests = runOpaTests;
+exports.executeIndividualOpaTests = executeIndividualOpaTests;
 const exec = __importStar(__nccwpck_require__(1514));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 function executeOpaTestByPackage(path_2) {
@@ -26391,7 +26391,6 @@ function executeOpaTestByPackage(path_2) {
         let opaCoverageOutput = '';
         let exitCode = 0;
         let coverageExitCode;
-        // Set up options to capture stdout and stderr
         const options = {
             listeners: {
                 stdout: (data) => {
@@ -26403,24 +26402,21 @@ function executeOpaTestByPackage(path_2) {
             }
         };
         console.log("Running OPA test command...");
-        // Execute the OPA test command
         try {
             exitCode = yield exec.exec('opa', ['test', path, '--format=json'], options);
+            // maybe remove this try catch and use ignore return code
         }
         catch (error) {
             console.error(`Error executing OPA command: ${error}`);
             exitCode = 1;
         }
-        // Only run coverage if the flag is set to true
         if (runCoverageReport) {
-            // Set up options for coverage command
             const coverageOptions = {
                 listeners: {
                     stdout: (data) => {
                         opaCoverageOutput += data.toString();
                     },
                     stderr: (data) => {
-                        // Add a prefix to distinguish coverage errors
                         opaError += `\nCoverage: ${data.toString()}`;
                     }
                 },
@@ -26440,7 +26436,14 @@ function executeOpaTestByPackage(path_2) {
         }));
     });
 }
-function runOpaTests(basePath_1, testFilePostfix_1) {
+/**
+ * Run OPA tests on all files matching the given test file postfix in the specified base path.
+ * @param basePath - The base path to search for test files.
+ * @param testFilePostfix - The postfix of the test files to look for (e.g., "_test").
+ * @param runCoverageReport - Whether to run coverage report (default: false).
+ * @returns An object containing the test results, error messages, and exit codes.
+ */
+function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
     return __awaiter(this, arguments, void 0, function* (basePath, testFilePostfix, runCoverageReport = false) {
         const allTestResults = [];
         let opaError = '';
@@ -26654,7 +26657,7 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("Starting OPA test execution...");
         let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = yield (0, opaCommands_1.executeOpaTestByPackage)("./spacelift_policies/push_package copy", true);
-        // let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await runOpaTests("./examples", "_test", true);
+        // let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeIndividualOpaTests("./examples", "_test", true);
         let processedTestResults;
         if (opaOutput) {
             try {
