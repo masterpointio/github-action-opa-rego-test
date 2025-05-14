@@ -26154,7 +26154,7 @@ exports["default"] = _default;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.formatResults = formatResults;
-function formatResults(results, ProcessedCoverageResultss, showCoverage) {
+function formatResults(results, coverageResults, showCoverage) {
     let output = `# ${process.env.pr_comment_title || "🧪 OPA Rego Policy Test Results"}\n\n`;
     if (showCoverage) {
         output += "| File | Status | Passed | Total | Coverage | Details |\n";
@@ -26184,7 +26184,7 @@ function formatResults(results, ProcessedCoverageResultss, showCoverage) {
         let coverageInfo;
         // Find the corresponding coverage test information for the test result we're on
         if (showCoverage) {
-            coverageInfo = ProcessedCoverageResultss.find((cr) => {
+            coverageInfo = coverageResults.find((cr) => {
                 const lastSlashIndex = cr.file.lastIndexOf("/");
                 const dotRegoIndex = cr.file.lastIndexOf(".rego");
                 // Check if the file paths are valid
@@ -26277,7 +26277,7 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // const testResult = process.env.test_result;
-            // const ProcessedCoverageResults = process.env.coverage_result;
+            // const coverageResult = process.env.coverage_result;
             const reportNoTestFiles = process.env.report_untested_files === "true";
             const noTestFiles = process.env.no_test_files;
             const runCoverageReport = process.env.run_coverage_report === "true";
@@ -26293,12 +26293,12 @@ function main() {
             }
             let { output: opaOutput1, error: opaError1, exitCode: exitCode1, coverageOutput: coverageOutput } = yield (0, opaCommands_1.runOpaTests)(path, test_file_postfix, true);
             let parsedResults = (0, testResultProcessing_1.processTestResults)(JSON.parse(opaOutput1));
-            let ProcessedCoverageResults = coverageOutput;
+            let coverageResult = coverageOutput;
             // let parsedResults = parseTestOutput(testResult);
-            let ProcessedCoverageResultss = [];
-            if (ProcessedCoverageResults && runCoverageReport) {
-                // ProcessedCoverageResultss = parseCoverageOutput(ProcessedCoverageResults);
-                ProcessedCoverageResultss = (0, testResultProcessing_1.processCoverageReport)(JSON.parse(ProcessedCoverageResults));
+            let coverageResults = [];
+            if (coverageResult && runCoverageReport) {
+                // coverageResults = parseCoverageOutput(coverageResult);
+                coverageResults = (0, testResultProcessing_1.processCoverageReport)(JSON.parse(coverageResult));
             }
             // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
             if (noTestFiles && reportNoTestFiles) {
@@ -26313,7 +26313,7 @@ function main() {
                 }));
                 parsedResults = [...parsedResults, ...noTestFileResults];
             }
-            let formattedOutput = (0, formatResults_1.formatResults)(parsedResults, ProcessedCoverageResultss, runCoverageReport);
+            let formattedOutput = (0, formatResults_1.formatResults)(parsedResults, coverageResults, runCoverageReport);
             if (formattedOutput === "") {
                 formattedOutput = errorString;
             }
@@ -26606,7 +26606,7 @@ function processTestResults(jsonResults) {
 /**
  * Processes OPA coverage report into a more readable format
  * @param report The raw OPA coverage report
- * @returns Array of ProcessedCoverageResults objects
+ * @returns Array of CoverageResult objects
  */
 function processCoverageReport(report) {
     const results = [];

@@ -2,7 +2,7 @@ import { processTestResults, processCoverageReport } from "./testResultProcessin
 import { runOpaTests } from "./opaCommands";
 import { formatResults } from "./formatResults";
 
-import { ProcessedTestResult, ProcessedCoverageResults } from "./interfaces"
+import { ProcessedTestResult, CoverageResult } from "./interfaces"
 
 import * as core from "@actions/core";
 
@@ -12,7 +12,7 @@ const errorString =
 export async function main() {
   try {
     // const testResult = process.env.test_result;
-    // const ProcessedCoverageResults = process.env.coverage_result;
+    // const coverageResult = process.env.coverage_result;
     const reportNoTestFiles = process.env.report_untested_files === "true";
     const noTestFiles = process.env.no_test_files;
     const runCoverageReport = process.env.run_coverage_report === "true";
@@ -31,14 +31,14 @@ export async function main() {
 
     let { output: opaOutput1, error: opaError1, exitCode: exitCode1, coverageOutput: coverageOutput }  = await runOpaTests(path, test_file_postfix, true);
     let parsedResults = processTestResults(JSON.parse(opaOutput1));
-    let ProcessedCoverageResults = coverageOutput;
+    let coverageResult = coverageOutput;
 
     // let parsedResults = parseTestOutput(testResult);
-    let ProcessedCoverageResultss: ProcessedCoverageResults[] = [];
+    let coverageResults: CoverageResult[] = [];
 
-    if (ProcessedCoverageResults && runCoverageReport) {
-      // ProcessedCoverageResultss = parseCoverageOutput(ProcessedCoverageResults);
-      ProcessedCoverageResultss = processCoverageReport(JSON.parse(ProcessedCoverageResults));
+    if (coverageResult && runCoverageReport) {
+      // coverageResults = parseCoverageOutput(coverageResult);
+      coverageResults = processCoverageReport(JSON.parse(coverageResult));
     }
 
     // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
@@ -57,7 +57,7 @@ export async function main() {
 
     let formattedOutput = formatResults(
       parsedResults,
-      ProcessedCoverageResultss,
+      coverageResults,
       runCoverageReport,
     );
 
