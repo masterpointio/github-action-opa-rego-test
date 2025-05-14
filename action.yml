@@ -112,7 +112,7 @@ runs:
       with:
         message: |
           ${{ steps.parse-results.outputs.parsed_results }}
-        comment_tag: opa-test-results-${{ env.GITHUB_ACTION }}
+        comment_tag: opa-test-results-${{ github.action }}
         mode: ${{ inputs.pr_comment_mode }}
 
     - name: "Debugging"
@@ -120,4 +120,5 @@ runs:
       run: |
         echo "test"
         printenv
+        echo $GITHUB_ACTION
       shell: bash
