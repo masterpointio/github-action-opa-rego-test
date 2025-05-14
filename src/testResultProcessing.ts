@@ -3,7 +3,7 @@ import * as core from "@actions/core";
 
 import { executeOpaTestByPackage, runOpaTests } from "./opaCommands";
 
-import { ProcessedTestResult, OpaRawJsonTestResult, OpaRawJsonCoverageReport, CoverageResult } from "./interfaces";
+import { ProcessedTestResult, OpaRawJsonTestResult, OpaRawJsonCoverageReport, ProcessedCoverageResults } from "./interfaces";
 
 
 import { formatResults } from "./formatResults";
@@ -58,10 +58,10 @@ export function processTestResults(jsonResults: OpaRawJsonTestResult[]): Process
 /**
  * Processes OPA coverage report into a more readable format
  * @param report The raw OPA coverage report
- * @returns Array of CoverageResult objects
+ * @returns Array of ProcessedCoverageResults objects
  */
-export function processCoverageReport(report: OpaRawJsonCoverageReport): CoverageResult[] {
-  const results: CoverageResult[] = [];
+export function processCoverageReport(report: OpaRawJsonCoverageReport): ProcessedCoverageResults[] {
+  const results: ProcessedCoverageResults[] = [];
 
   // Iterate through each file in the report
   for (const [filePath, fileData] of Object.entries(report.files)) {
@@ -140,7 +140,7 @@ export async function main() {
     console.log("*****************************************");
   }
 
-  let processedCoverageReport: CoverageResult[] = [];
+  let processedCoverageReport: ProcessedCoverageResults[] = [];
   if (coverageOutput) {
     processedCoverageReport = processCoverageReport(JSON.parse(coverageOutput) as OpaRawJsonCoverageReport);
   } else {

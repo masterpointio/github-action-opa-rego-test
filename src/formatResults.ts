@@ -1,8 +1,8 @@
-import { ProcessedTestResult, CoverageResult } from "./interfaces"
+import { ProcessedTestResult, ProcessedCoverageResults } from "./interfaces"
 
 export function formatResults(
   results: ProcessedTestResult[],
-  coverageResults: CoverageResult[],
+  ProcessedCoverageResultss: ProcessedCoverageResults[],
   showCoverage: boolean,
 ): string {
   let output = `# ${process.env.pr_comment_title || "🧪 OPA Rego Policy Test Results"}\n\n`;
@@ -37,7 +37,7 @@ export function formatResults(
     let coverageInfo;
     // Find the corresponding coverage test information for the test result we're on
     if (showCoverage) {
-      coverageInfo = coverageResults.find((cr) => {
+      coverageInfo = ProcessedCoverageResultss.find((cr) => {
         const lastSlashIndex = cr.file.lastIndexOf("/");
         const dotRegoIndex = cr.file.lastIndexOf(".rego");
 
