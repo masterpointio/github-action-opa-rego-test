@@ -1,7 +1,7 @@
 import { OpaRawJsonTestResult } from "./interfaces";
 import * as exec from "@actions/exec";
-import * as path from "path";
 
+import path from "path";
 import * as core from "@actions/core";
 
 export async function executeOpaTestByPackage(
@@ -78,151 +78,125 @@ export async function executeOpaTestByPackage(
   };
 }
 
-
-
-
-
-
 export async function runOpaTests(
   basePath: string,
-  testFilePostfix: string
+  testFilePostfix: string,
+  runCoverageReport = false
 ): Promise<{
   output: string;
   error: string;
   exitCode: number;
+  coverageOutput?: string; // JSON‑stringified { files: { <filePath>: <coverageObj> } }
+  coverageExitCode?: number;
 }> {
-  // Array to hold all test results
   const allTestResults: OpaRawJsonTestResult[] = [];
+
   let opaError = '';
   let exitCode = 0;
 
-  console.log(`Searching for test files in ${basePath} with postfix ${testFilePostfix}.rego`);
+  // One flat map of <filePath> → coverage object
+  const coverageFiles: Record<string, any> = {};
+  let coverageExitCode = 0;
 
-  // Find all test files
-  let findOutput = '';
-  let findError = '';
-
-  const findOptions: exec.ExecOptions = {
+  // ---------- locate test files ----------
+  let findStdout = '';
+  let findStderr = '';
+  await exec.exec('find', [basePath, '-type', 'f', '-name', `*${testFilePostfix}.rego`], {
     listeners: {
-      stdout: (data: Buffer) => {
-        findOutput += data.toString();
-      },
-      stderr: (data: Buffer) => {
-        findError += data.toString();
-      }
+      stdout: (b: Buffer) => (findStdout += b.toString()),
+      stderr: (b: Buffer) => (findStderr += b.toString())
     }
-  };
+  });
 
-  try {
-    await exec.exec('find', [basePath, '-type', 'f', '-name', `*${testFilePostfix}.rego`], findOptions);
-  } catch (error) {
-    console.error(`Error executing find command: ${error}`);
-    return { output: '[]', error: `Error executing find command: ${error}`, exitCode: 1 };
+  if (findStderr) {
+    opaError += findStderr + '\n';
+    exitCode = 1;
   }
 
-  // Split the output into an array of test files
-  const testFiles = findOutput.trim().split('\n').filter(line => line.trim() !== '');
-  console.log(`Found ${testFiles.length} test files`);
+  const testFiles = findStdout.trim().split('\n').filter(Boolean);
 
-  // Process each test file
   for (const testFile of testFiles) {
-    console.log(`Running test: ${testFile}`);
+    const base = path.basename(testFile, `${testFilePostfix}.rego`);
+    const dir = path.dirname(testFile);
 
-    // Get base name and directory
-    const basename = path.basename(testFile, `${testFilePostfix}.rego`);
-    const testDir = path.dirname(testFile);
-
-    // Find implementation file
-    let implFindOutput = '';
-    const implFindOptions: exec.ExecOptions = {
-      listeners: {
-        stdout: (data: Buffer) => {
-          implFindOutput += data.toString();
-        }
-      }
-    };
-
-    try {
-      await exec.exec('find', [testDir, `${testDir}/..`, '-maxdepth', '1', '-type', 'f', '-name', `${basename}.rego`], implFindOptions);
-    } catch (error) {
-      console.error(`Error finding implementation file for ${testFile}: ${error}`);
-      opaError += `Error finding implementation file for ${testFile}: ${error}\n`;
+    // locate impl file
+    let implOut = '';
+    await exec.exec('find', [dir, `${dir}/..`, '-maxdepth', '1', '-type', 'f', '-name', `${base}.rego`], {
+      listeners: { stdout: (b: Buffer) => (implOut += b.toString()) }
+    });
+    const implFile = implOut.trim().split('\n').find(Boolean);
+    if (!implFile) {
+      const msg = `Error: Implementation file not found for test: ${testFile}`;
+      opaError += msg + '\n';
       exitCode = 1;
+      coverageExitCode = 1;
       continue;
     }
 
-    // Get the first implementation file if found
-    const implFiles = implFindOutput.trim().split('\n').filter(line => line.trim() !== '');
-    const implFile = implFiles.length > 0 ? implFiles[0] : '';
+    // -------- main tests (JSON) --------
+    let testOut = '';
+    let testErr = '';
+    const testExit = await exec.exec('opa', ['test', testFile, implFile, '--format=json'], {
+      listeners: {
+        stdout: (b: Buffer) => (testOut += b.toString()),
+        stderr: (b: Buffer) => (testErr += b.toString())
+      },
+      ignoreReturnCode: true
+    });
+    if (testExit) exitCode = testExit;
+    if (testErr) opaError += testErr;
 
-    if (implFile) {
-      console.log(`Found implementation file: ${implFile}`);
+    try {
+      const parsed = JSON.parse(testOut);
+      if (Array.isArray(parsed)) allTestResults.push(...parsed);
+    } catch (e) {
+      opaError += `Error parsing test results for ${testFile}: ${e}\n`;
+      exitCode = 1;
+    }
 
-      // Run test with JSON format
-      let testResult = '';
-      let testError = '';
-      const testOptions: exec.ExecOptions = {
+    // -------- coverage (optional) --------
+    if (runCoverageReport) {
+      let covOut = '';
+      let covErr = '';
+      const covExit = await exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json'], {
         listeners: {
-          stdout: (data: Buffer) => {
-            testResult += data.toString();
-          },
-          stderr: (data: Buffer) => {
-            testError += data.toString();
-          }
+          stdout: (b: Buffer) => (covOut += b.toString()),
+          stderr: (b: Buffer) => (covErr += b.toString())
         },
         ignoreReturnCode: true
-      };
+      });
+      coverageExitCode = Math.max(coverageExitCode, covExit);
+      if (covErr) opaError += `Coverage error for ${testFile}: ${covErr}`;
 
-      let testExitCode = 0;
       try {
-        testExitCode = await exec.exec('opa', ['test', testFile, implFile, '--format=json'], testOptions);
-        if (testExitCode !== 0) {
-          exitCode = testExitCode;
+        const covJson = JSON.parse(covOut);
+        if (covJson?.files) {
+          // Just copy/overwrite – no deep merge needed
+          Object.assign(coverageFiles, covJson.files);
         }
-
-        // Parse the JSON result and add to our array
-        try {
-          const testResultJson = JSON.parse(testResult);
-          if (Array.isArray(testResultJson)) {
-            // Add each test result to our array
-            allTestResults.push(...testResultJson);
-          } else {
-            console.error(`Unexpected test result format for ${testFile}: not an array`);
-            opaError += `Unexpected test result format for ${testFile}: not an array\n`;
-          }
-        } catch (parseError) {
-          console.error(`Error parsing test results for ${testFile}: ${parseError}`);
-          opaError += `Error parsing test results for ${testFile}: ${parseError}\n`;
-          exitCode = 1;
-        }
-      } catch (error) {
-        console.error(`Error running test for ${testFile}: ${error}`);
-        testError += `Error running test for ${testFile}: ${error}\n`;
-        exitCode = 1;
+      } catch (e) {
+        opaError += `Error parsing coverage for ${testFile}: ${e}\n`;
+        coverageExitCode = 1;
       }
-
-      if (testError) {
-        opaError += testError;
-      }
-    } else {
-      const errorMessage = `Error: Implementation file not found for test: ${testFile}\n`;
-      console.error(errorMessage.trim());
-      opaError += errorMessage;
-      exitCode = 1;
     }
   }
 
-  console.log("All tests completed");
-
-  // Convert the combined results array to a JSON string
-  const combinedOutput = JSON.stringify(allTestResults);
-
-  console.log(allTestResults)
-
-  // Return the results
-  return {
-    output: combinedOutput,
+  const result: {
+    output: string;
+    error: string;
+    exitCode: number;
+    coverageOutput?: string;
+    coverageExitCode?: number;
+  } = {
+    output: JSON.stringify(allTestResults),
     error: opaError,
-    exitCode: exitCode
+    exitCode
   };
+
+  if (runCoverageReport) {
+    result.coverageOutput = JSON.stringify({ files: coverageFiles });
+    result.coverageExitCode = coverageExitCode;
+  }
+
+  return result;
 }

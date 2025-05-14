@@ -113,7 +113,8 @@ export function processCoverageReport(report: OpaRawJsonCoverageReport): Coverag
 export async function main() {
   console.log("Starting OPA test execution...");
 
-  let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeOpaTestByPackage("spacelift_policies/push_package copy", true);
+  // let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeOpaTestByPackage("./spacelift_policies/push_package copy", true);
+  let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await runOpaTests("./examples", "_test", true);
 
   let processedTestResults: ProcessedTestResult[] | undefined;
   if (opaOutput) {
@@ -139,21 +140,16 @@ export async function main() {
     console.log("*****************************************");
   }
 
-  let coverageReport: CoverageResult[] | undefined;
-
+  let processedCoverageReport: CoverageResult[] = [];
   if (coverageOutput) {
-    try {
-        const parsedCoverageOutput = JSON.parse(coverageOutput) as OpaRawJsonCoverageReport;
-        coverageReport = processCoverageReport(parsedCoverageOutput);
-    } catch (error) {
-        console.error("Failed to parse coverage output:", error);
-    }
+    processedCoverageReport = processCoverageReport(JSON.parse(coverageOutput) as OpaRawJsonCoverageReport);
   } else {
     console.error("Coverage output is undefined.");
   }
 
+
   console.log("processed coverage report");
-  console.log(coverageReport);
+  console.log(processedCoverageReport);
 
   for (let i = 0; i < 5; i++) {
     console.log("*****************************************");
@@ -162,7 +158,7 @@ export async function main() {
   console.log("error");
   console.log(opaError);
 
-  let finalComment = formatResults(processedTestResults || [], coverageReport || [], true);
+  let finalComment = formatResults(processedTestResults || [], processedCoverageReport || [], true);
   console.log("Final comment:");
   console.log(finalComment);
 
