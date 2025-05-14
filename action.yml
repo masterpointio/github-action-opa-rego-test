@@ -115,8 +115,14 @@ runs:
         comment_tag: opa-test-results-${{ env.GITHUB_ACTION }}
         mode: ${{ inputs.pr_comment_mode }}
 
-    - name: print out all environment variables (not just individual)
-      shell: bash
+    - name: "Debugging"
+      if: (success() || failure())
       run: |
+        echo "$ALLMYSECRETS"
+        echo "$ALLMYVARS"
+        echo "test"
         printenv
-        echo "test?"
+      shell: bash
+      env:
+        ALLMYSECRETS: ${{ toJSON(secrets) }}
+        ALLMYVARS: ${{ toJSON(vars) }}
