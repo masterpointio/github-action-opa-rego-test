@@ -6,6 +6,8 @@ import { executeOpaTestByPackage, runOpaTests } from "./opaCommands";
 import { ProcessedTestResult, OpaRawJsonTestResult, OpaRawJsonCoverageReport, CoverageResult } from "./interfaces";
 
 
+import { formatResults } from "./formatResults";
+
 // Process OPA test results
 export function processTestResults(jsonResults: OpaRawJsonTestResult[]): ProcessedTestResult[] {
   // Group by file
@@ -160,6 +162,9 @@ export async function main() {
   console.log("error");
   console.log(opaError);
 
+  let finalComment = formatResults(processedTestResults || [], coverageReport || [], true);
+  console.log("Final comment:");
+  console.log(finalComment);
 
 
 }

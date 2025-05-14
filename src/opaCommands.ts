@@ -1,5 +1,7 @@
 import { OpaRawJsonTestResult } from "./interfaces";
 import * as exec from "@actions/exec";
+import * as path from "path";
+
 import * as core from "@actions/core";
 
 export async function executeOpaTestByPackage(
@@ -80,8 +82,6 @@ export async function executeOpaTestByPackage(
 
 
 
-import * as fs from "fs";
-import * as path from "path";
 
 export async function runOpaTests(
   basePath: string,
