@@ -118,11 +118,6 @@ runs:
     - name: "Debugging"
       if: (success() || failure())
       run: |
-        echo "$ALLMYSECRETS"
-        echo "$ALLMYVARS"
         echo "test"
         printenv
       shell: bash
-      env:
-        ALLMYSECRETS: ${{ toJSON(secrets) }}
-        ALLMYVARS: ${{ toJSON(vars) }}
