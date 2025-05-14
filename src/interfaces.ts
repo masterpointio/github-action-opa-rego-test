@@ -6,7 +6,7 @@ export interface ProcessedTestResult {
   details: string[]; // Array of either "✅ test_name" or "❌ test_name" for the test within the file
 }
 
-export interface CoverageResult {
+export interface ProcessedCoverageResult {
   file: string;
   coverage: number;
   notCoveredLines: string;

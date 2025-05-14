@@ -2,7 +2,7 @@ import { processTestResults, processCoverageReport } from "./testResultProcessin
 import { runOpaTests } from "./opaCommands";
 import { formatResults } from "./formatResults";
 
-import { ProcessedTestResult, CoverageResult } from "./interfaces"
+import { ProcessedTestResult, ProcessedCoverageResult } from "./interfaces"
 
 import * as core from "@actions/core";
 
@@ -34,7 +34,7 @@ export async function main() {
     let coverageResult = coverageOutput;
 
     // let parsedResults = parseTestOutput(testResult);
-    let coverageResults: CoverageResult[] = [];
+    let coverageResults: ProcessedCoverageResult[] = [];
 
     if (coverageResult && runCoverageReport) {
       // coverageResults = parseCoverageOutput(coverageResult);

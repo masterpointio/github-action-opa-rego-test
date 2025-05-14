@@ -1,8 +1,8 @@
-import { ProcessedTestResult, CoverageResult } from "./interfaces"
+import { ProcessedTestResult, ProcessedCoverageResult } from "./interfaces"
 
 export function formatResults(
   results: ProcessedTestResult[],
-  coverageResults: CoverageResult[],
+  coverageResults: ProcessedCoverageResult[],
   showCoverage: boolean,
 ): string {
   let output = `# ${process.env.pr_comment_title || "🧪 OPA Rego Policy Test Results"}\n\n`;
