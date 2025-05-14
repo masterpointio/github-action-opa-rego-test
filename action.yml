@@ -112,13 +112,5 @@ runs:
       with:
         message: |
           ${{ steps.parse-results.outputs.parsed_results }}
-        comment_tag: opa-test-results-${{ github.action }}
+        comment_tag: opa-test-results-${{ github.action }} # using the action name as the tag as it is unique, and in case multiple executions of the action are in the same PR
         mode: ${{ inputs.pr_comment_mode }}
-
-    - name: "Debugging"
-      if: (success() || failure())
-      run: |
-        echo "test"
-        printenv
-        echo $GITHUB_ACTION
-      shell: bash
