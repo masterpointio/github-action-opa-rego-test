@@ -26492,6 +26492,7 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
                 },
                 ignoreReturnCode: true
             });
+            console.log(`Test exit code: ${testExit}`);
             if (testExit)
                 exitCode = testExit;
             if (testErr)

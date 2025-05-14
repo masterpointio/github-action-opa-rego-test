@@ -150,6 +150,9 @@ export async function executeIndividualOpaTests(
       },
       ignoreReturnCode: true
     });
+
+    console.log(`Test exit code: ${testExit}`);
+
     if (testExit) exitCode = testExit;
     if (testErr) opaError += testErr;
 
