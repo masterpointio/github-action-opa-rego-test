@@ -35,9 +35,9 @@ inputs:
     required: false
     default: "false"
   opa_version:
-    description: "Version of OPA CLI to use. Default is 0.67.1."
+    description: "Version of OPA CLI to use. Default is 1.4.2."
     required: false
-    default: "1.4.2"
+    default: "1.4.2" # use v0.67.1, newest is a MAJOR version bump that requires reformatting of the files
   opa_static:
     description: "Whether to use the static binary. Default is false."
     required: false
