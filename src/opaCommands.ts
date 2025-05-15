@@ -3,6 +3,7 @@ import * as exec from "@actions/exec";
 import path from "path";
 
 const opaV0CompatibleFlag = "--v0-compatible"; // https://www.openpolicyagent.org/docs/latest/v0-compatibility/
+const opaVarFailureFlag = "--var-values" // https://www.openpolicyagent.org/docs/latest/policy-testing/#enriched-test-report-with-variable-values
 
 export async function executeOpaTestByPackage(
   path: string,
@@ -34,7 +35,7 @@ export async function executeOpaTestByPackage(
 
   console.log("Running OPA test command...");
 
-  exitCode = await exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag], options);
+  exitCode = await exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag, opaVarFailureFlag], options);
 
 
   console.log(`OPA test command completed with exit code: ${exitCode}`);
@@ -53,7 +54,7 @@ export async function executeOpaTestByPackage(
     };
 
     console.log("Running OPA test with coverage...");
-    coverageExitCode = await exec.exec('opa', ['test', path, '--format=json', '--coverage'], coverageOptions);
+    coverageExitCode = await exec.exec('opa', ['test', path, '--format=json', '--coverage', opaV0CompatibleFlag, opaVarFailureFlag], coverageOptions);
     console.log(`Coverage Exit code: ${coverageExitCode}`);
   } else {
     console.log("Coverage reporting skipped due to runCoverageReport flag set to false");
@@ -138,7 +139,7 @@ export async function executeIndividualOpaTests(
     // -------- main tests (JSON) --------
     let testOut = '';
     let testErr = '';
-    const testExit = await exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag], {
+    const testExit = await exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag, opaVarFailureFlag], {
       listeners: {
         stdout: (b: Buffer) => (testOut += b.toString()),
         stderr: (b: Buffer) => (testErr += b.toString())
@@ -163,7 +164,7 @@ export async function executeIndividualOpaTests(
     if (runCoverageReport) {
       let covOut = '';
       let covErr = '';
-      const covExit = await exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json', opaV0CompatibleFlag], {
+      const covExit = await exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json', opaV0CompatibleFlag, opaVarFailureFlag], {
         listeners: {
           stdout: (b: Buffer) => (covOut += b.toString()),
           stderr: (b: Buffer) => (covErr += b.toString())

@@ -26393,6 +26393,7 @@ exports.executeIndividualOpaTests = executeIndividualOpaTests;
 const exec = __importStar(__nccwpck_require__(1514));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const opaV0CompatibleFlag = "--v0-compatible"; // https://www.openpolicyagent.org/docs/latest/v0-compatibility/
+const opaVarFailureFlag = "--var-values"; // https://www.openpolicyagent.org/docs/latest/policy-testing/#enriched-test-report-with-variable-values
 function executeOpaTestByPackage(path_2) {
     return __awaiter(this, arguments, void 0, function* (path, runCoverageReport = false) {
         let opaOutput = '';
@@ -26412,7 +26413,7 @@ function executeOpaTestByPackage(path_2) {
             ignoreReturnCode: true
         };
         console.log("Running OPA test command...");
-        exitCode = yield exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag], options);
+        exitCode = yield exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag, opaVarFailureFlag], options);
         console.log(`OPA test command completed with exit code: ${exitCode}`);
         if (runCoverageReport) {
             const coverageOptions = {
@@ -26427,7 +26428,7 @@ function executeOpaTestByPackage(path_2) {
                 ignoreReturnCode: true
             };
             console.log("Running OPA test with coverage...");
-            coverageExitCode = yield exec.exec('opa', ['test', path, '--format=json', '--coverage'], coverageOptions);
+            coverageExitCode = yield exec.exec('opa', ['test', path, '--format=json', '--coverage', opaV0CompatibleFlag, opaVarFailureFlag], coverageOptions);
             console.log(`Coverage Exit code: ${coverageExitCode}`);
         }
         else {
@@ -26488,7 +26489,7 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
             // -------- main tests (JSON) --------
             let testOut = '';
             let testErr = '';
-            const testExit = yield exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag], {
+            const testExit = yield exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag, opaVarFailureFlag], {
                 listeners: {
                     stdout: (b) => (testOut += b.toString()),
                     stderr: (b) => (testErr += b.toString())
@@ -26513,7 +26514,7 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
             if (runCoverageReport) {
                 let covOut = '';
                 let covErr = '';
-                const covExit = yield exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json', opaV0CompatibleFlag], {
+                const covExit = yield exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json', opaV0CompatibleFlag, opaVarFailureFlag], {
                     listeners: {
                         stdout: (b) => (covOut += b.toString()),
                         stderr: (b) => (covErr += b.toString())
