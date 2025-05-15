@@ -26408,17 +26408,11 @@ function executeOpaTestByPackage(path_2) {
                 stderr: (data) => {
                     opaError += data.toString();
                 }
-            }
+            },
+            ignoreReturnCode: true
         };
         console.log("Running OPA test command...");
-        try {
-            exitCode = yield exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag], options);
-            // maybe remove this try catch and use ignore return code
-        }
-        catch (error) {
-            console.error(`Error executing OPA command: ${error}`);
-            exitCode = 1;
-        }
+        exitCode = yield exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag], options);
         console.log(`OPA test command completed with exit code: ${exitCode}`);
         if (runCoverageReport) {
             const coverageOptions = {
