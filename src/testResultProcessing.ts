@@ -1,20 +1,16 @@
-import * as exec from "@actions/exec";
-import * as core from "@actions/core";
-
-import { executeOpaTestByPackage, executeIndividualOpaTests } from "./opaCommands";
-
 import { ProcessedTestResult, OpaRawJsonTestResult, OpaRawJsonCoverageReport, ProcessedCoverageResult } from "./interfaces";
 
-
-import { formatResults } from "./formatResults";
-
-// Process OPA test results
-export function processTestResults(jsonResults: OpaRawJsonTestResult[]): ProcessedTestResult[] {
+/**
+ * Processes the raw JSON test results from OPA and formats them into a structure ready to be formatted into a GitHub Pull Request comment.
+ * @param opaRawJsonTestResult - The raw JSON test results from OPA, obtained from `opa test --format=json`. This is done in the `opaCommands.ts` file.
+ * @returns An array of processed test results. See the interface for structure.
+ */
+export function processTestResults(opaRawJsonTestResult: OpaRawJsonTestResult[]): ProcessedTestResult[] {
   // Group by file
   const fileMap = new Map<string, OpaRawJsonTestResult[]>();
 
   // Group tests by file
-  jsonResults.forEach(result => {
+  opaRawJsonTestResult.forEach(result => {
     const file = result.location.file;
     if (!fileMap.has(file)) {
       fileMap.set(file, []);
@@ -54,20 +50,19 @@ export function processTestResults(jsonResults: OpaRawJsonTestResult[]): Process
   return testResults;
 }
 
-
 /**
- * Processes OPA coverage report into a more readable format
- * @param report The raw OPA coverage report
- * @returns Array of ProcessedCoverageResult objects
+ * Processes the raw JSON coverage report from OPA and formats it into a structure ready to be formatted into a GitHub Pull Request comment.
+ * @param opaRawJsonCoverageReport - The raw JSON coverage report from OPA, obtained from `opa test --format=json --coverage`. This is done in the `opaCommands.ts` file.
+ * @returns An array of processed coverage results. See the interface for structure.
  */
-export function processCoverageReport(report: OpaRawJsonCoverageReport): ProcessedCoverageResult[] {
-  const results: ProcessedCoverageResult[] = [];
+export function processCoverageReport(opaRawJsonCoverageReport: OpaRawJsonCoverageReport): ProcessedCoverageResult[] {
+  const coverageResults: ProcessedCoverageResult[] = [];
 
   // Iterate through each file in the report
-  for (const [filePath, fileData] of Object.entries(report.files)) {
+  for (const [filePath, fileData] of Object.entries(opaRawJsonCoverageReport.files)) {
     // Skip if there are no uncovered lines (100% coverage)
     if (!fileData.not_covered || fileData.not_covered.length === 0) {
-      results.push({
+      coverageResults.push({
         file: filePath,
         coverage: fileData.coverage,
         notCoveredLines: "" // No uncovered lines
@@ -86,7 +81,7 @@ export function processCoverageReport(report: OpaRawJsonCoverageReport): Process
         // Single line
         notCoveredRanges.push(startRow.toString());
       } else {
-        // Range of lines
+        // Range of lines, e.g. "10-12"
         notCoveredRanges.push(`${startRow}-${endRow}`);
       }
     }
@@ -99,105 +94,12 @@ export function processCoverageReport(report: OpaRawJsonCoverageReport): Process
       return aStart - bStart;
     });
 
-    results.push({
+    coverageResults.push({
       file: filePath,
       coverage: fileData.coverage,
       notCoveredLines: notCoveredRanges.join(', ')
     });
   }
 
-  return results;
+  return coverageResults;
 }
-
-
-export async function main() {
-  console.log("Starting OPA test execution...");
-
-  let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeOpaTestByPackage("./spacelift_policies/push_package copy", true);
-  // let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeIndividualOpaTests("./examples", "_test", true);
-
-  let processedTestResults: ProcessedTestResult[] | undefined;
-  if (opaOutput) {
-    try {
-      const parsedOpaOutput = JSON.parse(opaOutput) as OpaRawJsonTestResult[];
-      processedTestResults = processTestResults(parsedOpaOutput);
-    }
-    catch (error) {
-      console.error("Failed to parse OPA output:", error);
-    }
-  } else {
-    console.error("OPA output is undefined.");
-  }
-
-
-  for (let i = 0; i < 5; i++) {
-    console.log("*****************************************");
-  }
-
-  console.log(coverageOutput)
-
-  for (let i = 0; i < 5; i++) {
-    console.log("*****************************************");
-  }
-
-  let processedCoverageReport: ProcessedCoverageResult[] = [];
-  if (coverageOutput) {
-    processedCoverageReport = processCoverageReport(JSON.parse(coverageOutput) as OpaRawJsonCoverageReport);
-  } else {
-    console.error("Coverage output is undefined.");
-  }
-
-
-  console.log("processed coverage report");
-  console.log(processedCoverageReport);
-
-  for (let i = 0; i < 5; i++) {
-    console.log("*****************************************");
-  }
-
-  console.log("error");
-  console.log(opaError);
-
-  let finalComment = formatResults(processedTestResults || [], processedCoverageReport || [], true);
-  console.log("Final comment:");
-  console.log(finalComment);
-
-
-}
-
-// main();
-
-
-
-
-// npx ts-node ./src/testResultProcessing.ts
-
-
-// opa test --format=json .
-
-//         run: opa test ./**/*.rego --v0-compatible --var-values --verbose
-// opa test -v cancel_test.rego cancel.rego
-
-
-
-// opa test cancel_test.rego cancel.rego
-// failing because rego_unsafe_var_error: var main_stack is unsafe
-// this is defined elsewhere in the package, not in that line, so you cannot test line by line
-
-// opa test .
-// will work by testing the package as a whole
-// as long as the tests are postfixed with test_ and the individual test cases are prefixed with test_
-
-
-// find . -type f -name "*.rego" ! -name "*_test.rego" -exec dirname {} \; | sort -u
-//  to find all the directories with rego files but EXCLUDES the directories that only have test files because can't test test files
-
-// find . -type f -name "*.rego" -exec dirname {} \; | sort -u
-// that only finds directories with rego files
-
-
-// so what i'm thinking is this:
-// 1. file by file testing, test those files that don't have shared imports, abc_test against abc
-// 2. package by package testing, test those files that do have shared imports, run against the entire directory
-//       i don't worry about the how they structure it, i just run the test file against the entire directory
-//       user provides it

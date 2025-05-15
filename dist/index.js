@@ -26550,31 +26550,23 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
 /***/ }),
 
 /***/ 2043:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.processTestResults = processTestResults;
 exports.processCoverageReport = processCoverageReport;
-exports.main = main;
-const opaCommands_1 = __nccwpck_require__(8727);
-const formatResults_1 = __nccwpck_require__(4339);
-// Process OPA test results
-function processTestResults(jsonResults) {
+/**
+ * Processes the raw JSON test results from OPA and formats them into a structure ready to be formatted into a GitHub Pull Request comment.
+ * @param opaRawJsonTestResult - The raw JSON test results from OPA, obtained from `opa test --format=json`. This is done in the `opaCommands.ts` file.
+ * @returns An array of processed test results. See the interface for structure.
+ */
+function processTestResults(opaRawJsonTestResult) {
     // Group by file
     const fileMap = new Map();
     // Group tests by file
-    jsonResults.forEach(result => {
+    opaRawJsonTestResult.forEach(result => {
         const file = result.location.file;
         if (!fileMap.has(file)) {
             fileMap.set(file, []);
@@ -26609,17 +26601,17 @@ function processTestResults(jsonResults) {
     return testResults;
 }
 /**
- * Processes OPA coverage report into a more readable format
- * @param report The raw OPA coverage report
- * @returns Array of ProcessedCoverageResult objects
+ * Processes the raw JSON coverage report from OPA and formats it into a structure ready to be formatted into a GitHub Pull Request comment.
+ * @param opaRawJsonCoverageReport - The raw JSON coverage report from OPA, obtained from `opa test --format=json --coverage`. This is done in the `opaCommands.ts` file.
+ * @returns An array of processed coverage results. See the interface for structure.
  */
-function processCoverageReport(report) {
-    const results = [];
+function processCoverageReport(opaRawJsonCoverageReport) {
+    const coverageResults = [];
     // Iterate through each file in the report
-    for (const [filePath, fileData] of Object.entries(report.files)) {
+    for (const [filePath, fileData] of Object.entries(opaRawJsonCoverageReport.files)) {
         // Skip if there are no uncovered lines (100% coverage)
         if (!fileData.not_covered || fileData.not_covered.length === 0) {
-            results.push({
+            coverageResults.push({
                 file: filePath,
                 coverage: fileData.coverage,
                 notCoveredLines: "" // No uncovered lines
@@ -26636,7 +26628,7 @@ function processCoverageReport(report) {
                 notCoveredRanges.push(startRow.toString());
             }
             else {
-                // Range of lines
+                // Range of lines, e.g. "10-12"
                 notCoveredRanges.push(`${startRow}-${endRow}`);
             }
         }
@@ -26647,78 +26639,14 @@ function processCoverageReport(report) {
             const bStart = parseInt(b.split('-')[0]);
             return aStart - bStart;
         });
-        results.push({
+        coverageResults.push({
             file: filePath,
             coverage: fileData.coverage,
             notCoveredLines: notCoveredRanges.join(', ')
         });
     }
-    return results;
+    return coverageResults;
 }
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        console.log("Starting OPA test execution...");
-        let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = yield (0, opaCommands_1.executeOpaTestByPackage)("./spacelift_policies/push_package copy", true);
-        // let { output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeIndividualOpaTests("./examples", "_test", true);
-        let processedTestResults;
-        if (opaOutput) {
-            try {
-                const parsedOpaOutput = JSON.parse(opaOutput);
-                processedTestResults = processTestResults(parsedOpaOutput);
-            }
-            catch (error) {
-                console.error("Failed to parse OPA output:", error);
-            }
-        }
-        else {
-            console.error("OPA output is undefined.");
-        }
-        for (let i = 0; i < 5; i++) {
-            console.log("*****************************************");
-        }
-        console.log(coverageOutput);
-        for (let i = 0; i < 5; i++) {
-            console.log("*****************************************");
-        }
-        let processedCoverageReport = [];
-        if (coverageOutput) {
-            processedCoverageReport = processCoverageReport(JSON.parse(coverageOutput));
-        }
-        else {
-            console.error("Coverage output is undefined.");
-        }
-        console.log("processed coverage report");
-        console.log(processedCoverageReport);
-        for (let i = 0; i < 5; i++) {
-            console.log("*****************************************");
-        }
-        console.log("error");
-        console.log(opaError);
-        let finalComment = (0, formatResults_1.formatResults)(processedTestResults || [], processedCoverageReport || [], true);
-        console.log("Final comment:");
-        console.log(finalComment);
-    });
-}
-// main();
-// npx ts-node ./src/testResultProcessing.ts
-// opa test --format=json .
-//         run: opa test ./**/*.rego --v0-compatible --var-values --verbose
-// opa test -v cancel_test.rego cancel.rego
-// opa test cancel_test.rego cancel.rego
-// failing because rego_unsafe_var_error: var main_stack is unsafe
-// this is defined elsewhere in the package, not in that line, so you cannot test line by line
-// opa test .
-// will work by testing the package as a whole
-// as long as the tests are postfixed with test_ and the individual test cases are prefixed with test_
-// find . -type f -name "*.rego" ! -name "*_test.rego" -exec dirname {} \; | sort -u
-//  to find all the directories with rego files but EXCLUDES the directories that only have test files because can't test test files
-// find . -type f -name "*.rego" -exec dirname {} \; | sort -u
-// that only finds directories with rego files
-// so what i'm thinking is this:
-// 1. file by file testing, test those files that don't have shared imports, abc_test against abc
-// 2. package by package testing, test those files that do have shared imports, run against the entire directory
-//       i don't worry about the how they structure it, i just run the test file against the entire directory
-//       user provides it
 
 
 /***/ }),

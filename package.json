@@ -2,7 +2,9 @@
   "name": "opa-rego-test-action",
   "scripts": {
     "build": "npx ncc build src/index.ts -o dist --source-map",
-    "test": "npx jest"
+    "test": "npx jest",
+    "local": "npx ts-node src/index.ts",
+    "local:resultProcessing": "npx ts-node ./src/testResultProcessing.ts"
   },
   "author": "Masterpoint",
   "license": "MIT",
