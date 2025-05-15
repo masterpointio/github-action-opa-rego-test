@@ -1,5 +1,12 @@
 import { ProcessedTestResult, ProcessedCoverageResult } from "./interfaces"
 
+/**
+ * Formats the test results and coverage results into a Markdown table for GitHub comments.
+ * @param results - The processed test results.
+ * @param coverageResults - The processed coverage results.
+ * @param showCoverage - Whether to include coverage information in the output.
+ * @returns A string containing the formatted Markdown table.
+ */
 export function formatResults(
   results: ProcessedTestResult[],
   coverageResults: ProcessedCoverageResult[],
@@ -52,7 +59,8 @@ export function formatResults(
 
         // Match the test file with its corresponding implementation file in the coverage results
         // Test files typically have names like 'abc_test.rego', while coverage is reported for 'abc.rego' because the test file is testing the implementation file, and the coverage is on how much the implementation file is covered.
-        // We want to associate the coverage data from 'abc.rego' with the test results from 'abc_test.rego'
+        // We want to associate the coverage data from 'abc.rego' with the test results from 'abc_test.rego',
+        // as long as it contains the same base name.
         return (
           testFileName.includes(fileNameWithoutExtension) &&
           !cr.file.includes(testFileName)

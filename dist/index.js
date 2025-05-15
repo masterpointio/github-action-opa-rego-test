@@ -26154,6 +26154,13 @@ exports["default"] = _default;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.formatResults = formatResults;
+/**
+ * Formats the test results and coverage results into a Markdown table for GitHub comments.
+ * @param results - The processed test results.
+ * @param coverageResults - The processed coverage results.
+ * @param showCoverage - Whether to include coverage information in the output.
+ * @returns A string containing the formatted Markdown table.
+ */
 function formatResults(results, coverageResults, showCoverage) {
     let output = `# ${process.env.pr_comment_title || "🧪 OPA Rego Policy Test Results"}\n\n`;
     if (showCoverage) {
@@ -26194,7 +26201,8 @@ function formatResults(results, coverageResults, showCoverage) {
                 const fileNameWithoutExtension = cr.file.slice(lastSlashIndex + 1, dotRegoIndex);
                 // Match the test file with its corresponding implementation file in the coverage results
                 // Test files typically have names like 'abc_test.rego', while coverage is reported for 'abc.rego' because the test file is testing the implementation file, and the coverage is on how much the implementation file is covered.
-                // We want to associate the coverage data from 'abc.rego' with the test results from 'abc_test.rego'
+                // We want to associate the coverage data from 'abc.rego' with the test results from 'abc_test.rego',
+                // as long as it contains the same base name.
                 return (testFileName.includes(fileNameWithoutExtension) &&
                     !cr.file.includes(testFileName));
             });
@@ -26384,6 +26392,7 @@ exports.executeOpaTestByPackage = executeOpaTestByPackage;
 exports.executeIndividualOpaTests = executeIndividualOpaTests;
 const exec = __importStar(__nccwpck_require__(1514));
 const path_1 = __importDefault(__nccwpck_require__(1017));
+const opaV0CompatibleFlag = "--v0-compatible"; // https://www.openpolicyagent.org/docs/latest/v0-compatibility/
 function executeOpaTestByPackage(path_2) {
     return __awaiter(this, arguments, void 0, function* (path, runCoverageReport = false) {
         let opaOutput = '';
@@ -26403,7 +26412,7 @@ function executeOpaTestByPackage(path_2) {
         };
         console.log("Running OPA test command...");
         try {
-            exitCode = yield exec.exec('opa', ['test', path, '--format=json'], options);
+            exitCode = yield exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag], options);
             // maybe remove this try catch and use ignore return code
         }
         catch (error) {
@@ -26485,7 +26494,7 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
             // -------- main tests (JSON) --------
             let testOut = '';
             let testErr = '';
-            const testExit = yield exec.exec('opa', ['test', testFile, implFile, '--format=json'], {
+            const testExit = yield exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag], {
                 listeners: {
                     stdout: (b) => (testOut += b.toString()),
                     stderr: (b) => (testErr += b.toString())
@@ -26510,7 +26519,7 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
             if (runCoverageReport) {
                 let covOut = '';
                 let covErr = '';
-                const covExit = yield exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json'], {
+                const covExit = yield exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json', opaV0CompatibleFlag], {
                     listeners: {
                         stdout: (b) => (covOut += b.toString()),
                         stderr: (b) => (covErr += b.toString())
@@ -26523,7 +26532,6 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
                 try {
                     const covJson = JSON.parse(covOut);
                     if (covJson === null || covJson === void 0 ? void 0 : covJson.files) {
-                        // Just copy/overwrite – no deep merge needed
                         Object.assign(coverageFiles, covJson.files);
                     }
                 }

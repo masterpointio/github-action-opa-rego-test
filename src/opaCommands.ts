@@ -2,6 +2,8 @@ import { OpaRawJsonTestResult } from "./interfaces";
 import * as exec from "@actions/exec";
 import path from "path";
 
+const opaV0CompatibleFlag = "--v0-compatible"; // https://www.openpolicyagent.org/docs/latest/v0-compatibility/
+
 export async function executeOpaTestByPackage(
   path: string,
   runCoverageReport: boolean = false
@@ -32,7 +34,7 @@ export async function executeOpaTestByPackage(
   console.log("Running OPA test command...");
 
   try {
-    exitCode = await exec.exec('opa', ['test', path, '--format=json'], options);
+    exitCode = await exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag], options);
     // maybe remove this try catch and use ignore return code
   } catch (error) {
     console.error(`Error executing OPA command: ${error}`);
@@ -73,9 +75,6 @@ export async function executeOpaTestByPackage(
     })
   };
 }
-
-
-
 
 
 /**
@@ -143,7 +142,7 @@ export async function executeIndividualOpaTests(
     // -------- main tests (JSON) --------
     let testOut = '';
     let testErr = '';
-    const testExit = await exec.exec('opa', ['test', testFile, implFile, '--format=json'], {
+    const testExit = await exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag], {
       listeners: {
         stdout: (b: Buffer) => (testOut += b.toString()),
         stderr: (b: Buffer) => (testErr += b.toString())
@@ -168,7 +167,7 @@ export async function executeIndividualOpaTests(
     if (runCoverageReport) {
       let covOut = '';
       let covErr = '';
-      const covExit = await exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json'], {
+      const covExit = await exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json', opaV0CompatibleFlag], {
         listeners: {
           stdout: (b: Buffer) => (covOut += b.toString()),
           stderr: (b: Buffer) => (covErr += b.toString())
@@ -181,7 +180,6 @@ export async function executeIndividualOpaTests(
       try {
         const covJson = JSON.parse(covOut);
         if (covJson?.files) {
-          // Just copy/overwrite – no deep merge needed
           Object.assign(coverageFiles, covJson.files);
         }
       } catch (e) {
