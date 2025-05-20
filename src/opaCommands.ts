@@ -4,7 +4,7 @@ import path from "path";
 
 const opaV0CompatibleFlag = "--v0-compatible"; // https://www.openpolicyagent.org/docs/latest/v0-compatibility/
 
-export async function executeOpaTestByPackage(
+export async function executeOpaTestByDirectory(
   path: string,
   runCoverageReport: boolean = false
 ): Promise<{
@@ -32,12 +32,7 @@ export async function executeOpaTestByPackage(
     ignoreReturnCode: true
   };
 
-  console.log("Running OPA test command...");
-
   exitCode = await exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag], options);
-
-
-  console.log(`OPA test command completed with exit code: ${exitCode}`);
 
   if (runCoverageReport) {
     const coverageOptions: exec.ExecOptions = {
@@ -52,9 +47,7 @@ export async function executeOpaTestByPackage(
       ignoreReturnCode: true
     };
 
-    console.log("Running OPA test with coverage...");
     coverageExitCode = await exec.exec('opa', ['test', path, '--format=json', '--coverage', opaV0CompatibleFlag], coverageOptions);
-    console.log(`Coverage Exit code: ${coverageExitCode}`);
   } else {
     console.log("Coverage reporting skipped due to runCoverageReport flag set to false");
   }
@@ -72,7 +65,6 @@ export async function executeOpaTestByPackage(
   };
 }
 
-
 /**
  * Run OPA tests on all files matching the given test file postfix in the specified base path.
  * @param basePath - The base path to search for test files.
@@ -88,15 +80,13 @@ export async function executeIndividualOpaTests(
   output: string;
   error: string;
   exitCode: number;
-  coverageOutput?: string; // JSON‑stringified { files: { <filePath>: <coverageObj> } }
+  coverageOutput?: string;
   coverageExitCode?: number;
 }> {
   const allTestResults: OpaRawJsonTestResult[] = [];
-
   let opaError = '';
   let exitCode = 0;
 
-  // One flat map of <filePath> → coverage object
   const coverageFiles: Record<string, any> = {};
   let coverageExitCode = 0;
 
@@ -135,24 +125,22 @@ export async function executeIndividualOpaTests(
       continue;
     }
 
-    // -------- main tests (JSON) --------
-    let testOut = '';
-    let testErr = '';
-    const testExit = await exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag], {
+    // -------- Running OPA test --------
+    let testOutput = '';
+    let testErrMsg = '';
+    const testExitCode = await exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag], {
       listeners: {
-        stdout: (b: Buffer) => (testOut += b.toString()),
-        stderr: (b: Buffer) => (testErr += b.toString())
+        stdout: (b: Buffer) => (testOutput += b.toString()),
+        stderr: (b: Buffer) => (testErrMsg += b.toString())
       },
       ignoreReturnCode: true
     });
 
-    console.log(`Test exit code: ${testExit}`);
-
-    if (testExit) exitCode = testExit;
-    if (testErr) opaError += testErr;
+    if (testExitCode) exitCode = testExitCode;
+    if (testErrMsg) opaError += testErrMsg;
 
     try {
-      const parsed = JSON.parse(testOut);
+      const parsed = JSON.parse(testOutput);
       if (Array.isArray(parsed)) allTestResults.push(...parsed);
     } catch (e) {
       opaError += `Error parsing test results for ${testFile}: ${e}\n`;
@@ -185,22 +173,13 @@ export async function executeIndividualOpaTests(
     }
   }
 
-  const result: {
-    output: string;
-    error: string;
-    exitCode: number;
-    coverageOutput?: string;
-    coverageExitCode?: number;
-  } = {
+  return {
     output: JSON.stringify(allTestResults),
     error: opaError,
-    exitCode
+    exitCode,
+    ...(runCoverageReport && {
+      coverageOutput: JSON.stringify({ files: coverageFiles }),
+      coverageExitCode,
+    }),
   };
-
-  if (runCoverageReport) {
-    result.coverageOutput = JSON.stringify({ files: coverageFiles });
-    result.coverageExitCode = coverageExitCode;
-  }
-
-  return result;
 }

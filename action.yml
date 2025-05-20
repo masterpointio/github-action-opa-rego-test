@@ -11,8 +11,12 @@ inputs:
     description: "Path to the directory containing OPA Rego files to test. Default to root directory."
     required: false
     default: "."
+  test_mode:
+    description: "Whether to test the Rego by an entire directory (including entire package, e.g. `opa test ./`) or by individual files (e.g. `opa test a_test.rego a.rego`). Options of `directory` or `file`. Default is `directory`."
+    required: false
+    default: "directory"
   test_file_postfix:
-    description: 'The postfix to use for test files. E.g. notification.rego <> notification_test.rego. Default is "_test".'
+    description: 'The postfix to use for test files, only applicable for testing file by file. E.g. notification.rego <> notification_test.rego. Default is "_test".'
     required: false
     default: "_test"
   write_pr_comment:
@@ -43,7 +47,7 @@ inputs:
     required: false
     default: "false"
   indicate_source_message:
-    description: Flag to comment the origins watermark (this repository) of the GitHub Action in the PR comment. Default of true.
+    description: Flag to comment the origins (this repository) of the GitHub Action in the PR comment. Default of true.
     required: false
     default: "true"
 outputs:
@@ -95,6 +99,7 @@ runs:
       run: node ${{ github.action_path }}/dist/index.js
       shell: bash
       env:
+        test_mode: ${{ inputs.test_mode }}
         report_untested_files: ${{ inputs.report_untested_files }}
         no_test_files: ${{ steps.find-no-test.outputs.no_test_files }}
         pr_comment_title: ${{ inputs.pr_comment_title }}
