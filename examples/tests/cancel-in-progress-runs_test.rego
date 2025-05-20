@@ -13,7 +13,7 @@ test_cancel_runs_allowed {
 }
 
 test_cancel_runs_denied {
-	cancel.test with input as {
+	not cancel.test with input as {
 		"pull_request": {"head": {"branch": "feature/example"}},
 		"in_progress": [{
 			"id": "test",
