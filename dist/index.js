@@ -26306,10 +26306,9 @@ function main() {
             let parsedResults = (0, testResultProcessing_1.processTestResults)(JSON.parse(opaOutput));
             let coverageResults = [];
             if (runCoverageReport) {
-                if (!coverageOutput) {
-                    throw new Error("Coverage output is undefined.");
+                if (coverageOutput) {
+                    coverageResults = (0, testResultProcessing_1.processCoverageReport)(JSON.parse(coverageOutput));
                 }
-                coverageResults = (0, testResultProcessing_1.processCoverageReport)(JSON.parse(coverageOutput));
             }
             // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
             if (noTestFiles && reportNoTestFiles) {

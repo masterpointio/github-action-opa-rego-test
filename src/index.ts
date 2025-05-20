@@ -37,10 +37,9 @@ export async function main() {
 
     let coverageResults: ProcessedCoverageResult[] = [];
     if (runCoverageReport) {
-      if (!coverageOutput) {
-        throw new Error("Coverage output is undefined.");
+      if (coverageOutput) {
+        coverageResults = processCoverageReport(JSON.parse(coverageOutput));
       }
-      coverageResults = processCoverageReport(JSON.parse(coverageOutput));
     }
 
     // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
