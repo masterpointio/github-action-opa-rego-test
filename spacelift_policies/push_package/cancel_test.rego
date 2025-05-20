@@ -1,6 +1,5 @@
 package spacelift_policies.push_test
 
-
 import data.spacelift
 import future.keywords.if
 import future.keywords.in
@@ -33,7 +32,7 @@ test_cancel_in_progress_runs_on_pr_branch if {
 		"push": {"branch": "feature"},
 		"stack": main_stack,
 	}
-	expected_cancel := {"test-11queued", "test-11ready"}
+	expected_cancel := {"test-queued", "test-ready"}
 	# TODO actual would be test-queued and test-ready
 	spacelift.cancel == expected_cancel with input as pr_with_in_progress_runs
 }
