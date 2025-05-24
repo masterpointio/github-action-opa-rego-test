@@ -26214,15 +26214,21 @@ function formatResults(results, coverageResults, showCoverage) {
         let row = `| ${testFileName} | ${statusText} | ${result.passed} | ${result.total} `;
         if (showCoverage) {
             let coverageText = "N/A";
-            let uncoveredLinesDetails = "";
-            if (coverageInfo) {
-                coverageText = `${coverageInfo.coverage.toFixed(2)}%`;
-                if (coverageInfo.notCoveredLines &&
-                    coverageInfo.notCoveredLines !== "N/A") {
-                    uncoveredLinesDetails = `<details><summary>Uncovered Lines</summary>${coverageInfo.notCoveredLines}</details>`;
+            try {
+                let uncoveredLinesDetails = "";
+                if (coverageInfo) {
+                    coverageText = `${coverageInfo.coverage.toFixed(2)}%`;
+                    if (coverageInfo.notCoveredLines &&
+                        coverageInfo.notCoveredLines !== "N/A") {
+                        uncoveredLinesDetails = `<details><summary>Uncovered Lines</summary>${coverageInfo.notCoveredLines}</details>`;
+                    }
                 }
+                row += `| ${coverageText} ${uncoveredLinesDetails} `;
             }
-            row += `| ${coverageText} ${uncoveredLinesDetails} `;
+            catch (error) {
+                console.error("Error processing coverage information:", error);
+                console.log("Coverage Info:", coverageInfo);
+            }
         }
         row += `| ${detailsColumn} |\n`;
         output += row;
@@ -26284,11 +26290,11 @@ const errorString = "⛔️⛔️ An unknown error has occurred in generating th
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const test_mode = process.env.test_mode;
-            const reportNoTestFiles = process.env.report_untested_files === "true";
+            const test_mode = process.env.test_mode || "directory"; // remove default, and others too
+            const reportNoTestFiles = process.env.report_untested_files === "true" || false;
             const noTestFiles = process.env.no_test_files;
             const runCoverageReport = process.env.run_coverage_report === "true";
-            const path = process.env.path;
+            const path = process.env.path || "./examples";
             const test_file_postfix = process.env.test_file_postfix || "_test";
             if (!path || !test_file_postfix) {
                 throw new Error("Both 'path' and 'test_file_postfix' environment variables must be set.");

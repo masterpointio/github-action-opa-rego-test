@@ -11,7 +11,7 @@ const errorString =
 
 export async function main() {
   try {
-    const test_mode = process.env.test_mode || "directory";
+    const test_mode = process.env.test_mode || "directory"; // remove default, and others too
     const reportNoTestFiles = process.env.report_untested_files === "true" || false;
     const noTestFiles = process.env.no_test_files;
     const runCoverageReport = process.env.run_coverage_report === "true";
