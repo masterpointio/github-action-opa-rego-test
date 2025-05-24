@@ -11,11 +11,11 @@ const errorString =
 
 export async function main() {
   try {
-    const test_mode = process.env.test_mode;
-    const reportNoTestFiles = process.env.report_untested_files === "true";
+    const test_mode = process.env.test_mode || "directory";
+    const reportNoTestFiles = process.env.report_untested_files === "true" || false;
     const noTestFiles = process.env.no_test_files;
     const runCoverageReport = process.env.run_coverage_report === "true";
-    const path = process.env.path;
+    const path = process.env.path || "./examples";
     const test_file_postfix = process.env.test_file_postfix || "_test";
 
     if (!path || !test_file_postfix) {
