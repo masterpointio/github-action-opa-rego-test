@@ -26163,14 +26163,17 @@ exports.formatResults = formatResults;
  */
 function formatResults(results, coverageResults, showCoverage) {
     let output = `# ${process.env.pr_comment_title || "🧪 OPA Rego Policy Test Results"}\n\n`;
+    // Build header row
+    let header = "| File | Status | Passed | Total |";
+    let separator = "|------|--------|--------|-------|";
     if (showCoverage) {
-        output += "| File | Status | Passed | Total | Coverage | Details |\n";
-        output += "|------|--------|--------|-------|----------|----------|\n";
+        header += " Coverage |";
+        separator += "----------|";
     }
-    else {
-        output += "| File | Status | Passed | Total | Details |\n";
-        output += "|------|--------|--------|-------|----------|\n";
-    }
+    header += " Details |\n";
+    separator += "----------|\n";
+    output += header;
+    output += separator;
     for (const result of results) {
         let statusEmoji, statusText;
         switch (result.status) {
@@ -26188,49 +26191,41 @@ function formatResults(results, coverageResults, showCoverage) {
                 break;
         }
         const testFileName = result.file;
-        let coverageInfo;
-        // Find the corresponding coverage test information for the test result we're on
-        if (showCoverage) {
-            coverageInfo = coverageResults.find((cr) => {
-                const lastSlashIndex = cr.file.lastIndexOf("/");
-                const dotRegoIndex = cr.file.lastIndexOf(".rego");
-                // Check if the file paths are valid
-                if (lastSlashIndex === -1 || dotRegoIndex === -1)
-                    return false;
-                // Extract the base file name without extension from the coverage report
-                const fileNameWithoutExtension = cr.file.slice(lastSlashIndex + 1, dotRegoIndex);
-                // Match the test file with its corresponding implementation file in the coverage results
-                // Test files typically have names like 'abc_test.rego', while coverage is reported for 'abc.rego' because the test file is testing the implementation file, and the coverage is on how much the implementation file is covered.
-                // We want to associate the coverage data from 'abc.rego' with the test results from 'abc_test.rego',
-                // as long as it contains the same base name.
-                return (testFileName.includes(fileNameWithoutExtension) &&
-                    !cr.file.includes(testFileName));
-            });
-        }
         const details = result.status === "NO TESTS"
             ? "No test file found"
             : result.details.join("<br>");
         const detailsColumn = `<details><summary>Show Details</summary>${details}</details>`;
-        let row = `| ${testFileName} | ${statusText} | ${result.passed} | ${result.total} `;
+        let row = `| ${testFileName} | ${statusText} | ${result.passed} | ${result.total} |`;
         if (showCoverage) {
+            const coverageInfo = coverageResults.find((cr) => {
+                const lastSlashIndex = cr.file.lastIndexOf("/");
+                const dotRegoIndex = cr.file.lastIndexOf(".rego");
+                if (lastSlashIndex === -1 || dotRegoIndex === -1)
+                    return false;
+                const fileNameWithoutExtension = cr.file.slice(lastSlashIndex + 1, dotRegoIndex);
+                return (testFileName.includes(fileNameWithoutExtension) &&
+                    !cr.file.includes(testFileName));
+            });
             let coverageText = "N/A";
-            try {
-                let uncoveredLinesDetails = "";
-                if (coverageInfo) {
+            let uncoveredLinesDetails = "";
+            if (coverageInfo) {
+                try {
                     coverageText = `${coverageInfo.coverage.toFixed(2)}%`;
                     if (coverageInfo.notCoveredLines &&
                         coverageInfo.notCoveredLines !== "N/A") {
-                        uncoveredLinesDetails = `<details><summary>Uncovered Lines</summary>${coverageInfo.notCoveredLines}</details>`;
+                        uncoveredLinesDetails = ` <details><summary>Uncovered Lines</summary>${coverageInfo.notCoveredLines}</details>`;
                     }
+                    coverageText += uncoveredLinesDetails; // Combine text and details
                 }
-                row += `| ${coverageText} ${uncoveredLinesDetails} `;
+                catch (error) {
+                    console.error("Error processing coverage information:", error);
+                    console.log("Coverage Info:", coverageInfo);
+                    // Keep coverageText as "N/A" or set to an error message if preferred
+                }
             }
-            catch (error) {
-                console.error("Error processing coverage information:", error);
-                console.log("Coverage Info:", coverageInfo);
-            }
+            row += ` ${coverageText} |`;
         }
-        row += `| ${detailsColumn} |\n`;
+        row += ` ${detailsColumn} |\n`;
         output += row;
     }
     if (process.env.indicate_source_message === "true") {
