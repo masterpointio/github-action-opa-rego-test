@@ -26214,15 +26214,21 @@ function formatResults(results, coverageResults, showCoverage) {
         let row = `| ${testFileName} | ${statusText} | ${result.passed} | ${result.total} `;
         if (showCoverage) {
             let coverageText = "N/A";
-            let uncoveredLinesDetails = "";
-            if (coverageInfo) {
-                coverageText = `${coverageInfo.coverage.toFixed(2)}%`;
-                if (coverageInfo.notCoveredLines &&
-                    coverageInfo.notCoveredLines !== "N/A") {
-                    uncoveredLinesDetails = `<details><summary>Uncovered Lines</summary>${coverageInfo.notCoveredLines}</details>`;
+            try {
+                let uncoveredLinesDetails = "";
+                if (coverageInfo) {
+                    coverageText = `${coverageInfo.coverage.toFixed(2)}%`;
+                    if (coverageInfo.notCoveredLines &&
+                        coverageInfo.notCoveredLines !== "N/A") {
+                        uncoveredLinesDetails = `<details><summary>Uncovered Lines</summary>${coverageInfo.notCoveredLines}</details>`;
+                    }
                 }
+                row += `| ${coverageText} ${uncoveredLinesDetails} `;
             }
-            row += `| ${coverageText} ${uncoveredLinesDetails} `;
+            catch (error) {
+                console.error("Error processing coverage information:", error);
+                console.log("Coverage Info:", coverageInfo);
+            }
         }
         row += `| ${detailsColumn} |\n`;
         output += row;
