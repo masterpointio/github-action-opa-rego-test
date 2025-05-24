@@ -42,11 +42,11 @@ jobs:
           report_untested_files: true
           pr_comment_title: Below is the Action testing on itself with this PR's source code against policies in `/examples` file by file. Confirm it is as expected.
 
-      - name: Test Local Action (Individual File Mode)
+      - name: Test Local Action (Directory Package Mode)
         id: test-action-opa-package
         uses: ./
         with:
-          path: ./spacelift_policies
+          path: ./examples
           test_mode: directory
           report_untested_files: true
           pr_comment_title: Below is the Action testing on itself with this PR's source code against `/spacelift_policies` entire package directory. Confirm it is as expected.
