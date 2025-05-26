@@ -33,6 +33,10 @@
     ],
     "setupFiles": [
       "./.jest/setupTests.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/mockResults.ts"
     ]
   }
 }
