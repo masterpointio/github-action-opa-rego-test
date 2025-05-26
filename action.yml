@@ -12,9 +12,9 @@ inputs:
     required: false
     default: "."
   test_mode:
-    description: "Whether to test the Rego by an entire directory (including entire package, e.g. `opa test ./`) or by individual files (e.g. `opa test a_test.rego a.rego`). Options of `directory` or `file`. Default is `directory`."
+    description: Whether to test the Rego by an entire directory (including entire package, e.g. `opa test ./`) or by individual files (e.g. `opa test a_test.rego a.rego`). Options of `directory` or `file`. Default is `directory`.
     required: false
-    default: "directory"
+    default: directory
   test_file_postfix:
     description: 'The postfix to use for test files, only applicable for testing file by file. E.g. notification.rego <> notification_test.rego. Default is "_test".'
     required: false
