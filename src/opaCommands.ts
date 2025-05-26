@@ -6,7 +6,7 @@ const opaV0CompatibleFlag = "--v0-compatible"; // https://www.openpolicyagent.or
 
 export async function executeOpaTestByDirectory(
   path: string,
-  runCoverageReport: boolean = false
+  runCoverageReport: boolean = false,
 ): Promise<{
   output: string;
   error: string;
@@ -14,9 +14,9 @@ export async function executeOpaTestByDirectory(
   coverageOutput?: string;
   coverageExitCode?: number;
 }> {
-  let opaOutput = '';
-  let opaError = '';
-  let opaCoverageOutput = '';
+  let opaOutput = "";
+  let opaError = "";
+  let opaCoverageOutput = "";
   let exitCode = 0;
   let coverageExitCode;
 
@@ -27,12 +27,16 @@ export async function executeOpaTestByDirectory(
       },
       stderr: (data: Buffer) => {
         opaError += data.toString();
-      }
+      },
     },
-    ignoreReturnCode: true
+    ignoreReturnCode: true,
   };
 
-  exitCode = await exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag], options);
+  exitCode = await exec.exec(
+    "opa",
+    ["test", path, "--format=json", opaV0CompatibleFlag],
+    options,
+  );
 
   if (runCoverageReport) {
     const coverageOptions: exec.ExecOptions = {
@@ -42,14 +46,20 @@ export async function executeOpaTestByDirectory(
         },
         stderr: (data: Buffer) => {
           opaError += `\nCoverage: ${data.toString()}`;
-        }
+        },
       },
-      ignoreReturnCode: true
+      ignoreReturnCode: true,
     };
 
-    coverageExitCode = await exec.exec('opa', ['test', path, '--format=json', '--coverage', opaV0CompatibleFlag], coverageOptions);
+    coverageExitCode = await exec.exec(
+      "opa",
+      ["test", path, "--format=json", "--coverage", opaV0CompatibleFlag],
+      coverageOptions,
+    );
   } else {
-    console.log("Coverage reporting skipped due to runCoverageReport flag set to false");
+    console.log(
+      "Coverage reporting skipped due to runCoverageReport flag set to false",
+    );
   }
 
   console.log("OPA test commands completed");
@@ -60,8 +70,8 @@ export async function executeOpaTestByDirectory(
     exitCode: exitCode,
     ...(runCoverageReport && {
       coverageOutput: opaCoverageOutput,
-      coverageExitCode: coverageExitCode
-    })
+      coverageExitCode: coverageExitCode,
+    }),
   };
 }
 
@@ -75,7 +85,7 @@ export async function executeOpaTestByDirectory(
 export async function executeIndividualOpaTests(
   basePath: string,
   testFilePostfix: string,
-  runCoverageReport = false
+  runCoverageReport = false,
 ): Promise<{
   output: string;
   error: string;
@@ -84,57 +94,78 @@ export async function executeIndividualOpaTests(
   coverageExitCode?: number;
 }> {
   const allTestResults: OpaRawJsonTestResult[] = [];
-  let opaError = '';
+  let opaError = "";
   let exitCode = 0;
 
   const coverageFiles: Record<string, any> = {};
   let coverageExitCode = 0;
 
   // ---------- locate test files ----------
-  let findStdout = '';
-  let findStderr = '';
-  await exec.exec('find', [basePath, '-type', 'f', '-name', `*${testFilePostfix}.rego`], {
-    listeners: {
-      stdout: (b: Buffer) => (findStdout += b.toString()),
-      stderr: (b: Buffer) => (findStderr += b.toString())
-    }
-  });
+  let findStdout = "";
+  let findStderr = "";
+  await exec.exec(
+    "find",
+    [basePath, "-type", "f", "-name", `*${testFilePostfix}.rego`],
+    {
+      listeners: {
+        stdout: (b: Buffer) => (findStdout += b.toString()),
+        stderr: (b: Buffer) => (findStderr += b.toString()),
+      },
+    },
+  );
 
   if (findStderr) {
-    opaError += findStderr + '\n';
+    opaError += findStderr + "\n";
     exitCode = 1;
   }
 
-  const testFiles = findStdout.trim().split('\n').filter(Boolean);
+  const testFiles = findStdout.trim().split("\n").filter(Boolean);
 
   for (const testFile of testFiles) {
     const base = path.basename(testFile, `${testFilePostfix}.rego`);
     const dir = path.dirname(testFile);
 
     // locate impl file
-    let implOut = '';
-    await exec.exec('find', [dir, `${dir}/..`, '-maxdepth', '1', '-type', 'f', '-name', `${base}.rego`], {
-      listeners: { stdout: (b: Buffer) => (implOut += b.toString()) }
-    });
-    const implFile = implOut.trim().split('\n').find(Boolean);
+    let implOut = "";
+    await exec.exec(
+      "find",
+      [
+        dir,
+        `${dir}/..`,
+        "-maxdepth",
+        "1",
+        "-type",
+        "f",
+        "-name",
+        `${base}.rego`,
+      ],
+      {
+        listeners: { stdout: (b: Buffer) => (implOut += b.toString()) },
+      },
+    );
+    const implFile = implOut.trim().split("\n").find(Boolean);
     if (!implFile) {
       const msg = `Error: Implementation file not found for test: ${testFile}`;
-      opaError += msg + '\n';
+      opaError += msg + "\n";
       exitCode = 1;
       coverageExitCode = 1;
       continue;
     }
 
     // -------- Running OPA test --------
-    let testOutput = '';
-    let testErrMsg = '';
-    const testExitCode = await exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag], {
-      listeners: {
-        stdout: (b: Buffer) => (testOutput += b.toString()),
-        stderr: (b: Buffer) => (testErrMsg += b.toString())
+    let testOutput = "";
+    let testErrMsg = "";
+    const testExitCode = await exec.exec(
+      "opa",
+      ["test", testFile, implFile, "--format=json", opaV0CompatibleFlag],
+      {
+        listeners: {
+          stdout: (b: Buffer) => (testOutput += b.toString()),
+          stderr: (b: Buffer) => (testErrMsg += b.toString()),
+        },
+        ignoreReturnCode: true,
       },
-      ignoreReturnCode: true
-    });
+    );
 
     if (testExitCode) exitCode = testExitCode;
     if (testErrMsg) opaError += testErrMsg;
@@ -149,15 +180,26 @@ export async function executeIndividualOpaTests(
 
     // -------- coverage (optional) --------
     if (runCoverageReport) {
-      let covOut = '';
-      let covErr = '';
-      const covExit = await exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json', opaV0CompatibleFlag], {
-        listeners: {
-          stdout: (b: Buffer) => (covOut += b.toString()),
-          stderr: (b: Buffer) => (covErr += b.toString())
+      let covOut = "";
+      let covErr = "";
+      const covExit = await exec.exec(
+        "opa",
+        [
+          "test",
+          testFile,
+          implFile,
+          "--coverage",
+          "--format=json",
+          opaV0CompatibleFlag,
+        ],
+        {
+          listeners: {
+            stdout: (b: Buffer) => (covOut += b.toString()),
+            stderr: (b: Buffer) => (covErr += b.toString()),
+          },
+          ignoreReturnCode: true,
         },
-        ignoreReturnCode: true
-      });
+      );
       coverageExitCode = Math.max(coverageExitCode, covExit);
       if (covErr) opaError += `Coverage error for ${testFile}: ${covErr}`;
 

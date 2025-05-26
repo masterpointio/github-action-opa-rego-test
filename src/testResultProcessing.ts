@@ -1,16 +1,23 @@
-import { ProcessedTestResult, OpaRawJsonTestResult, OpaRawJsonCoverageReport, ProcessedCoverageResult } from "./interfaces";
+import {
+  ProcessedTestResult,
+  OpaRawJsonTestResult,
+  OpaRawJsonCoverageReport,
+  ProcessedCoverageResult,
+} from "./interfaces";
 
 /**
  * Processes the raw JSON test results from OPA and formats them into a structure ready to be formatted into a GitHub Pull Request comment.
  * @param opaRawJsonTestResult - The raw JSON test results from OPA, obtained from `opa test --format=json`. This is done in the `opaCommands.ts` file.
  * @returns An array of processed test results. See the interface for structure.
  */
-export function processTestResults(opaRawJsonTestResult: OpaRawJsonTestResult[]): ProcessedTestResult[] {
+export function processTestResults(
+  opaRawJsonTestResult: OpaRawJsonTestResult[],
+): ProcessedTestResult[] {
   // Group by file
   const fileMap = new Map<string, OpaRawJsonTestResult[]>();
 
   // Group tests by file
-  opaRawJsonTestResult.forEach(result => {
+  opaRawJsonTestResult.forEach((result) => {
     const file = result.location.file;
     if (!fileMap.has(file)) {
       fileMap.set(file, []);
@@ -27,11 +34,11 @@ export function processTestResults(opaRawJsonTestResult: OpaRawJsonTestResult[])
       status: "PASS",
       passed: 0,
       total: tests.length,
-      details: []
+      details: [],
     };
 
     // Count passed tests and collect details
-    tests.forEach(test => {
+    tests.forEach((test) => {
       const passed = !test.fail;
 
       if (passed) {
@@ -55,17 +62,21 @@ export function processTestResults(opaRawJsonTestResult: OpaRawJsonTestResult[])
  * @param opaRawJsonCoverageReport - The raw JSON coverage report from OPA, obtained from `opa test --format=json --coverage`. This is done in the `opaCommands.ts` file.
  * @returns An array of processed coverage results. See the interface for structure.
  */
-export function processCoverageReport(opaRawJsonCoverageReport: OpaRawJsonCoverageReport): ProcessedCoverageResult[] {
+export function processCoverageReport(
+  opaRawJsonCoverageReport: OpaRawJsonCoverageReport,
+): ProcessedCoverageResult[] {
   const coverageResults: ProcessedCoverageResult[] = [];
 
   // Iterate through each file in the report
-  for (const [filePath, fileData] of Object.entries(opaRawJsonCoverageReport.files)) {
+  for (const [filePath, fileData] of Object.entries(
+    opaRawJsonCoverageReport.files,
+  )) {
     // Skip if there are no uncovered lines (100% coverage)
     if (!fileData.not_covered || fileData.not_covered.length === 0) {
       coverageResults.push({
         file: filePath,
         coverage: fileData.coverage,
-        notCoveredLines: "" // No uncovered lines
+        notCoveredLines: "", // No uncovered lines
       });
       continue;
     }
@@ -89,15 +100,15 @@ export function processCoverageReport(opaRawJsonCoverageReport: OpaRawJsonCovera
     // Sort numerically
     notCoveredRanges.sort((a, b) => {
       // Extract the first number from each range for comparison
-      const aStart = parseInt(a.split('-')[0]);
-      const bStart = parseInt(b.split('-')[0]);
+      const aStart = parseInt(a.split("-")[0]);
+      const bStart = parseInt(b.split("-")[0]);
       return aStart - bStart;
     });
 
     coverageResults.push({
       file: filePath,
       coverage: fileData.coverage,
-      notCoveredLines: notCoveredRanges.join(', ')
+      notCoveredLines: notCoveredRanges.join(", "),
     });
   }
 

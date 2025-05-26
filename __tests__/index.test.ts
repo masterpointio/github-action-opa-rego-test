@@ -1,6 +1,15 @@
-import { ProcessedTestResult, ProcessedCoverageResult } from "../src/interfaces";
-import { mockProcessedTestResults, mockProcessedCoverageResults } from "./mockResults";
-import { processTestResults, processCoverageReport } from "../src/testResultProcessing";
+import {
+  ProcessedTestResult,
+  ProcessedCoverageResult,
+} from "../src/interfaces";
+import {
+  mockProcessedTestResults,
+  mockProcessedCoverageResults,
+} from "./mockResults";
+import {
+  processTestResults,
+  processCoverageReport,
+} from "../src/testResultProcessing";
 import { formatResults } from "../src/formatResults";
 
 import * as path from "path";
@@ -8,9 +17,9 @@ import * as fs from "fs";
 
 // Obtained by running `opa test ./spacelift_policies --format=json --v0-compatible`
 export const testOutput = fs.readFileSync(
-    path.join(__dirname, "sample_test_output.txt"),
-    "utf8",
-  );
+  path.join(__dirname, "sample_test_output.txt"),
+  "utf8",
+);
 
 export const coverageOutput = fs.readFileSync(
   path.join(__dirname, "sample_coverage_output.txt"),
@@ -61,53 +70,66 @@ describe("processTestResults", () => {
   });
 });
 
-
 describe("processCoverageReport", () => {
-  const parsedCoverageResults = processCoverageReport(JSON.parse(coverageOutput));
+  const parsedCoverageResults = processCoverageReport(
+    JSON.parse(coverageOutput),
+  );
 
   it("should correctly parse coverage output - singular not covered lines", () => {
-    const targetFile = 'cancel-in-progress-runs.rego';
-    const result = parsedCoverageResults.find(item => item.file === targetFile);
+    const targetFile = "cancel-in-progress-runs.rego";
+    const result = parsedCoverageResults.find(
+      (item) => item.file === targetFile,
+    );
 
     expect(result).toBeDefined();
     expect(result!.coverage).toBeCloseTo(83.33);
-    expect(result!.notCoveredLines).toBe('16');
+    expect(result!.notCoveredLines).toBe("16");
   });
 
   it("should correctly parse coverage output - multiple, hyphenated not covered lines", () => {
-    const targetFile = 'enforce-module-use-policy.rego';
-    const result = parsedCoverageResults.find(item => item.file === targetFile);
+    const targetFile = "enforce-module-use-policy.rego";
+    const result = parsedCoverageResults.find(
+      (item) => item.file === targetFile,
+    );
 
     expect(result).toBeDefined();
     expect(result!.coverage).toBeCloseTo(47.826);
-    expect(result!.notCoveredLines).toBe('37, 42, 46, 52, 54, 57, 60-61, 64, 68, 78, 80');
+    expect(result!.notCoveredLines).toBe(
+      "37, 42, 46, 52, 54, 57, 60-61, 64, 68, 78, 80",
+    );
   });
 
   it("should correctly parse coverage output - multiple, comma-separated not covered lines", () => {
-    const targetFile = 'readers-writers-admins-teams.rego';
-    const result = parsedCoverageResults.find(item => item.file === targetFile);
+    const targetFile = "readers-writers-admins-teams.rego";
+    const result = parsedCoverageResults.find(
+      (item) => item.file === targetFile,
+    );
 
     expect(result).toBeDefined();
     expect(result!.coverage).toBeCloseTo(83.33);
-    expect(result!.notCoveredLines).toBe('16, 24, 28');
+    expect(result!.notCoveredLines).toBe("16, 24, 28");
   });
 
   it("should correctly parse coverage output - undefined coverage", () => {
-    const targetFile = 'drift-detection.rego';
-    const result = parsedCoverageResults.find(item => item.file === targetFile);
+    const targetFile = "drift-detection.rego";
+    const result = parsedCoverageResults.find(
+      (item) => item.file === targetFile,
+    );
 
     expect(result).toBeDefined();
     expect(result!.coverage).toBeUndefined();
-    expect(result!.notCoveredLines).toBe('3, 5, 8, 11');
+    expect(result!.notCoveredLines).toBe("3, 5, 8, 11");
   });
 
   it("should correctly parse coverage output - 100% coverage with empty not covered lines", () => {
-    const targetFile = 'tests/cancel-in-progress-runs_test.rego';
-    const result = parsedCoverageResults.find(item => item.file === targetFile);
+    const targetFile = "tests/cancel-in-progress-runs_test.rego";
+    const result = parsedCoverageResults.find(
+      (item) => item.file === targetFile,
+    );
 
     expect(result).toBeDefined();
     expect(result!.coverage).toBe(100);
-    expect(result!.notCoveredLines).toBe('');
+    expect(result!.notCoveredLines).toBe("");
   });
 });
 
@@ -126,7 +148,7 @@ describe("formatResults", () => {
       },
     ];
     const specificCoverageResult = parsedCoverageResults.filter(
-      (res) => res.file === "tests/ignore-changes-outside-root.rego"
+      (res) => res.file === "tests/ignore-changes-outside-root.rego",
     );
 
     const result = formatResults(testResults, specificCoverageResult, true);
@@ -201,7 +223,9 @@ describe("formatResults", () => {
     const resultRows = result
       .split("\n")
       .filter((line) => line.startsWith("|") && line.includes("PASS"));
-    expect(resultRows.length).toBe(parsedTestResults.filter(r => r.status === "PASS").length);
+    expect(resultRows.length).toBe(
+      parsedTestResults.filter((r) => r.status === "PASS").length,
+    );
   });
 
   it("should format results without coverage when showCoverage is false", () => {
@@ -244,7 +268,7 @@ describe("formatResults", () => {
       },
     ];
     const specificCoverageResult = parsedCoverageResults.filter(
-      (res) => res.file === "tests/ignore-changes-outside-root.rego"
+      (res) => res.file === "tests/ignore-changes-outside-root.rego",
     );
     const result = formatResults(testResults, specificCoverageResult, true);
     expect(result).toContain(

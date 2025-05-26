@@ -8,9 +8,8 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": [
         "ts-node",
-        "./src/index.ts",
+        "./src/index.ts"
         // "--transpile-only",
-        // if you use esm
         // "--esm"
       ],
       // "program": "${file}",
@@ -19,11 +18,9 @@
       "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": ["<node_internals>/**", "node_modules/**"],
       "env": {
-        "path": "./examples", // Replace with your actual path
-        "test_file_postfix": "_test", // Replace with your actual postfix,
+        "path": "./examples",
+        "test_file_postfix": "_test",
         "test_mode": "directory"
-        // You can add more environment variables here
-        // "ANOTHER_VAR": "another_value"
       }
     }
   ]

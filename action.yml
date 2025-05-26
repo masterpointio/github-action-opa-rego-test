@@ -67,7 +67,6 @@ runs:
         version: ${{ inputs.opa_version }}
         static: ${{ inputs.opa_static }}
 
-
     - name: Find Rego files without tests
       if: inputs.report_untested_files == 'true'
       id: find-no-test

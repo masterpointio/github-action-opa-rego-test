@@ -1,8 +1,14 @@
-import { processTestResults, processCoverageReport } from "./testResultProcessing";
-import { executeIndividualOpaTests, executeOpaTestByDirectory } from "./opaCommands";
+import {
+  processTestResults,
+  processCoverageReport,
+} from "./testResultProcessing";
+import {
+  executeIndividualOpaTests,
+  executeOpaTestByDirectory,
+} from "./opaCommands";
 import { formatResults } from "./formatResults";
 
-import { ProcessedTestResult, ProcessedCoverageResult } from "./interfaces"
+import { ProcessedTestResult, ProcessedCoverageResult } from "./interfaces";
 
 import * as core from "@actions/core";
 
@@ -12,14 +18,17 @@ const errorString =
 export async function main() {
   try {
     const test_mode = process.env.test_mode || "directory"; // remove default, and others too
-    const reportNoTestFiles = process.env.report_untested_files === "true" || false;
+    const reportNoTestFiles =
+      process.env.report_untested_files === "true" || false;
     const noTestFiles = process.env.no_test_files;
     const runCoverageReport = process.env.run_coverage_report === "true";
     const path = process.env.path || "./examples";
     const test_file_postfix = process.env.test_file_postfix || "_test";
 
     if (!path || !test_file_postfix) {
-      throw new Error("Both 'path' and 'test_file_postfix' environment variables must be set.");
+      throw new Error(
+        "Both 'path' and 'test_file_postfix' environment variables must be set.",
+      );
     }
 
     let opaOutput: string = "";
@@ -28,9 +37,19 @@ export async function main() {
     let coverageOutput: string | undefined;
 
     if (test_mode === "directory") {
-      ({ output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeOpaTestByDirectory(path, true));
+      ({
+        output: opaOutput,
+        error: opaError,
+        exitCode: exitCode,
+        coverageOutput: coverageOutput,
+      } = await executeOpaTestByDirectory(path, true));
     } else {
-      ({ output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = await executeIndividualOpaTests(path, test_file_postfix, true));
+      ({
+        output: opaOutput,
+        error: opaError,
+        exitCode: exitCode,
+        coverageOutput: coverageOutput,
+      } = await executeIndividualOpaTests(path, test_file_postfix, true));
     }
 
     let parsedResults = processTestResults(JSON.parse(opaOutput));
