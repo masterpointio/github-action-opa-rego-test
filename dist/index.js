@@ -26285,12 +26285,12 @@ const errorString = "⛔️⛔️ An unknown error has occurred in generating th
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const test_mode = process.env.test_mode || "directory"; // remove default, and others too
-            const reportNoTestFiles = process.env.report_untested_files === "true" || false;
+            const test_mode = process.env.test_mode;
+            const reportNoTestFiles = process.env.report_untested_files === "true";
             const noTestFiles = process.env.no_test_files;
             const runCoverageReport = process.env.run_coverage_report === "true";
-            const path = process.env.path || "./examples";
-            const test_file_postfix = process.env.test_file_postfix || "_test";
+            const path = process.env.path;
+            const test_file_postfix = process.env.test_file_postfix;
             if (!path || !test_file_postfix) {
                 throw new Error("Both 'path' and 'test_file_postfix' environment variables must be set.");
             }
@@ -26299,10 +26299,20 @@ function main() {
             let exitCode = 0;
             let coverageOutput;
             if (test_mode === "directory") {
-                ({ output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = yield (0, opaCommands_1.executeOpaTestByDirectory)(path, true));
+                ({
+                    output: opaOutput,
+                    error: opaError,
+                    exitCode: exitCode,
+                    coverageOutput: coverageOutput,
+                } = yield (0, opaCommands_1.executeOpaTestByDirectory)(path, true));
             }
             else {
-                ({ output: opaOutput, error: opaError, exitCode: exitCode, coverageOutput: coverageOutput } = yield (0, opaCommands_1.executeIndividualOpaTests)(path, test_file_postfix, true));
+                ({
+                    output: opaOutput,
+                    error: opaError,
+                    exitCode: exitCode,
+                    coverageOutput: coverageOutput,
+                } = yield (0, opaCommands_1.executeIndividualOpaTests)(path, test_file_postfix, true));
             }
             let parsedResults = (0, testResultProcessing_1.processTestResults)(JSON.parse(opaOutput));
             let coverageResults = [];
@@ -26328,6 +26338,7 @@ function main() {
             if (formattedOutput === "") {
                 formattedOutput = errorString;
             }
+            // This is the output that will be used in the GitHub Pull Request comment.
             core.setOutput("parsed_results", formattedOutput);
             const testsFailed = parsedResults.some((result) => result.status === "FAIL");
             core.setOutput("tests_failed", testsFailed.toString());
@@ -26398,9 +26409,9 @@ const path_1 = __importDefault(__nccwpck_require__(1017));
 const opaV0CompatibleFlag = "--v0-compatible"; // https://www.openpolicyagent.org/docs/latest/v0-compatibility/
 function executeOpaTestByDirectory(path_2) {
     return __awaiter(this, arguments, void 0, function* (path, runCoverageReport = false) {
-        let opaOutput = '';
-        let opaError = '';
-        let opaCoverageOutput = '';
+        let opaOutput = "";
+        let opaError = "";
+        let opaCoverageOutput = "";
         let exitCode = 0;
         let coverageExitCode;
         const options = {
@@ -26410,11 +26421,11 @@ function executeOpaTestByDirectory(path_2) {
                 },
                 stderr: (data) => {
                     opaError += data.toString();
-                }
+                },
             },
-            ignoreReturnCode: true
+            ignoreReturnCode: true,
         };
-        exitCode = yield exec.exec('opa', ['test', path, '--format=json', opaV0CompatibleFlag], options);
+        exitCode = yield exec.exec("opa", ["test", path, "--format=json", opaV0CompatibleFlag], options);
         if (runCoverageReport) {
             const coverageOptions = {
                 listeners: {
@@ -26423,11 +26434,11 @@ function executeOpaTestByDirectory(path_2) {
                     },
                     stderr: (data) => {
                         opaError += `\nCoverage: ${data.toString()}`;
-                    }
+                    },
                 },
-                ignoreReturnCode: true
+                ignoreReturnCode: true,
             };
-            coverageExitCode = yield exec.exec('opa', ['test', path, '--format=json', '--coverage', opaV0CompatibleFlag], coverageOptions);
+            coverageExitCode = yield exec.exec("opa", ["test", path, "--format=json", "--coverage", opaV0CompatibleFlag], coverageOptions);
         }
         else {
             console.log("Coverage reporting skipped due to runCoverageReport flag set to false");
@@ -26435,7 +26446,7 @@ function executeOpaTestByDirectory(path_2) {
         console.log("OPA test commands completed");
         return Object.assign({ output: opaOutput, error: opaError, exitCode: exitCode }, (runCoverageReport && {
             coverageOutput: opaCoverageOutput,
-            coverageExitCode: coverageExitCode
+            coverageExitCode: coverageExitCode,
         }));
     });
 }
@@ -26449,49 +26460,58 @@ function executeOpaTestByDirectory(path_2) {
 function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
     return __awaiter(this, arguments, void 0, function* (basePath, testFilePostfix, runCoverageReport = false) {
         const allTestResults = [];
-        let opaError = '';
+        let opaError = "";
         let exitCode = 0;
         const coverageFiles = {};
         let coverageExitCode = 0;
         // ---------- locate test files ----------
-        let findStdout = '';
-        let findStderr = '';
-        yield exec.exec('find', [basePath, '-type', 'f', '-name', `*${testFilePostfix}.rego`], {
+        let findStdout = "";
+        let findStderr = "";
+        yield exec.exec("find", [basePath, "-type", "f", "-name", `*${testFilePostfix}.rego`], {
             listeners: {
                 stdout: (b) => (findStdout += b.toString()),
-                stderr: (b) => (findStderr += b.toString())
-            }
+                stderr: (b) => (findStderr += b.toString()),
+            },
         });
         if (findStderr) {
-            opaError += findStderr + '\n';
+            opaError += findStderr + "\n";
             exitCode = 1;
         }
-        const testFiles = findStdout.trim().split('\n').filter(Boolean);
+        const testFiles = findStdout.trim().split("\n").filter(Boolean);
         for (const testFile of testFiles) {
             const base = path_1.default.basename(testFile, `${testFilePostfix}.rego`);
             const dir = path_1.default.dirname(testFile);
             // locate impl file
-            let implOut = '';
-            yield exec.exec('find', [dir, `${dir}/..`, '-maxdepth', '1', '-type', 'f', '-name', `${base}.rego`], {
-                listeners: { stdout: (b) => (implOut += b.toString()) }
+            let implOut = "";
+            yield exec.exec("find", [
+                dir,
+                `${dir}/..`,
+                "-maxdepth",
+                "1",
+                "-type",
+                "f",
+                "-name",
+                `${base}.rego`,
+            ], {
+                listeners: { stdout: (b) => (implOut += b.toString()) },
             });
-            const implFile = implOut.trim().split('\n').find(Boolean);
+            const implFile = implOut.trim().split("\n").find(Boolean);
             if (!implFile) {
                 const msg = `Error: Implementation file not found for test: ${testFile}`;
-                opaError += msg + '\n';
+                opaError += msg + "\n";
                 exitCode = 1;
                 coverageExitCode = 1;
                 continue;
             }
             // -------- Running OPA test --------
-            let testOutput = '';
-            let testErrMsg = '';
-            const testExitCode = yield exec.exec('opa', ['test', testFile, implFile, '--format=json', opaV0CompatibleFlag], {
+            let testOutput = "";
+            let testErrMsg = "";
+            const testExitCode = yield exec.exec("opa", ["test", testFile, implFile, "--format=json", opaV0CompatibleFlag], {
                 listeners: {
                     stdout: (b) => (testOutput += b.toString()),
-                    stderr: (b) => (testErrMsg += b.toString())
+                    stderr: (b) => (testErrMsg += b.toString()),
                 },
-                ignoreReturnCode: true
+                ignoreReturnCode: true,
             });
             if (testExitCode)
                 exitCode = testExitCode;
@@ -26508,14 +26528,21 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
             }
             // -------- coverage (optional) --------
             if (runCoverageReport) {
-                let covOut = '';
-                let covErr = '';
-                const covExit = yield exec.exec('opa', ['test', testFile, implFile, '--coverage', '--format=json', opaV0CompatibleFlag], {
+                let covOut = "";
+                let covErr = "";
+                const covExit = yield exec.exec("opa", [
+                    "test",
+                    testFile,
+                    implFile,
+                    "--coverage",
+                    "--format=json",
+                    opaV0CompatibleFlag,
+                ], {
                     listeners: {
                         stdout: (b) => (covOut += b.toString()),
-                        stderr: (b) => (covErr += b.toString())
+                        stderr: (b) => (covErr += b.toString()),
                     },
-                    ignoreReturnCode: true
+                    ignoreReturnCode: true,
                 });
                 coverageExitCode = Math.max(coverageExitCode, covExit);
                 if (covErr)
@@ -26559,7 +26586,7 @@ function processTestResults(opaRawJsonTestResult) {
     // Group by file
     const fileMap = new Map();
     // Group tests by file
-    opaRawJsonTestResult.forEach(result => {
+    opaRawJsonTestResult.forEach((result) => {
         const file = result.location.file;
         if (!fileMap.has(file)) {
             fileMap.set(file, []);
@@ -26574,10 +26601,10 @@ function processTestResults(opaRawJsonTestResult) {
             status: "PASS",
             passed: 0,
             total: tests.length,
-            details: []
+            details: [],
         };
         // Count passed tests and collect details
-        tests.forEach(test => {
+        tests.forEach((test) => {
             const passed = !test.fail;
             if (passed) {
                 result.passed++;
@@ -26607,7 +26634,7 @@ function processCoverageReport(opaRawJsonCoverageReport) {
             coverageResults.push({
                 file: filePath,
                 coverage: fileData.coverage,
-                notCoveredLines: "" // No uncovered lines
+                notCoveredLines: "", // No uncovered lines
             });
             continue;
         }
@@ -26628,14 +26655,14 @@ function processCoverageReport(opaRawJsonCoverageReport) {
         // Sort numerically
         notCoveredRanges.sort((a, b) => {
             // Extract the first number from each range for comparison
-            const aStart = parseInt(a.split('-')[0]);
-            const bStart = parseInt(b.split('-')[0]);
+            const aStart = parseInt(a.split("-")[0]);
+            const bStart = parseInt(b.split("-")[0]);
             return aStart - bStart;
         });
         coverageResults.push({
             file: filePath,
             coverage: fileData.coverage,
-            notCoveredLines: notCoveredRanges.join(', ')
+            notCoveredLines: notCoveredRanges.join(", "),
         });
     }
     return coverageResults;

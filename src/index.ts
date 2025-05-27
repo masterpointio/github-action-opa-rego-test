@@ -21,8 +21,8 @@ export async function main() {
     const reportNoTestFiles = process.env.report_untested_files === "true";
     const noTestFiles = process.env.no_test_files;
     const runCoverageReport = process.env.run_coverage_report === "true";
-    const path = process.env.path || "./examples";
-    const test_file_postfix = process.env.test_file_postfix || "_test";
+    const path = process.env.path;
+    const test_file_postfix = process.env.test_file_postfix;
 
     if (!path || !test_file_postfix) {
       throw new Error(
