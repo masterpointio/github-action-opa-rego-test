@@ -93,7 +93,7 @@ runs:
         echo "Search complete, found the following Rego files without tests: $no_test_files"
 
     # Parse and format the test results which will be consumed by the following step to comment on the PR.
-    - name: "Parse & Format Results from Tests"
+    - name: "Execute and Parse Results from Tests"
       id: parse-results
       run: node ${{ github.action_path }}/dist/index.js
       shell: bash
@@ -109,12 +109,12 @@ runs:
 
     # Create (or update in-place) a PR comment of the test result output
     - name: Comment on PR
-      uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2.5.0
+      uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3.0.1
       # If `write_pr_comment` enabled, regardless of if test is success or fail, write the results of the failure.
       # Even if input is bool, it has to be treated as string bc of GH's behavior (https://github.com/actions/runner/issues/1483)
       if: inputs.write_pr_comment == 'true' && (success() || failure())
       with:
         message: |
           ${{ steps.parse-results.outputs.parsed_results }}
-        comment_tag: opa-test-results-${{ github.action }} # using the action name as the tag as it is unique, and in case multiple executions of the action are in the same PR
+        comment-tag: opa-test-results-${{ github.action }} # using the action name as the tag as it is unique, and in case multiple executions of the action are in the same PR
         mode: ${{ inputs.pr_comment_mode }}

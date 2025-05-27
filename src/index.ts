@@ -17,9 +17,8 @@ const errorString =
 
 export async function main() {
   try {
-    const test_mode = process.env.test_mode || "directory"; // remove default, and others too
-    const reportNoTestFiles =
-      process.env.report_untested_files === "true" || false;
+    const test_mode = process.env.test_mode;
+    const reportNoTestFiles = process.env.report_untested_files === "true";
     const noTestFiles = process.env.no_test_files;
     const runCoverageReport = process.env.run_coverage_report === "true";
     const path = process.env.path || "./examples";
@@ -85,6 +84,7 @@ export async function main() {
       formattedOutput = errorString;
     }
 
+    // This is the output that will be used in the GitHub Pull Request comment.
     core.setOutput("parsed_results", formattedOutput);
 
     const testsFailed = parsedResults.some(
