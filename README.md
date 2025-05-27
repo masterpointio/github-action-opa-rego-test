@@ -124,11 +124,14 @@ On each pull request, there is a GitHub Actions workflow that runs the tests aut
 
 ## 🏗️ Setup & Run Locally
 
-You can use [nektos/act](https://github.com/nektos/act) to simulate and run a GitHub Actions workflow locally. To directly test the custom TypeScript action locally, you can:
+You can use [nektos/act](https://github.com/nektos/act) to simulate and run a GitHub Actions workflow locally.
+
+To directly test the custom TypeScript action locally, you can:
 
 1. `npm run install`
 2. `node ./dist/index.js`
    This is assuming you have `npm` and `node` installed already. Note: You will have to manually provide the required inputs since this is directly executing the TypeScript code.
+   Additionally, if you are using VS Code, you can use the `.vscode/launch.json` (which executes `npx ts-node ./src/index.ts`) to run and attach the debugger.
 
 ## 📦 Releases / Packaging for Distribution
 
