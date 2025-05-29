@@ -1,31 +1,29 @@
-name: Lint (Trunk.io)
+name: Lint
+
+concurrency:
+  group: lint-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 on: pull_request
 
-concurrency:
-  group: ${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
-
 permissions:
+  actions: read
+  checks: write
   contents: read
+  pull-requests: read
 
 jobs:
-  trunk:
+  lint:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      checks: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: trunk-io/trunk-action@v1
+      - name: Check out Git repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@4d5ecc89b2691705fd08c747c78652d2fc806a94 # v1.1.19
 
-  conventional-commit-title-check:
+  conventional-title:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
     steps:
-      - uses: amannn/action-semantic-pull-request@v5
+      - uses: amannn/action-semantic-pull-request@0723387faaf9b38adef4775cd42cfd5155ed6017 # v5.5.3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          requireScope: true
