@@ -11,9 +11,7 @@ mock_stack_labels_with_trackings := {"labels": ["trackeddirectories:tracked", "t
 
 # Test: track rule with different branches
 test_track_different_branches {
-# 	not track with input as {
-# intentionally failing this for purposes of GHA testing.
-	track with input as {
+ 	not track with input as {
 		"push": {"branch": "main"},
 		"stack": {"branch": "develop"},
 	}
