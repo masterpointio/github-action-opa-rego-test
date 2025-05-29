@@ -32,6 +32,7 @@ It's super easy to get started and use this GitHub Action to test your OPA Rego 
   uses: masterpointio/github-action-opa-rego-test@main
   with:
     path: ./examples
+    test_mode: directory # Whether to test the Rego by directory (e.g. opa test ./) or by individual files (e.g. opa test a_test.rego a.rego). Options of `directory` or `file`.
     report_untested_files: true # Flag to check & report Rego files that does NOT have corresponding test files. Optional, defaults to false.
 ```
 
