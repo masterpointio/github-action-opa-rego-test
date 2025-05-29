@@ -43,6 +43,7 @@ jobs:
           pr_comment_title: Below is the Action testing on itself with this PR's source code against policies in `/examples` file by file. Confirm it is as expected.
 
       - name: Test Local Action (Directory Package Mode)
+        if: (success() || failure())
         id: test-action-opa-package
         uses: ./
         with:
