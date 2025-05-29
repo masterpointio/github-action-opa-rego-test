@@ -26343,7 +26343,7 @@ function main() {
             const testsFailed = parsedResults.some((result) => result.status === "FAIL");
             core.setOutput("tests_failed", testsFailed.toString());
             if (testsFailed) {
-                core.setFailed("One or more OPA tests failed");
+                core.setFailed(`One or more OPA tests failed: ${opaError}`);
             }
         }
         catch (error) {

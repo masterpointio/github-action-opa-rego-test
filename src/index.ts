@@ -93,7 +93,7 @@ export async function main() {
     core.setOutput("tests_failed", testsFailed.toString());
 
     if (testsFailed) {
-      core.setFailed("One or more OPA tests failed");
+      core.setFailed(`One or more OPA tests failed: ${opaError}`);
     }
   } catch (error) {
     if (error instanceof Error) {
