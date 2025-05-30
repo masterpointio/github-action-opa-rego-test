@@ -72,7 +72,7 @@ export function formatResults(
 
       let coverageText = "N/A";
       let uncoveredLinesDetails = "";
-      if (coverageInfo) {
+      if (coverageInfo && result.status === "PASS") {
         try {
           coverageText = `${coverageInfo.coverage.toFixed(2)}%`;
           if (
@@ -85,7 +85,6 @@ export function formatResults(
         } catch (error) {
           console.error("Error processing coverage information:", error);
           console.log("Coverage Info:", coverageInfo);
-          // Keep coverageText as "N/A" or set to an error message if preferred
         }
       }
       row += ` ${coverageText} |`;
