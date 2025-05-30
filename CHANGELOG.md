@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/masterpointio/github-action-opa-rego-test/compare/v1.2.0...v2.0.0) (2025-05-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* **ts:** use @actions/exec instead of bash script for OPA commands, allow testing entire directory vs file by file ([#27](https://github.com/masterpointio/github-action-opa-rego-test/issues/27))
+
+### Bug Fixes
+
+* **ts:** coverage only if it passed ([#30](https://github.com/masterpointio/github-action-opa-rego-test/issues/30)) ([7e4e69c](https://github.com/masterpointio/github-action-opa-rego-test/commit/7e4e69cb57b96bc5aa401772a4fb3b7911251c77))
+
+
+### Code Refactoring
+
+* **ts:** use @actions/exec instead of bash script for OPA commands, allow testing entire directory vs file by file ([#27](https://github.com/masterpointio/github-action-opa-rego-test/issues/27)) ([9eecaf7](https://github.com/masterpointio/github-action-opa-rego-test/commit/9eecaf74d47ca3976fee01bbcb5a5b724ebc2d0d))
+
 ## [1.2.0](https://github.com/masterpointio/github-action-opa-rego-test/compare/v1.1.0...v1.2.0) (2025-04-30)
 
 
