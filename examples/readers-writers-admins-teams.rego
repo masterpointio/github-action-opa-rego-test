@@ -1,8 +1,6 @@
 package spacelift
 
-import future.keywords.contains
-import future.keywords.if
-import future.keywords.in
+import rego.v1
 
 # Define team roles
 admins := {"team1", "team2", "team3"}

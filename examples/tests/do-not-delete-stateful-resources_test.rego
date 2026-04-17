@@ -1,7 +1,9 @@
 package spacelift
 
+import rego.v1
+
 # Test case for an aws_s3_bucket being deleted
-test_deny_s3_bucket_deletion {
+test_deny_s3_bucket_deletion if {
 	# Assert deny rule fires with the expected message
 	deny["do not delete aws_s3_bucket.my_bucket"] with input as {"terraform": {"resource_changes": [{
 		"address": "aws_s3_bucket.my_bucket",
@@ -11,7 +13,7 @@ test_deny_s3_bucket_deletion {
 }
 
 # Test case for an aws_db_instance being deleted
-test_deny_db_instance_deletion {
+test_deny_db_instance_deletion if {
 	# Assert deny rule fires with the expected message
 	deny["do not delete aws_db_instance.my_rds"] with input as {"terraform": {"resource_changes": [{
 		"address": "aws_db_instance.my_rds",
@@ -21,7 +23,7 @@ test_deny_db_instance_deletion {
 }
 
 # Test case for an aws_efs_file_system being deleted
-test_deny_efs_file_system_deletion {
+test_deny_efs_file_system_deletion if {
 	# Assert deny rule fires with the expected message
 	deny["do not delete aws_efs_file_system.my_efs"] with input as {"terraform": {"resource_changes": [{
 		"address": "aws_efs_file_system.my_efs",
@@ -31,7 +33,7 @@ test_deny_efs_file_system_deletion {
 }
 
 # Test case for an aws_dynamodb_table being deleted
-test_deny_dynamodb_table_deletion {
+test_deny_dynamodb_table_deletion if {
 	# Assert deny rule fires with the expected message
 	deny["do not delete aws_dynamodb_table.my_table"] with input as {"terraform": {"resource_changes": [{
 		"address": "aws_dynamodb_table.my_table",
@@ -41,7 +43,7 @@ test_deny_dynamodb_table_deletion {
 }
 
 # Test case for an aws_instance being deleted (which should not be denied)
-test_allow_instance_deletion {
+test_allow_instance_deletion if {
 	# Assert deny rule does not fire
 	count(deny) == 0 with input as {"terraform": {"resource_changes": [{
 		"address": "aws_instance.my_instance",

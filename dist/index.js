@@ -26288,10 +26288,23 @@ function main() {
             const reportNoTestFiles = process.env.report_untested_files === "true";
             const noTestFiles = process.env.no_test_files;
             const runCoverageReport = process.env.run_coverage_report === "true";
+            const useV1Compatible = process.env.v1_compatible_check !== "false";
             const path = process.env.path;
             const test_file_postfix = process.env.test_file_postfix;
             if (!path || !test_file_postfix) {
                 throw new Error("Both 'path' and 'test_file_postfix' environment variables must be set.");
+            }
+            if (useV1Compatible) {
+                console.log(`Running OPA v1 compatibility check on: ${path}`);
+                const { error: v1Error, exitCode: v1ExitCode } = yield (0, opaCommands_1.executeOpaV1CompatibilityCheck)(path);
+                if (v1ExitCode !== 0) {
+                    core.setFailed(`OPA v1 compatibility check failed. One or more Rego files are not v1 compatible.\n${v1Error}`);
+                    return;
+                }
+                console.log("OPA v1 compatibility check passed.");
+            }
+            else {
+                console.log("OPA v1 compatibility check skipped.");
             }
             let opaOutput = "";
             let opaError = "";
@@ -26303,7 +26316,7 @@ function main() {
                     error: opaError,
                     exitCode: exitCode,
                     coverageOutput: coverageOutput,
-                } = yield (0, opaCommands_1.executeOpaTestByDirectory)(path, true));
+                } = yield (0, opaCommands_1.executeOpaTestByDirectory)(path, true, useV1Compatible));
             }
             else {
                 ({
@@ -26311,7 +26324,7 @@ function main() {
                     error: opaError,
                     exitCode: exitCode,
                     coverageOutput: coverageOutput,
-                } = yield (0, opaCommands_1.executeIndividualOpaTests)(path, test_file_postfix, true));
+                } = yield (0, opaCommands_1.executeIndividualOpaTests)(path, test_file_postfix, true, useV1Compatible));
             }
             let parsedResults = (0, testResultProcessing_1.processTestResults)(JSON.parse(opaOutput));
             let coverageResults = [];
@@ -26401,13 +26414,46 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.executeOpaV1CompatibilityCheck = executeOpaV1CompatibilityCheck;
 exports.executeOpaTestByDirectory = executeOpaTestByDirectory;
 exports.executeIndividualOpaTests = executeIndividualOpaTests;
 const exec = __importStar(__nccwpck_require__(1514));
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const opaV0CompatibleFlag = "--v0-compatible"; // https://www.openpolicyagent.org/docs/latest/v0-compatibility/
+const opaV1CompatibleFlag = "--v1-compatible";
+/**
+ * Run `opa check --v1-compatible` against a directory to validate all Rego files
+ * are compatible with OPA v1 / Rego v1 syntax.
+ * @param path - The directory containing Rego files to validate.
+ * @returns An object containing stdout output, error output, and exit code.
+ */
+function executeOpaV1CompatibilityCheck(path) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let opaOutput = "";
+        let opaError = "";
+        const exitCode = yield exec.exec("opa", ["check", path, opaV1CompatibleFlag], {
+            listeners: {
+                stdout: (data) => {
+                    opaOutput += data.toString();
+                },
+                stderr: (data) => {
+                    opaError += data.toString();
+                },
+            },
+            ignoreReturnCode: true,
+        });
+        return { output: opaOutput, error: opaError, exitCode };
+    });
+}
+/**
+ * Run OPA tests on all files in the specified directory.
+ * @param path - The directory containing Rego files to test.
+ * @param runCoverageReport - Whether to run coverage report (default: false).
+ * @param useV1Compatible - Whether to run tests using --v1-compatible flag (default: false).
+ * @returns An object containing the test results, error messages, and exit codes.
+ */
 function executeOpaTestByDirectory(path_2) {
-    return __awaiter(this, arguments, void 0, function* (path, runCoverageReport = false) {
+    return __awaiter(this, arguments, void 0, function* (path, runCoverageReport = false, useV1Compatible = false) {
         let opaOutput = "";
         let opaError = "";
         let opaCoverageOutput = "";
@@ -26424,7 +26470,8 @@ function executeOpaTestByDirectory(path_2) {
             },
             ignoreReturnCode: true,
         };
-        exitCode = yield exec.exec("opa", ["test", path, "--format=json", opaV0CompatibleFlag], options);
+        const compatFlag = useV1Compatible ? opaV1CompatibleFlag : opaV0CompatibleFlag;
+        exitCode = yield exec.exec("opa", ["test", path, "--format=json", compatFlag], options);
         if (runCoverageReport) {
             const coverageOptions = {
                 listeners: {
@@ -26437,7 +26484,7 @@ function executeOpaTestByDirectory(path_2) {
                 },
                 ignoreReturnCode: true,
             };
-            coverageExitCode = yield exec.exec("opa", ["test", path, "--format=json", "--coverage", opaV0CompatibleFlag], coverageOptions);
+            coverageExitCode = yield exec.exec("opa", ["test", path, "--format=json", "--coverage", compatFlag], coverageOptions);
         }
         else {
             console.log("Coverage reporting skipped due to runCoverageReport flag set to false");
@@ -26454,10 +26501,11 @@ function executeOpaTestByDirectory(path_2) {
  * @param basePath - The base path to search for test files.
  * @param testFilePostfix - The postfix of the test files to look for (e.g., "_test").
  * @param runCoverageReport - Whether to run coverage report (default: false).
+ * @param useV1Compatible - Whether to run tests using --v1-compatible flag (default: false).
  * @returns An object containing the test results, error messages, and exit codes.
  */
 function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
-    return __awaiter(this, arguments, void 0, function* (basePath, testFilePostfix, runCoverageReport = false) {
+    return __awaiter(this, arguments, void 0, function* (basePath, testFilePostfix, runCoverageReport = false, useV1Compatible = false) {
         const allTestResults = [];
         let opaError = "";
         let exitCode = 0;
@@ -26476,6 +26524,7 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
             opaError += findStderr + "\n";
             exitCode = 1;
         }
+        const compatFlag = useV1Compatible ? opaV1CompatibleFlag : opaV0CompatibleFlag;
         const testFiles = findStdout.trim().split("\n").filter(Boolean);
         for (const testFile of testFiles) {
             const base = path_1.default.basename(testFile, `${testFilePostfix}.rego`);
@@ -26505,7 +26554,7 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
             // -------- Running OPA test --------
             let testOutput = "";
             let testErrMsg = "";
-            const testExitCode = yield exec.exec("opa", ["test", testFile, implFile, "--format=json", opaV0CompatibleFlag], {
+            const testExitCode = yield exec.exec("opa", ["test", testFile, implFile, "--format=json", compatFlag], {
                 listeners: {
                     stdout: (b) => (testOutput += b.toString()),
                     stderr: (b) => (testErrMsg += b.toString()),
@@ -26535,7 +26584,7 @@ function executeIndividualOpaTests(basePath_1, testFilePostfix_1) {
                     implFile,
                     "--coverage",
                     "--format=json",
-                    opaV0CompatibleFlag,
+                    compatFlag,
                 ], {
                     listeners: {
                         stdout: (b) => (covOut += b.toString()),

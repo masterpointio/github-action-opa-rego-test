@@ -1,7 +1,9 @@
 package spacelift
 
+import rego.v1
+
 # Test case for denying creation of a password with less than 16 characters.
-test_deny_creation_of_password_with_less_than_16_characters {
+test_deny_creation_of_password_with_less_than_16_characters if {
 	deny["We require that passwords have at least 16 characters (random_password.password_1)"] with input as {"terraform": {"resource_changes": [{
 		"address": "random_password.password_1",
 		"type": "random_password",
@@ -13,7 +15,7 @@ test_deny_creation_of_password_with_less_than_16_characters {
 }
 
 # Test case for warning creation of a password between 16 and 20 characters.
-test_warn_creation_of_password_between_16_and_20_characters {
+test_warn_creation_of_password_between_16_and_20_characters if {
 	warn["We advise that passwords have at least 20 characters (random_password.password_1)"] with input as {"terraform": {"resource_changes": [{
 		"address": "random_password.password_1",
 		"type": "random_password",
@@ -25,7 +27,7 @@ test_warn_creation_of_password_between_16_and_20_characters {
 }
 
 # Test case for allowing creation of a password longer than 20 characters.
-test_allow_creation_of_password_longer_than_20_characters {
+test_allow_creation_of_password_longer_than_20_characters if {
 	count(warn) == 0 with input as {"terraform": {"resource_changes": [{
 		"address": "random_password.password_1",
 		"type": "random_password",

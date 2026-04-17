@@ -1,5 +1,7 @@
 package spacelift
 
+import rego.v1
+
 # Mocked Data for Tests
 mock_push_affected := {"affected_files": ["tracked/file.txt", "untracked/file.txt"]}
 
@@ -10,7 +12,7 @@ mock_stack_labels_with_trackings := {"labels": ["trackeddirectories:tracked", "t
 # Tests
 
 # Test: track rule with different branches
-test_track_different_branches {
+test_track_different_branches if {
 	not track with input as {
 		"push": {"branch": "main"},
 		"stack": {"branch": "develop"},
@@ -18,7 +20,7 @@ test_track_different_branches {
 }
 
 # Test: propose rule with non-empty branch
-test_propose_non_empty_branch {
+test_propose_non_empty_branch if {
 	propose with input as {
 		"push": {"branch": "main"},
 		"stack": {},
@@ -26,7 +28,7 @@ test_propose_non_empty_branch {
 }
 
 # Test: propose rule with empty branch
-test_propose_empty_branch {
+test_propose_empty_branch if {
 	not propose with input as {
 		"push": {"branch": ""},
 		"stack": {},
@@ -34,7 +36,7 @@ test_propose_empty_branch {
 }
 
 # Test: affected by directory path
-test_affected_directory {
+test_affected_directory if {
 	affected with input as {
 		"push": mock_push_affected,
 		"stack": mock_stack_labels_with_trackings,
@@ -42,7 +44,7 @@ test_affected_directory {
 }
 
 # Test: affected by file extension
-test_affected_extension {
+test_affected_extension if {
 	affected with input as {
 		"push": mock_push_affected,
 		"stack": mock_stack_labels_with_trackings,
@@ -50,7 +52,7 @@ test_affected_extension {
 }
 
 # Test: not track by directory path
-test_not_affected_directory {
+test_not_affected_directory if {
 	not track with input as {
 		"push": mock_push_not_affected,
 		"stack": mock_stack_labels_with_trackings,
@@ -58,7 +60,7 @@ test_not_affected_directory {
 }
 
 # Test: not track by file extension
-test_not_affected_extension {
+test_not_affected_extension if {
 	not track with input as {
 		"push": mock_push_not_affected,
 		"stack": mock_stack_labels_with_trackings,
@@ -66,7 +68,7 @@ test_not_affected_extension {
 }
 
 # Test: track rule with not affected files
-test_ignore_not_affected {
+test_ignore_not_affected if {
 	not track with input as {
 		"push": mock_push_not_affected,
 		"stack": mock_stack_labels_with_trackings,

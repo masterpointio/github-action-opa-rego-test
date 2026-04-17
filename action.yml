@@ -45,6 +45,10 @@ inputs:
     description: "Whether to use the static binary. Default is false."
     required: false
     default: "false"
+  v1_compatible_check:
+    description: Flag to run OPA v1 compatibility check (`opa check --v1-compatible`) on all Rego files in the path. Fails the action if any files are not Rego v1 compatible. Default of true.
+    required: false
+    default: "true"
   indicate_source_message:
     description: Flag to comment the origins (this repository) of the GitHub Action in the PR comment. Default of true.
     required: false
@@ -102,6 +106,7 @@ runs:
         no_test_files: ${{ steps.find-no-test.outputs.no_test_files }}
         pr_comment_title: ${{ inputs.pr_comment_title }}
         run_coverage_report: ${{ inputs.run_coverage_report }}
+        v1_compatible_check: ${{ inputs.v1_compatible_check }}
         indicate_source_message: ${{ inputs.indicate_source_message }}
         path: ${{ inputs.path }}
         test_file_postfix: ${{ inputs.test_file_postfix }}

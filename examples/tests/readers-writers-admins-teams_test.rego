@@ -2,9 +2,8 @@ package spacelift_test
 
 # Import the spacelift package to access its rules.
 import data.spacelift
-import future.keywords.contains
-import future.keywords.if
-import future.keywords.in
+
+import rego.v1
 
 test_allow_writers if {
 	spacelift.space_write with input as {"session": {"teams": ["team4"]}}

@@ -2,8 +2,7 @@
 
 package spacelift
 
-import future.keywords.contains
-import future.keywords.if
+import rego.v1
 
 run_url := sprintf(
 	"https://%s.app.spacelift.io/stack/%s/run/%s",

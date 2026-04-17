@@ -1,7 +1,9 @@
 package spacelift
 
-test_cancel_runs_allowed {
-	cancel.test with input as {
+import rego.v1
+
+test_cancel_runs_allowed if {
+	cancel["test"] with input as {
 		"pull_request": {"head": {"branch": "main"}},
 		"in_progress": [{
 			"id": "test",
@@ -12,8 +14,8 @@ test_cancel_runs_allowed {
 	}
 }
 
-test_cancel_runs_denied {
-	not cancel.test with input as {
+test_cancel_runs_denied if {
+	not cancel["test"] with input as {
 		"pull_request": {"head": {"branch": "feature/example"}},
 		"in_progress": [{
 			"id": "test",

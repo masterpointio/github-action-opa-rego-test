@@ -1,6 +1,8 @@
 package spacelift
 
-slack[{"channel_id": "C000000"}] {
+import rego.v1
+
+slack contains {"channel_id": "C000000"} if {
 	# Checking if drift detection is present in the run update
 	input.run_updated.run.drift_detection
 

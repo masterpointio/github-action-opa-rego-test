@@ -91,6 +91,7 @@ In the example below, all `_test.rego` files' location are valid and will be exe
 | `report_untested_files`   | Check & report Rego files without corresponding test files                                                                                                                                    | No       | `false`                           |
 | `opa_version`             | Version of the OPA CLI to use.                                                                                                                                                                | No       | `1.4.2`                           |
 | `opa_static`              | Whether to use the static binary for OPA installation. use.                                                                                                                                   | No       | `false`                           |
+| `v1_compatible_check`     | Flag to run `opa check --v1-compatible` against all Rego files in `path`. Fails the action with a clear error if any files use Rego v0-only syntax. Set to `false` to disable.                | No       | `true`                            |
 | `indicate_source_message` | Flag to comment the origins watermark (this repository) of the GitHub Action in the PR comment.                                                                                               | No       | `true`                            |
 
 ### Outputs
@@ -105,12 +106,13 @@ In the example below, all `_test.rego` files' location are valid and will be exe
 This GitHub Action automates the process of testing OPA (Open Policy Agent) Rego policies and generating coverage reports. Here's a breakdown of its operation:
 
 1. Setup: The action begins by setting up OPA using the open-policy-agent/setup-opa@v2 action, ensuring the necessary tools are available.
-2. Run OPA Tests: It executes `opa test` on all .rego files in the specified directory (default is the root directory). The test results are captured and stored as an output.
-3. Run OPA Coverage Tests: Enabled by default but optional, the action performs coverage tests on each .rego file that has a corresponding \_test.rego file. This step identifies which parts of your policies are covered by tests.
-4. Find Untested Files: Optionally if enabled, it can identify Rego files that don't have corresponding test files, helping you maintain comprehensive test coverage.
-5. Parse and Format Results: A custom TypeScript script (index.ts) processes the raw test and coverage outputs. It parses the results into a structured format and generates a user-friendly summary.
-6. Generate PR Comment: The formatted results are used to create or update a comment on the pull request.
-7. Fail the Action if Tests Fail: If any tests fail, the action is marked as failed, which can be used to block PR merges or trigger other workflows.
+2. Find Untested Files: Optionally if enabled, it can identify Rego files that don't have corresponding test files, helping you maintain comprehensive test coverage.
+3. Rego v1 Compatibility Check (optional, default enabled): Runs `opa check --v1-compatible` against all Rego files in the path. If any files use Rego v0-only syntax, the action fails immediately with OPA's error output identifying the offending files. This check can be disabled by setting `v1_compatible_check: false`.
+4. Run OPA Tests: It executes `opa test` on all .rego files in the specified directory (default is the root directory). The test results are captured and stored as an output.
+5. Run OPA Coverage Tests: Enabled by default but optional, the action performs coverage tests on each .rego file that has a corresponding \_test.rego file. This step identifies which parts of your policies are covered by tests.
+6. Parse and Format Results: A custom TypeScript script (index.ts) processes the raw test and coverage outputs. It parses the results into a structured format and generates a user-friendly summary.
+7. Generate PR Comment: The formatted results are used to create or update a comment on the pull request.
+8. Fail the Action if Tests Fail: If any tests fail, the action is marked as failed, which can be used to block PR merges or trigger other workflows.
 
 ![Masterpoint OPA Rego Test Action Diagram](https://lucid.app/publicSegments/view/60bf898e-2640-475f-b130-2a70d317a65d/image.png)
 

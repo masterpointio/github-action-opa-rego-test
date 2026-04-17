@@ -3,10 +3,52 @@ import * as exec from "@actions/exec";
 import path from "path";
 
 const opaV0CompatibleFlag = "--v0-compatible"; // https://www.openpolicyagent.org/docs/latest/v0-compatibility/
+const opaV1CompatibleFlag = "--v1-compatible";
 
+/**
+ * Run `opa check --v1-compatible` against a directory to validate all Rego files
+ * are compatible with OPA v1 / Rego v1 syntax.
+ * @param path - The directory containing Rego files to validate.
+ * @returns An object containing stdout output, error output, and exit code.
+ */
+export async function executeOpaV1CompatibilityCheck(path: string): Promise<{
+  output: string;
+  error: string;
+  exitCode: number;
+}> {
+  let opaOutput = "";
+  let opaError = "";
+
+  const exitCode = await exec.exec(
+    "opa",
+    ["check", path, opaV1CompatibleFlag],
+    {
+      listeners: {
+        stdout: (data: Buffer) => {
+          opaOutput += data.toString();
+        },
+        stderr: (data: Buffer) => {
+          opaError += data.toString();
+        },
+      },
+      ignoreReturnCode: true,
+    },
+  );
+
+  return { output: opaOutput, error: opaError, exitCode };
+}
+
+/**
+ * Run OPA tests on all files in the specified directory.
+ * @param path - The directory containing Rego files to test.
+ * @param runCoverageReport - Whether to run coverage report (default: false).
+ * @param useV1Compatible - Whether to run tests using --v1-compatible flag (default: false).
+ * @returns An object containing the test results, error messages, and exit codes.
+ */
 export async function executeOpaTestByDirectory(
   path: string,
   runCoverageReport: boolean = false,
+  useV1Compatible: boolean = false,
 ): Promise<{
   output: string;
   error: string;
@@ -32,9 +74,13 @@ export async function executeOpaTestByDirectory(
     ignoreReturnCode: true,
   };
 
+  const compatFlag = useV1Compatible
+    ? opaV1CompatibleFlag
+    : opaV0CompatibleFlag;
+
   exitCode = await exec.exec(
     "opa",
-    ["test", path, "--format=json", opaV0CompatibleFlag],
+    ["test", path, "--format=json", compatFlag],
     options,
   );
 
@@ -53,7 +99,7 @@ export async function executeOpaTestByDirectory(
 
     coverageExitCode = await exec.exec(
       "opa",
-      ["test", path, "--format=json", "--coverage", opaV0CompatibleFlag],
+      ["test", path, "--format=json", "--coverage", compatFlag],
       coverageOptions,
     );
   } else {
@@ -80,12 +126,14 @@ export async function executeOpaTestByDirectory(
  * @param basePath - The base path to search for test files.
  * @param testFilePostfix - The postfix of the test files to look for (e.g., "_test").
  * @param runCoverageReport - Whether to run coverage report (default: false).
+ * @param useV1Compatible - Whether to run tests using --v1-compatible flag (default: false).
  * @returns An object containing the test results, error messages, and exit codes.
  */
 export async function executeIndividualOpaTests(
   basePath: string,
   testFilePostfix: string,
   runCoverageReport = false,
+  useV1Compatible = false,
 ): Promise<{
   output: string;
   error: string;
@@ -119,6 +167,9 @@ export async function executeIndividualOpaTests(
     exitCode = 1;
   }
 
+  const compatFlag = useV1Compatible
+    ? opaV1CompatibleFlag
+    : opaV0CompatibleFlag;
   const testFiles = findStdout.trim().split("\n").filter(Boolean);
 
   for (const testFile of testFiles) {
@@ -157,7 +208,7 @@ export async function executeIndividualOpaTests(
     let testErrMsg = "";
     const testExitCode = await exec.exec(
       "opa",
-      ["test", testFile, implFile, "--format=json", opaV0CompatibleFlag],
+      ["test", testFile, implFile, "--format=json", compatFlag],
       {
         listeners: {
           stdout: (b: Buffer) => (testOutput += b.toString()),
@@ -184,14 +235,7 @@ export async function executeIndividualOpaTests(
       let covErr = "";
       const covExit = await exec.exec(
         "opa",
-        [
-          "test",
-          testFile,
-          implFile,
-          "--coverage",
-          "--format=json",
-          opaV0CompatibleFlag,
-        ],
+        ["test", testFile, implFile, "--coverage", "--format=json", compatFlag],
         {
           listeners: {
             stdout: (b: Buffer) => (covOut += b.toString()),

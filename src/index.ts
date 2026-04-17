@@ -5,6 +5,7 @@ import {
 import {
   executeIndividualOpaTests,
   executeOpaTestByDirectory,
+  executeOpaV1CompatibilityCheck,
 } from "./opaCommands";
 import { formatResults } from "./formatResults";
 
@@ -21,6 +22,7 @@ export async function main() {
     const reportNoTestFiles = process.env.report_untested_files === "true";
     const noTestFiles = process.env.no_test_files;
     const runCoverageReport = process.env.run_coverage_report === "true";
+    const useV1Compatible = process.env.v1_compatible_check !== "false";
     const path = process.env.path;
     const test_file_postfix = process.env.test_file_postfix;
 
@@ -28,6 +30,21 @@ export async function main() {
       throw new Error(
         "Both 'path' and 'test_file_postfix' environment variables must be set.",
       );
+    }
+
+    if (useV1Compatible) {
+      console.log(`Running OPA v1 compatibility check on: ${path}`);
+      const { error: v1Error, exitCode: v1ExitCode } =
+        await executeOpaV1CompatibilityCheck(path);
+      if (v1ExitCode !== 0) {
+        core.setFailed(
+          `OPA v1 compatibility check failed. One or more Rego files are not v1 compatible.\n${v1Error}`,
+        );
+        return;
+      }
+      console.log("OPA v1 compatibility check passed.");
+    } else {
+      console.log("OPA v1 compatibility check skipped.");
     }
 
     let opaOutput: string = "";
@@ -41,14 +58,19 @@ export async function main() {
         error: opaError,
         exitCode: exitCode,
         coverageOutput: coverageOutput,
-      } = await executeOpaTestByDirectory(path, true));
+      } = await executeOpaTestByDirectory(path, true, useV1Compatible));
     } else {
       ({
         output: opaOutput,
         error: opaError,
         exitCode: exitCode,
         coverageOutput: coverageOutput,
-      } = await executeIndividualOpaTests(path, test_file_postfix, true));
+      } = await executeIndividualOpaTests(
+        path,
+        test_file_postfix,
+        true,
+        useV1Compatible,
+      ));
     }
 
     let parsedResults = processTestResults(JSON.parse(opaOutput));
