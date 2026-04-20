@@ -116,7 +116,7 @@ export async function main() {
     }
 
     if (v1CheckFailed) {
-      formattedOutput += `\n\n## ⛔️ Rego v1 Compatibility Check Failed\n\nOne or more Rego files are not v1 compatible. Run \`opa check ${path} --v1-compatible\` locally to reproduce.\n\n\`\`\`\n${v1CheckError}\n\`\`\``;
+      formattedOutput += `\n\n## ⛔️ Rego v1 Compatibility Check Failed\n\nOne or more Rego files are not v1 compatible.\n\n\`\`\`\n${v1CheckError}\n\`\`\``;
     }
 
     // This is the output that will be used in the GitHub Pull Request comment.
