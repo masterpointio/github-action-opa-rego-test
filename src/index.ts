@@ -32,45 +32,52 @@ export async function main() {
       );
     }
 
-    if (useV1Compatible) {
-      console.log(`Running OPA v1 compatibility check on: ${path}`);
-      const { error: v1Error, exitCode: v1ExitCode } =
-        await executeOpaV1CompatibilityCheck(path);
-      if (v1ExitCode !== 0) {
-        core.setFailed(
-          `OPA v1 compatibility check failed. One or more Rego files are not v1 compatible.\n${v1Error}`,
-        );
-        return;
-      }
-      console.log("OPA v1 compatibility check passed.");
-    } else {
-      console.log("OPA v1 compatibility check skipped.");
-    }
-
+    let v1CheckFailed = false;
+    let v1CheckError = "";
     let opaOutput: string = "";
     let opaError: string = "";
     let exitCode: number = 0;
     let coverageOutput: string | undefined;
 
-    if (test_mode === "directory") {
-      ({
-        output: opaOutput,
-        error: opaError,
-        exitCode: exitCode,
-        coverageOutput: coverageOutput,
-      } = await executeOpaTestByDirectory(path, true, useV1Compatible));
+    if (useV1Compatible) {
+      console.log(`Running OPA v1 compatibility check on: ${path}`);
+      const {
+        output: v1Output,
+        error: v1Error,
+        exitCode: v1ExitCode,
+      } = await executeOpaV1CompatibilityCheck(path);
+      if (v1ExitCode !== 0) {
+        v1CheckFailed = true;
+        v1CheckError = [v1Output, v1Error].filter(Boolean).join("\n");
+        console.log("OPA v1 compatibility check failed.");
+      } else {
+        console.log("OPA v1 compatibility check passed.");
+      }
     } else {
-      ({
-        output: opaOutput,
-        error: opaError,
-        exitCode: exitCode,
-        coverageOutput: coverageOutput,
-      } = await executeIndividualOpaTests(
-        path,
-        test_file_postfix,
-        true,
-        useV1Compatible,
-      ));
+      console.log("OPA v1 compatibility check skipped.");
+    }
+
+    if (!v1CheckFailed) {
+      if (test_mode === "directory") {
+        ({
+          output: opaOutput,
+          error: opaError,
+          exitCode: exitCode,
+          coverageOutput: coverageOutput,
+        } = await executeOpaTestByDirectory(path, true, useV1Compatible));
+      } else {
+        ({
+          output: opaOutput,
+          error: opaError,
+          exitCode: exitCode,
+          coverageOutput: coverageOutput,
+        } = await executeIndividualOpaTests(
+          path,
+          test_file_postfix,
+          true,
+          useV1Compatible,
+        ));
+      }
     }
 
     let parsedResults = processTestResults(JSON.parse(opaOutput));
@@ -114,7 +121,11 @@ export async function main() {
     );
     core.setOutput("tests_failed", testsFailed.toString());
 
-    if (testsFailed) {
+    if (v1CheckFailed) {
+      core.setFailed(
+        `OPA v1 compatibility check failed. One or more Rego files are not v1 compatible.\n${v1CheckError}`,
+      );
+    } else if (testsFailed) {
       core.setFailed(`One or more OPA tests failed: ${opaError}`);
     }
   } catch (error) {
