@@ -26358,6 +26358,9 @@ function main() {
             if (formattedOutput === "") {
                 formattedOutput = errorString;
             }
+            if (v1CheckFailed) {
+                formattedOutput += `\n\n## ⛔️ Rego v1 Compatibility Check Failed\n\nOne or more Rego files are not v1 compatible. Run \`opa check ${path} --v1-compatible\` locally to reproduce.\n\n\`\`\`\n${v1CheckError}\n\`\`\``;
+            }
             // This is the output that will be used in the GitHub Pull Request comment.
             core.setOutput("parsed_results", formattedOutput);
             const testsFailed = parsedResults.some((result) => result.status === "FAIL");
