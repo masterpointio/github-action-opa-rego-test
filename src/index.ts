@@ -57,6 +57,9 @@ export async function main() {
       console.log("OPA v1 compatibility check skipped.");
     }
 
+    let parsedResults: ProcessedTestResult[] = [];
+    let coverageResults: ProcessedCoverageResult[] = [];
+
     if (!v1CheckFailed) {
       if (test_mode === "directory") {
         ({
@@ -78,29 +81,28 @@ export async function main() {
           useV1Compatible,
         ));
       }
-    }
 
-    let parsedResults = processTestResults(JSON.parse(opaOutput));
+      parsedResults = processTestResults(JSON.parse(opaOutput));
 
-    let coverageResults: ProcessedCoverageResult[] = [];
-    if (runCoverageReport) {
-      if (coverageOutput) {
-        coverageResults = processCoverageReport(JSON.parse(coverageOutput));
+      if (runCoverageReport) {
+        if (coverageOutput) {
+          coverageResults = processCoverageReport(JSON.parse(coverageOutput));
+        }
       }
-    }
 
-    // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
-    if (noTestFiles && reportNoTestFiles) {
-      const noTestFileResults: ProcessedTestResult[] = noTestFiles
-        .split("\n")
-        .map((file) => ({
-          file: file.trim(),
-          status: "NO TESTS",
-          passed: 0,
-          total: 0,
-          details: [],
-        }));
-      parsedResults = [...parsedResults, ...noTestFileResults];
+      // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
+      if (noTestFiles && reportNoTestFiles) {
+        const noTestFileResults: ProcessedTestResult[] = noTestFiles
+          .split("\n")
+          .map((file) => ({
+            file: file.trim(),
+            status: "NO TESTS",
+            passed: 0,
+            total: 0,
+            details: [],
+          }));
+        parsedResults = [...parsedResults, ...noTestFileResults];
+      }
     }
 
     let formattedOutput = formatResults(

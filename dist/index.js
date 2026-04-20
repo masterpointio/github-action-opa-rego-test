@@ -26302,7 +26302,7 @@ function main() {
             let coverageOutput;
             if (useV1Compatible) {
                 console.log(`Running OPA v1 compatibility check on: ${path}`);
-                const { output: v1Output, error: v1Error, exitCode: v1ExitCode } = yield (0, opaCommands_1.executeOpaV1CompatibilityCheck)(path);
+                const { output: v1Output, error: v1Error, exitCode: v1ExitCode, } = yield (0, opaCommands_1.executeOpaV1CompatibilityCheck)(path);
                 if (v1ExitCode !== 0) {
                     v1CheckFailed = true;
                     v1CheckError = [v1Output, v1Error].filter(Boolean).join("\n");
@@ -26315,6 +26315,8 @@ function main() {
             else {
                 console.log("OPA v1 compatibility check skipped.");
             }
+            let parsedResults = [];
+            let coverageResults = [];
             if (!v1CheckFailed) {
                 if (test_mode === "directory") {
                     ({
@@ -26332,26 +26334,25 @@ function main() {
                         coverageOutput: coverageOutput,
                     } = yield (0, opaCommands_1.executeIndividualOpaTests)(path, test_file_postfix, true, useV1Compatible));
                 }
-            }
-            let parsedResults = (0, testResultProcessing_1.processTestResults)(JSON.parse(opaOutput));
-            let coverageResults = [];
-            if (runCoverageReport) {
-                if (coverageOutput) {
-                    coverageResults = (0, testResultProcessing_1.processCoverageReport)(JSON.parse(coverageOutput));
+                parsedResults = (0, testResultProcessing_1.processTestResults)(JSON.parse(opaOutput));
+                if (runCoverageReport) {
+                    if (coverageOutput) {
+                        coverageResults = (0, testResultProcessing_1.processCoverageReport)(JSON.parse(coverageOutput));
+                    }
                 }
-            }
-            // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
-            if (noTestFiles && reportNoTestFiles) {
-                const noTestFileResults = noTestFiles
-                    .split("\n")
-                    .map((file) => ({
-                    file: file.trim(),
-                    status: "NO TESTS",
-                    passed: 0,
-                    total: 0,
-                    details: [],
-                }));
-                parsedResults = [...parsedResults, ...noTestFileResults];
+                // At the end of the table, if the reportNoTestFile flag is on, add all the files that didn't have an associated test with it.
+                if (noTestFiles && reportNoTestFiles) {
+                    const noTestFileResults = noTestFiles
+                        .split("\n")
+                        .map((file) => ({
+                        file: file.trim(),
+                        status: "NO TESTS",
+                        passed: 0,
+                        total: 0,
+                        details: [],
+                    }));
+                    parsedResults = [...parsedResults, ...noTestFileResults];
+                }
             }
             let formattedOutput = (0, formatResults_1.formatResults)(parsedResults, coverageResults, runCoverageReport);
             if (formattedOutput === "") {
