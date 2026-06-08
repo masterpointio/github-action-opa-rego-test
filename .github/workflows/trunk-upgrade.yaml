@@ -1,0 +1,34 @@
+name: Trunk Upgrade
+
+on:
+  workflow_call:
+    secrets:
+      MP_BOT_APP_ID:
+        required: true
+      MP_BOT_APP_PRIVATE_KEY:
+        required: true
+      MASTERPOINT_TEAM_PAT:
+        required: true
+
+permissions: {}
+
+jobs:
+  trunk-upgrade:
+    name: trunk upgrade
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed by github-action-trunk-upgrade to write repository contents
+      pull-requests: write # needed by github-action-trunk-upgrade to write pull requests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Run Trunk Upgrade
+        uses: masterpointio/github-action-trunk-upgrade@a79fd65d524d92031fe167daee411d2f25d4a999 # v0.1.0
+        with:
+          app-id: ${{ secrets.MP_BOT_APP_ID }}
+          app-private-key: ${{ secrets.MP_BOT_APP_PRIVATE_KEY }}
+          github-token: ${{ secrets.MASTERPOINT_TEAM_PAT }}
+          reviewers: "@masterpointio/masterpoint-open-source"
