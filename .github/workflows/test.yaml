@@ -36,8 +36,8 @@ jobs:
     name: Test the GitHub Action on itself
     runs-on: ubuntu-latest
     permissions:
-      contents: read    # needed by actions/checkout
-      pull-requests: write  # needed to post PR comments
+      contents: read # needed by actions/checkout
+      pull-requests: write # needed to post PR comments
 
     steps:
       - name: Checkout
