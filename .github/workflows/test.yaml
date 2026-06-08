@@ -2,10 +2,15 @@ name: Tests
 
 on: pull_request
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 jobs:
   test-typescript:
+    name: test-typescript
     runs-on: ubuntu-latest
     permissions:
       contents: read # needed by actions/checkout
