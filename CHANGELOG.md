@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.0.0](https://github.com/masterpointio/github-action-opa-rego-test/compare/v2.0.0...v3.0.0) (2026-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* add OPA Rego v1 compatibility check (INT-331) ([#35](https://github.com/masterpointio/github-action-opa-rego-test/issues/35))
+
+### Features
+
+* add OPA Rego v1 compatibility check (INT-331) ([#35](https://github.com/masterpointio/github-action-opa-rego-test/issues/35)) ([e245317](https://github.com/masterpointio/github-action-opa-rego-test/commit/e24531764cef0c9c9353c3e516efc08ca3218552))
+
+
+### Bug Fixes
+
+* pin GitHub Actions to commit SHAs (INT-326) ([#33](https://github.com/masterpointio/github-action-opa-rego-test/issues/33)) ([ec618c3](https://github.com/masterpointio/github-action-opa-rego-test/commit/ec618c333176a949560e39575d8175ed27a66698))
+
 ## [2.0.0](https://github.com/masterpointio/github-action-opa-rego-test/compare/v1.2.0...v2.0.0) (2025-05-30)
 
 
